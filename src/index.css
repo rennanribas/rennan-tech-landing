@@ -1,0 +1,64 @@
+@import "tailwindcss";
+
+@theme {
+  /* Mocha Mousse (Pantone 17-1230) - Warm neutrals */
+  --color-mocha-50: #faf9f7;
+  --color-mocha-100: #f5f3f0;
+  --color-mocha-200: #ebe7e0;
+  --color-mocha-300: #ddd6cc;
+  --color-mocha-400: #ccc1b3;
+  --color-mocha-500: #b8a898;
+  --color-mocha-600: #a08d7a;
+  --color-mocha-700: #8a7766;
+  --color-mocha-800: #726356;
+  --color-mocha-900: #5e5249;
+  --color-mocha-950: #322b24;
+
+  /* Future Dusk - Deep blue-violet accent */
+  --color-dusk-50: #f4f3ff;
+  --color-dusk-100: #ebe9fe;
+  --color-dusk-200: #d9d6fe;
+  --color-dusk-300: #bfb8fc;
+  --color-dusk-400: #a090f8;
+  --color-dusk-500: #8366f2;
+  --color-dusk-600: #7344e8;
+  --color-dusk-700: #6332d4;
+  --color-dusk-800: #522bb2;
+  --color-dusk-900: #442691;
+  --color-dusk-950: #2a1662;
+
+  /* Crisp white and muted lavender */
+  --color-white: #ffffff;
+  --color-lavender-50: #faf9ff;
+  --color-lavender-100: #f3f1ff;
+  --color-lavender-200: #e9e5ff;
+  --color-lavender-300: #d6cdff;
+  --color-lavender-400: #bba8ff;
+  --color-lavender-500: #9d7eff;
+  --color-lavender-600: #8b5cf6;
+  --color-lavender-700: #7c3aed;
+  --color-lavender-800: #6b21a8;
+  --color-lavender-900: #581c87;
+
+  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+  --font-display: "Inter", system-ui, -apple-system, sans-serif;
+}
+
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+  
+  * {
+    @apply border-mocha-200;
+  }
+  
+  body {
+    @apply bg-mocha-50 text-mocha-900 antialiased;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display;
+  }
+}

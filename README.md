@@ -1,129 +1,212 @@
-# Rennan Tech Portfolio
+# Rennan Tech - SSR Portfolio
 
-A modern, responsive portfolio website built with React, TypeScript, and Vite. Features smooth animations, a clean design, and showcases projects and skills in web development.
+Modern portfolio website built with the latest React 19.1, Vite 6, React Router 7, and Tailwind 4 patterns with Server-Side Rendering (SSR).
 
-## ✨ Features
+## 🚀 Technology Stack
 
-- **Modern Stack**: Built with React 19.1, TypeScript, and Vite for optimal performance
-- **Responsive Design**: Fully responsive layout that works on all devices
-- **Smooth Animations**: Powered by Motion (Framer Motion) for engaging user interactions
-- **Icon Library**: Comprehensive icon set using React Icons
-- **Type Safety**: Full TypeScript support for better development experience
-- **Fast Development**: Lightning-fast HMR with Vite
-- **Code Quality**: ESLint configuration for consistent code standards
+### Core Framework
 
-## 🚀 Tech Stack
+- **React 19.1** - Latest stable release with Actions, useActionState, and Server Components
+- **TypeScript 5.8** - Full type safety throughout the application
+- **Vite 6** - Modern build tool with native SSR support
 
-- **Frontend Framework**: [React 19.1](https://react.dev/) <mcreference link="https://vite.dev/guide/" index="4">4</mcreference>
-- **Build Tool**: [Vite 6.3](https://vite.dev/) <mcreference link="https://vite.dev/guide/" index="4">4</mcreference>
-- **Language**: [TypeScript 5.8](https://www.typescriptlang.org/) <mcreference link="https://medium.com/@nedopaka/setup-a-react-vite-project-with-typescript-prettier-vitest-2024-9bb6e919ac8f" index="1">1</mcreference>
-- **Styling**: [Tailwind CSS 4.1](https://tailwindcss.com/)
-- **Animations**: [Motion 12.18](https://motion.dev/) (Framer Motion)
-- **Icons**: [React Icons 5.5](https://react-icons.github.io/react-icons/) <mcreference link="https://medium.com/@nedopaka/setup-a-react-vite-project-with-typescript-prettier-vitest-2024-9bb6e919ac8f" index="1">1</mcreference>
-- **Package Manager**: [pnpm](https://pnpm.io/)
-- **Linting**: [ESLint 9.25](https://eslint.org/) with TypeScript support
+### Routing & State
 
-## 📋 Prerequisites
+- **React Router 7** - Unified package with framework-mode capabilities
+- **React 19.1 Actions** - Modern form handling with `useActionState`
+- **React 19.1 Hooks** - `useFormStatus`, `useOptimistic` for enhanced UX
 
-Before running this project, make sure you have the following installed: <mcreference link="https://vite.dev/guide/" index="4">4</mcreference>
+### Styling & UI
 
-- **Node.js**: Version 18+ or 20+ (required by Vite)
-- **pnpm**: Latest version (recommended package manager)
+- **Tailwind CSS 4** - CSS-first configuration with modern features
+- **Motion** - Smooth animations and transitions
+- **Lucide React** - Modern icon system
 
-## 🛠️ Installation
+### SSR & Production
 
-1. **Clone the repository**
-   ```bash
-   git clone <repository-url>
-   cd rennan-tech
-   ```
+- **Express 5** - Production server with SSR middleware
+- **Sirv** - Static file serving for production
+- **Cross-env** - Environment variable management
 
-2. **Install dependencies** <mcreference link="https://vite.dev/guide/" index="4">4</mcreference>
-   ```bash
-   pnpm install
-   ```
+## 🏗️ Architecture
 
-## 🚀 Development
+### SSR Entry Points
 
-**Start the development server** <mcreference link="https://codeparrot.ai/blogs/a-beginners-guide-to-using-vite-react" index="3">3</mcreference>
+```
+src/entry-client.tsx  # Client-side hydration
+src/entry-server.tsx  # Server-side rendering
+server.js            # Express SSR server
+```
+
+### Modern React 19.1 Patterns
+
+- ✅ Actions for form handling (`useActionState`)
+- ✅ Ref as prop (no more `forwardRef` needed)
+- ✅ Context as provider (no `.Provider` wrapper)
+- ✅ Enhanced error boundaries and hydration
+- ✅ Server Components ready architecture
+
+### Tailwind 4 Features
+
+- ✅ CSS-first configuration using `@theme`
+- ✅ Modern color system with OKLCH
+- ✅ Built-in container queries
+- ✅ Cascade layers for better specificity
+- ✅ Dynamic utility values
+
+## 🛠️ Development
+
+### Prerequisites
+
+- Node.js 18+ (recommended: 20+)
+- pnpm (recommended) or npm
+
+### Installation
+
 ```bash
+# Install dependencies
+pnpm install
+
+# Start development server
 pnpm dev
 ```
 
-The application will be available at `http://localhost:5173` with instant Hot Module Replacement (HMR). <mcreference link="https://vite.dev/guide/" index="4">4</mcreference>
+The development server runs at `http://localhost:3000` with:
 
-## 🏗️ Build
+- Hot Module Replacement (HMR)
+- SSR in development
+- TypeScript checking
+- Tailwind 4 CSS processing
 
-**Create a production build**
+### Available Scripts
+
 ```bash
+pnpm dev        # Start development server with SSR
+pnpm build      # Build for production (client + server)
+pnpm preview    # Preview production build
+pnpm start      # Start production server
+pnpm lint       # Run ESLinter
+```
+
+## 🚀 Production Deployment
+
+### Build Process
+
+```bash
+# Build both client and server bundles
 pnpm build
+
+# This creates:
+# dist/client/  - Static assets and client bundle
+# dist/server/  - SSR server bundle
 ```
 
-**Preview the production build locally**
+### Production Server
+
 ```bash
-pnpm preview
+# Start production server
+NODE_ENV=production node server.js
+
+# Or with PM2
+pm2 start server.js --name "rennan-tech"
 ```
 
-## 🧹 Code Quality
+## 🎨 Key Features
 
-**Run ESLint to check code quality**
-```bash
-pnpm lint
-```
+### Modern React 19.1 Implementation
+
+- **Form Actions**: Contact form uses `useActionState` for progressive enhancement
+- **Optimistic Updates**: Immediate UI feedback with server validation
+- **Enhanced Error Handling**: Better hydration error reporting
+- **Server Components**: Architecture ready for RSC adoption
+
+### Performance Optimizations
+
+- **SSR**: Faster initial page loads and better SEO
+- **Code Splitting**: Automatic bundle splitting by route and library
+- **Preload Directives**: Critical resource preloading
+- **Modern CSS**: Tailwind 4's faster build system
+
+### Developer Experience
+
+- **TypeScript**: Full type safety with latest React 19.1 types
+- **Hot Reloading**: Instant updates during development
+- **ESLint**: Code quality and consistency
+- **Modern Tooling**: Latest versions of all dependencies
 
 ## 📁 Project Structure
 
 ```
-rennan-tech/
-├── public/                 # Static assets
-├── src/
-│   ├── assets/            # Images, fonts, and other assets
-│   ├── components/        # Reusable UI components
-│   ├── pages/            # Page components
-│   ├── sections/         # Section components
-│   ├── App.tsx           # Main application component
-│   ├── main.tsx          # Application entry point
-│   └── index.css         # Global styles
-├── index.html            # HTML template
-├── package.json          # Project dependencies and scripts
-├── tsconfig.json         # TypeScript configuration
-├── vite.config.ts        # Vite configuration
-└── eslint.config.js      # ESLint configuration
+src/
+├── actions/           # React 19.1 Actions for data mutations
+├── components/        # Reusable UI components
+├── hooks/            # Custom React hooks
+├── pages/            # Route components
+├── sections/         # Page sections
+├── types/            # TypeScript type definitions
+├── entry-client.tsx  # Client hydration entry
+├── entry-server.tsx  # SSR entry point
+├── router.tsx        # React Router 7 configuration
+└── index.css         # Tailwind 4 styles
+
+dist/
+├── client/           # Client build output
+└── server/           # SSR build output
 ```
 
 ## 🔧 Configuration
 
-### TypeScript
-The project uses TypeScript with strict type checking enabled. Configuration files: <mcreference link="https://medium.com/@karpov-kir/simple-react-app-with-vite-typescript-linting-formatting-f0a3ee41dd2c" index="5">5</mcreference>
-- `tsconfig.json` - Main TypeScript config
-- `tsconfig.app.json` - App-specific config
-- `tsconfig.node.json` - Node.js config for build tools
+### Vite 6 SSR
 
-### Vite
-Vite is configured with: <mcreference link="https://vite.dev/guide/" index="4">4</mcreference>
-- React SWC plugin for fast refresh
-- TypeScript support
-- Optimized build settings
+- Middleware mode for development
+- SSR manifest generation
+- Optimized dependency handling
 
-### ESLint
-ESLint is configured with: <mcreference link="https://medium.com/@nedopaka/setup-a-react-vite-project-with-typescript-prettier-vitest-2024-9bb6e919ac8f" index="1">1</mcreference>
-- TypeScript ESLint parser
-- React Hooks rules
-- React Refresh rules
-- Modern ES2020+ support
+### React Router 7
+
+- Memory router for SSR
+- Browser router for client
+- Type-safe route definitions
+
+### Tailwind 4
+
+- CSS-first configuration
+- Modern color system
+- Container queries
+- Dynamic utilities
+
+## 📈 Migration Benefits
+
+### From SPA to SSR
+
+- ⚡ **Better SEO**: Search engines can crawl content
+- 🚀 **Faster FCP**: Content visible before JS loads
+- 📱 **Better UX**: Works without JavaScript
+- 🎯 **Core Web Vitals**: Improved performance metrics
+
+### React 19.1 Advantages
+
+- 🔄 **Simplified Forms**: Actions replace complex state management
+- ⚡ **Better Performance**: Optimized rendering and hydration
+- 🛠️ **Developer Experience**: Less boilerplate, more features
+- 🔮 **Future Ready**: Prepared for Server Components
+
+### Modern Stack Benefits
+
+- 🏗️ **Vite 6**: Faster builds and better HMR
+- 🎨 **Tailwind 4**: 5x faster CSS processing
+- 🔀 **Router 7**: Unified API and better TypeScript support
+- 📦 **Latest Ecosystem**: Cutting-edge features and optimizations
 
 ## 🤝 Contributing
 
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+This project follows modern React 19.1 patterns and TypeScript best practices. When contributing:
 
-## 📄 License
-
-This project is licensed under the MIT License.
+1. Use React 19.1 features (Actions, new hooks)
+2. Maintain SSR compatibility
+3. Follow Tailwind 4 CSS-first patterns
+4. Ensure TypeScript strict mode compliance
 
 ---
 
-**Built with ❤️ using modern web technologies** <mcreference link="https://vite.dev/guide/" index="4">4</mcreference>
+Built with ❤️ using the latest React 19.1, Vite 6, Router 7, and Tailwind 4 patterns.

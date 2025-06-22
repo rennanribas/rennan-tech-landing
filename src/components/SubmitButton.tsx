@@ -1,5 +1,3 @@
-'use client'
-
 import { useFormStatus } from 'react-dom'
 import { motion } from 'motion/react'
 import { MdSend } from 'react-icons/md'

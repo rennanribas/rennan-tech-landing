@@ -1,104 +1,114 @@
-# Rennan Tech - SSR Portfolio
+# Rennan Tech
 
-Modern portfolio website built with the latest React 19.1, Vite 6, React Router 7, and Tailwind 4 patterns with Server-Side Rendering (SSR).
+Professional portfolio website built with React 19.1, Vite 6, React Router 7, and Tailwind 4 featuring Server-Side Rendering.
 
-## 🚀 Technology Stack
+## Technology Stack
 
 ### Core Framework
 
-- **React 19.1** - Latest stable release with Actions, useActionState, and Server Components
-- **TypeScript 5.8** - Full type safety throughout the application
-- **Vite 6** - Modern build tool with native SSR support
+- **React 19.1** - Actions, useActionState, and enhanced SSR capabilities
+- **TypeScript 5.8** - Full type safety with strict configuration
+- **Vite 6** - Native SSR support with middleware mode
 
-### Routing & State
+### Routing & State Management
 
 - **React Router 7** - Unified package with framework-mode capabilities
-- **React 19.1 Actions** - Modern form handling with `useActionState`
-- **React 19.1 Hooks** - `useFormStatus`, `useOptimistic` for enhanced UX
+- **React 19.1 Actions** - Form handling with `useActionState`
+- **React Hooks** - `useFormStatus`, `useOptimistic` for enhanced UX
 
-### Styling & UI
+### Styling & Animations
 
-- **Tailwind CSS 4** - CSS-first configuration with modern features
-- **Motion** - Smooth animations and transitions
-- **Lucide React** - Modern icon system
+- **Tailwind CSS 4** - CSS-first configuration
+- **Motion** - Smooth animations and micro-interactions
+- **Lucide React** - Icon system
 
 ### SSR & Production
 
-- **Express 5** - Production server with SSR middleware
-- **Sirv** - Static file serving for production
-- **Cross-env** - Environment variable management
+- **Express 5** - Production-ready server with Vite middleware
+- **Native Vite SSR** - Official patterns from Vite documentation
 
-## 🏗️ Architecture
+## Architecture
 
-### SSR Entry Points
+### SSR Implementation
+
+Following official Vite 6 SSR patterns from `https://vite.dev/guide/ssr`:
 
 ```
-src/entry-client.tsx  # Client-side hydration
-src/entry-server.tsx  # Server-side rendering
-server.js            # Express SSR server
+src/
+├── entry-client.tsx  # Client-side hydration
+├── entry-server.tsx  # Server-side rendering
+└── router.tsx        # React Router 7 configuration
+
+server.js             # Express server with Vite middleware
 ```
 
-### Modern React 19.1 Patterns
+### React 19.1 Features
 
-- ✅ Actions for form handling (`useActionState`)
-- ✅ Ref as prop (no more `forwardRef` needed)
-- ✅ Context as provider (no `.Provider` wrapper)
-- ✅ Enhanced error boundaries and hydration
-- ✅ Server Components ready architecture
+- Actions for form handling (`useActionState`)
+- Enhanced hydration with better error handling
+- Ref as prop (no more `forwardRef`)
+- Server Components ready architecture
+- Optimistic updates for better UX
 
-### Tailwind 4 Features
-
-- ✅ CSS-first configuration using `@theme`
-- ✅ Modern color system with OKLCH
-- ✅ Built-in container queries
-- ✅ Cascade layers for better specificity
-- ✅ Dynamic utility values
-
-## 🛠️ Development
+## Development
 
 ### Prerequisites
 
-- Node.js 18+ (recommended: 20+)
-- pnpm (recommended) or npm
+- **Node.js 18+** (recommended: 20+)
+- **pnpm** (recommended) or npm
 
-### Installation
+### Installation & Development
 
 ```bash
 # Install dependencies
 pnpm install
 
-# Start development server
+# Start development (SPA mode)
 pnpm dev
+
+# Start development with SSR
+pnpm dev:ssr
 ```
-
-The development server runs at `http://localhost:3000` with:
-
-- Hot Module Replacement (HMR)
-- SSR in development
-- TypeScript checking
-- Tailwind 4 CSS processing
 
 ### Available Scripts
 
 ```bash
-pnpm dev        # Start development server with SSR
-pnpm build      # Build for production (client + server)
-pnpm preview    # Preview production build
-pnpm start      # Start production server
-pnpm lint       # Run ESLinter
+# Development
+pnpm dev          # Vite dev server (SPA mode)
+pnpm dev:ssr      # Express server with SSR
+
+# Production Build (Native Vite 6 commands)
+pnpm build        # Build client + server
+pnpm build:client # Build client only
+pnpm build:server # Build server only
+
+# Production
+pnpm start        # Start production server
+pnpm preview      # Preview production build
+pnpm preview:ssr  # Preview SSR build
+
+# Code Quality
+pnpm lint         # ESLint
 ```
 
-## 🚀 Production Deployment
+## Production Deployment
 
 ### Build Process
 
+Uses native Vite 6 SSR commands:
+
 ```bash
-# Build both client and server bundles
+# Build everything
 pnpm build
 
-# This creates:
-# dist/client/  - Static assets and client bundle
-# dist/server/  - SSR server bundle
+# This runs:
+# 1. vite build --outDir dist/client
+# 2. vite build --ssr src/entry-server.tsx --outDir dist/server
+
+# Creates:
+dist/
+├── client/    # Static assets + client bundle
+└── server/    # SSR server bundle
 ```
 
 ### Production Server
@@ -111,102 +121,122 @@ NODE_ENV=production node server.js
 pm2 start server.js --name "rennan-tech"
 ```
 
-## 🎨 Key Features
+## Key Features
 
-### Modern React 19.1 Implementation
+### Vite 6 SSR Implementation
 
-- **Form Actions**: Contact form uses `useActionState` for progressive enhancement
-- **Optimistic Updates**: Immediate UI feedback with server validation
-- **Enhanced Error Handling**: Better hydration error reporting
-- **Server Components**: Architecture ready for RSC adoption
+- **Middleware Mode**: Vite server integration
+- **SSR Manifest**: Preload directive generation
+- **Development SSR**: Hot reloading with SSR
+- **Production Ready**: Optimized builds
 
-### Performance Optimizations
+### React 19.1 Patterns
 
-- **SSR**: Faster initial page loads and better SEO
-- **Code Splitting**: Automatic bundle splitting by route and library
-- **Preload Directives**: Critical resource preloading
-- **Modern CSS**: Tailwind 4's faster build system
+- **Form Actions**: Progressive enhancement with `useActionState`
+- **Enhanced Hydration**: Better error handling and recovery
+- **Type Safety**: Full TypeScript integration
+- **Performance**: Optimized rendering and bundle splitting
 
 ### Developer Experience
 
-- **TypeScript**: Full type safety with latest React 19.1 types
-- **Hot Reloading**: Instant updates during development
-- **ESLint**: Code quality and consistency
-- **Modern Tooling**: Latest versions of all dependencies
+- **Hot Module Replacement**: Instant updates
+- **TypeScript**: Strict type checking
+- **ESLint**: Code quality enforcement
+- **Tooling**: Comprehensive development environment
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 src/
-├── actions/           # React 19.1 Actions for data mutations
-├── components/        # Reusable UI components
+├── actions/           # React 19.1 Actions
+├── components/        # UI components
+│   ├── about/         # About page components
+│   ├── contact/       # Contact form components
+│   └── tech-stack/    # Technology showcase
 ├── hooks/            # Custom React hooks
 ├── pages/            # Route components
 ├── sections/         # Page sections
-├── types/            # TypeScript type definitions
-├── entry-client.tsx  # Client hydration entry
-├── entry-server.tsx  # SSR entry point
-├── router.tsx        # React Router 7 configuration
+├── types/            # TypeScript definitions
+├── entry-client.tsx  # Client hydration
+├── entry-server.tsx  # SSR rendering
+├── router.tsx        # React Router 7 setup
 └── index.css         # Tailwind 4 styles
 
-dist/
-├── client/           # Client build output
-└── server/           # SSR build output
+server.js             # Express SSR server
+vite.config.ts        # Vite 6 configuration
 ```
 
-## 🔧 Configuration
+## Configuration
 
-### Vite 6 SSR
+### Vite 6 SSR Setup
 
-- Middleware mode for development
-- SSR manifest generation
-- Optimized dependency handling
+```typescript
+// vite.config.ts - Official SSR patterns
+export default defineConfig({
+  ssr: {
+    noExternal: ['motion', 'react-icons', 'lucide-react'],
+    target: 'node',
+  },
+  build: {
+    manifest: true,        # Preload directives
+    ssrManifest: true,     # SSR optimization
+  }
+})
+```
 
-### React Router 7
+### React Router 7 SSR
 
-- Memory router for SSR
-- Browser router for client
-- Type-safe route definitions
+```typescript
+// router.tsx - Routing configuration
+export function Router({ url }: { url?: string }) {
+  const router = url
+    ? createMemoryRouter(routes, { initialEntries: [url] })
+    : createBrowserRouter(routes)
 
-### Tailwind 4
+  return <RouterProvider router={router} />
+}
+```
+
+## Performance Benefits
+
+### SSR Advantages
+
+- **Faster FCP**: Content visible before JavaScript
+- **Better SEO**: Search engine crawlable content
+- **Progressive Enhancement**: Works without JavaScript
+- **Core Web Vitals**: Improved performance metrics
+
+### Stack Benefits
+
+- **Vite 6**: Native SSR with middleware mode
+- **Tailwind 4**: Enhanced CSS processing
+- **React 19.1**: Enhanced performance and developer experience
+- **Router 7**: Unified API with improved TypeScript support
+
+## Development Notes
+
+### SSR vs SPA Development
+
+- **`pnpm dev`**: Fast SPA development with HMR
+- **`pnpm dev:ssr`**: Full SSR testing with Express server
+
+### TypeScript Configuration
+
+- Strict mode enabled
+- Path mapping with `vite-tsconfig-paths`
+- React 19.1 types included
+
+### Tailwind 4 Features
 
 - CSS-first configuration
-- Modern color system
+- Enhanced color system (OKLCH)
 - Container queries
-- Dynamic utilities
+- Dynamic utility values
 
-## 📈 Migration Benefits
+## License
 
-### From SPA to SSR
-
-- ⚡ **Better SEO**: Search engines can crawl content
-- 🚀 **Faster FCP**: Content visible before JS loads
-- 📱 **Better UX**: Works without JavaScript
-- 🎯 **Core Web Vitals**: Improved performance metrics
-
-### React 19.1 Advantages
-
-- 🔄 **Simplified Forms**: Actions replace complex state management
-- ⚡ **Better Performance**: Optimized rendering and hydration
-- 🛠️ **Developer Experience**: Less boilerplate, more features
-- 🔮 **Future Ready**: Prepared for Server Components
-
-### Modern Stack Benefits
-
-- 🏗️ **Vite 6**: Faster builds and better HMR
-- 🎨 **Tailwind 4**: 5x faster CSS processing
-- 🔀 **Router 7**: Unified API and better TypeScript support
-- 📦 **Latest Ecosystem**: Cutting-edge features and optimizations
-
-## 🤝 Contributing
-
-This project follows modern React 19.1 patterns and TypeScript best practices. When contributing:
-
-1. Use React 19.1 features (Actions, new hooks)
-2. Maintain SSR compatibility
-3. Follow Tailwind 4 CSS-first patterns
-4. Ensure TypeScript strict mode compliance
+MIT License
 
 ---
 
-Built with ❤️ using the latest React 19.1, Vite 6, Router 7, and Tailwind 4 patterns.
+Built with React 19.1, Vite 6, React Router 7, and Tailwind 4.

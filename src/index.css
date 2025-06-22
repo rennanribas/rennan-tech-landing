@@ -1,7 +1,9 @@
 @import "tailwindcss";
 
+@variant dark (&:where(.dark, .dark *));
+
 @theme {
-  /* Mocha Mousse (Pantone 17-1230) - Warm neutrals */
+  /* Color Palette */
   --color-mocha-50: #faf9f7;
   --color-mocha-100: #f5f3f0;
   --color-mocha-200: #ebe7e0;
@@ -14,7 +16,6 @@
   --color-mocha-900: #5e5249;
   --color-mocha-950: #322b24;
 
-  /* Future Dusk - Deep blue-violet accent */
   --color-dusk-50: #f4f3ff;
   --color-dusk-100: #ebe9fe;
   --color-dusk-200: #d9d6fe;
@@ -27,7 +28,6 @@
   --color-dusk-900: #442691;
   --color-dusk-950: #2a1662;
 
-  /* Crisp white and muted lavender */
   --color-white: #ffffff;
   --color-lavender-50: #faf9ff;
   --color-lavender-100: #f3f1ff;
@@ -40,25 +40,58 @@
   --color-lavender-800: #6b21a8;
   --color-lavender-900: #581c87;
 
+  /* Fonts */
   --font-sans: "Inter", system-ui, -apple-system, sans-serif;
   --font-display: "Inter", system-ui, -apple-system, sans-serif;
+
+  /* Semantic Colors (Light mode by default) */
+  --color-background: var(--color-mocha-50);
+  --color-foreground: var(--color-mocha-900);
+  --color-border: var(--color-mocha-200);
+  --color-primary: var(--color-dusk-600);
+  --color-primary-foreground: var(--color-dusk-50);
+  --color-secondary: var(--color-lavender-600);
+  --color-secondary-foreground: var(--color-lavender-50);
+  --color-card: var(--color-white);
+  --color-card-foreground: var(--color-mocha-900);
+  --color-muted: var(--color-mocha-200);
+  --color-muted-foreground: var(--color-mocha-600);
+}
+
+/* Dark Mode Overrides */
+:root.dark {
+  --color-background: var(--color-mocha-950);
+  --color-foreground: var(--color-mocha-100);
+  --color-border: var(--color-mocha-800);
+  --color-primary: var(--color-dusk-500);
+  --color-primary-foreground: var(--color-dusk-50);
+  --color-secondary: var(--color-lavender-500);
+  --color-secondary-foreground: var(--color-lavender-50);
+  --color-card: var(--color-mocha-900);
+  --color-card-foreground: var(--color-mocha-100);
+  --color-muted: var(--color-mocha-800);
+  --color-muted-foreground: var(--color-mocha-400);
 }
 
 @layer base {
   :root {
     color-scheme: light;
   }
-  
-  * {
-    @apply border-mocha-200;
+  :root.dark {
+    color-scheme: dark;
   }
-  
+
   body {
-    @apply bg-mocha-50 text-mocha-900 antialiased;
+    @apply bg-background text-foreground antialiased;
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
   }
-  
-  h1, h2, h3, h4, h5, h6 {
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     @apply font-display;
   }
 }

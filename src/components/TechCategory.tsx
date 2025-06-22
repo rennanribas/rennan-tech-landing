@@ -19,22 +19,17 @@ export default function TechCategory({
       initial={{ opacity: 0, y: 40 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, delay: categoryIndex * 0.2 }}
-      className='bg-white rounded-2xl p-8 shadow-sm border border-mocha-200'
+      className='bg-card rounded-2xl p-8 shadow-sm border border-border'
     >
       <div className='flex items-center gap-4 mb-8'>
-        <div
-          className={`p-3 rounded-xl border ${category.color.replace(
-            'text',
-            'border'
-          )}`}
-        >
-          <IconComponent className={category.color} size={32} />
+        <div className='p-3 bg-primary/10 rounded-xl border border-primary/20'>
+          <IconComponent className='text-primary' size={32} />
         </div>
         <div>
-          <h2 className='text-2xl font-bold text-mocha-900'>
+          <h2 className='text-2xl font-bold text-card-foreground'>
             {category.title}
           </h2>
-          <p className='text-mocha-600'>{category.description}</p>
+          <p className='text-card-foreground/60'>{category.description}</p>
         </div>
       </div>
 

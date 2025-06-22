@@ -16,10 +16,10 @@ const levelWidth = {
 }
 
 const levelColor = {
-  beginner: 'bg-red-500',
-  intermediate: 'bg-yellow-500',
-  advanced: 'bg-green-500',
-  expert: 'bg-blue-500',
+  beginner: 'bg-primary/40',
+  intermediate: 'bg-primary/60',
+  advanced: 'bg-primary/80',
+  expert: 'bg-primary',
 }
 
 interface TechnologyItemProps {
@@ -41,17 +41,17 @@ export default function TechnologyItem({
         duration: 0.4,
         delay: categoryIndex * 0.2 + techIndex * 0.1,
       }}
-      className='p-4 bg-mocha-50 rounded-xl border border-mocha-200'
+      className='p-4 bg-card-foreground/5 rounded-xl border border-border'
     >
       <div className='flex justify-between items-center mb-2'>
-        <h3 className='font-semibold text-mocha-900'>{tech.name}</h3>
-        <span className='text-sm font-medium text-mocha-600'>
+        <h3 className='font-semibold text-card-foreground'>{tech.name}</h3>
+        <span className='text-sm font-medium text-card-foreground/60'>
           {proficiencyLevels[tech.level]}
         </span>
       </div>
-      <p className='text-sm text-muted-foreground mb-2'>{tech.description}</p>
+      <p className='text-sm text-card-foreground/80 mb-2'>{tech.description}</p>
 
-      <div className='w-full bg-gray-200 rounded-full h-2'>
+      <div className='w-full bg-muted rounded-full h-2'>
         <motion.div
           initial={{ width: 0 }}
           animate={{ width: levelWidth[tech.level] }}

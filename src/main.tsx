@@ -5,7 +5,7 @@ import App from './App.tsx'
 import About from './pages/About.tsx'
 import Contact from './pages/Contact.tsx'
 import TechStack from './pages/TechStack.tsx'
-import Hero from './sections/Hero.tsx'
+import Home from './pages/Home.tsx'
 import PageLayout from './components/PageLayout'
 import './index.css'
 
@@ -14,7 +14,7 @@ const router = createBrowserRouter([
     path: '/',
     element: <App />,
     children: [
-      { index: true, element: <Hero /> },
+      { index: true, element: <Home /> },
       {
         element: <PageLayout />,
         children: [

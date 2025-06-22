@@ -1,45 +1,24 @@
 import { motion } from 'motion/react'
-import { MdEmail, MdSend } from 'react-icons/md'
+import { MdEmail } from 'react-icons/md'
 import { FaGithub, FaLinkedin } from 'react-icons/fa'
-import { useState } from 'react'
-import Navigation from '../components/Navigation'
+import { useActionState, useEffect, useRef } from 'react'
+import { submitContactForm, type FormState } from '../actions/contactActions'
+import { SubmitButton } from '../components/SubmitButton'
+
+const initialState: FormState = {
+  status: 'idle',
+  message: '',
+}
 
 export default function Contact() {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    subject: '',
-    message: '',
-  })
+  const [state, formAction] = useActionState(submitContactForm, initialState)
+  const formRef = useRef<HTMLFormElement>(null)
 
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [submitStatus, setSubmitStatus] = useState<
-    'idle' | 'success' | 'error'
-  >('idle')
-
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = e.target
-    setFormData((prev) => ({ ...prev, [name]: value }))
-  }
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setIsSubmitting(true)
-
-    // Simulate form submission
-    try {
-      await new Promise((resolve) => setTimeout(resolve, 1000))
-      setSubmitStatus('success')
-      setFormData({ name: '', email: '', subject: '', message: '' })
-    } catch {
-      setSubmitStatus('error')
-    } finally {
-      setIsSubmitting(false)
-      setTimeout(() => setSubmitStatus('idle'), 3000)
+  useEffect(() => {
+    if (state.status === 'success') {
+      formRef.current?.reset()
     }
-  }
+  }, [state])
 
   const contactMethods = [
     {
@@ -66,11 +45,7 @@ export default function Contact() {
   ]
 
   return (
-    <div className='min-h-screen bg-gradient-to-br from-mocha-50 to-lavender-50'>
-      <Navigation currentPage='contact' />
-
-      <main className='pt-24 pb-16'>
-        <div className='max-w-6xl mx-auto px-6'>
+    <>
           {/* Header */}
           <motion.div
             initial={{ opacity: 0, y: 40 }}
@@ -99,7 +74,7 @@ export default function Contact() {
                 Send a Message
               </h2>
 
-              <form onSubmit={handleSubmit} className='space-y-6'>
+              <form ref={formRef} action={formAction} className='space-y-6'>
                 <div className='grid md:grid-cols-2 gap-4'>
                   <div>
                     <label
@@ -112,8 +87,6 @@ export default function Contact() {
                       type='text'
                       id='name'
                       name='name'
-                      value={formData.name}
-                      onChange={handleInputChange}
                       required
                       className='w-full px-4 py-3 border border-mocha-200 rounded-xl focus:ring-2 focus:ring-dusk-500 focus:border-transparent transition-colors'
                       placeholder='Your name'
@@ -130,8 +103,6 @@ export default function Contact() {
                       type='email'
                       id='email'
                       name='email'
-                      value={formData.email}
-                      onChange={handleInputChange}
                       required
                       className='w-full px-4 py-3 border border-mocha-200 rounded-xl focus:ring-2 focus:ring-dusk-500 focus:border-transparent transition-colors'
                       placeholder='your.email@example.com'
@@ -150,8 +121,6 @@ export default function Contact() {
                     type='text'
                     id='subject'
                     name='subject'
-                    value={formData.subject}
-                    onChange={handleInputChange}
                     required
                     className='w-full px-4 py-3 border border-mocha-200 rounded-xl focus:ring-2 focus:ring-dusk-500 focus:border-transparent transition-colors'
                     placeholder="What's this about?"
@@ -168,8 +137,6 @@ export default function Contact() {
                   <textarea
                     id='message'
                     name='message'
-                    value={formData.message}
-                    onChange={handleInputChange}
                     required
                     rows={6}
                     className='w-full px-4 py-3 border border-mocha-200 rounded-xl focus:ring-2 focus:ring-dusk-500 focus:border-transparent transition-colors resize-none'
@@ -177,37 +144,14 @@ export default function Contact() {
                   />
                 </div>
 
-                <motion.button
-                  type='submit'
-                  disabled={isSubmitting}
-                  whileHover={{ scale: isSubmitting ? 1 : 1.02 }}
-                  whileTap={{ scale: isSubmitting ? 1 : 0.98 }}
-                  className={`w-full flex items-center justify-center gap-2 px-8 py-4 rounded-xl font-semibold transition-all ${
-                    isSubmitting
-                      ? 'bg-mocha-300 text-mocha-600 cursor-not-allowed'
-                      : submitStatus === 'success'
-                      ? 'bg-green-500 text-white'
-                      : submitStatus === 'error'
-                      ? 'bg-red-500 text-white'
-                      : 'bg-dusk-600 hover:bg-dusk-700 text-white shadow-lg hover:shadow-xl'
-                  }`}
-                >
-                  {isSubmitting ? (
-                    'Sending...'
-                  ) : submitStatus === 'success' ? (
-                    'Message Sent!'
-                  ) : submitStatus === 'error' ? (
-                    'Error - Try Again'
-                  ) : (
-                    <>
-                      Send Message <MdSend size={20} />
-                    </>
-                  )}
-                </motion.button>
-
-                {submitStatus === 'success' && (
-                  <p className='text-green-600 text-sm text-center'>
-                    Thank you for your message! I'll get back to you soon.
+                <SubmitButton formState={state} />
+                {state.message && (
+                  <p
+                    className={`text-sm mt-2 ${
+                      state.status === 'error' ? 'text-red-500' : 'text-green-500'
+                    }`}
+                  >
+                    {state.message}
                   </p>
                 )}
               </form>
@@ -281,8 +225,6 @@ export default function Contact() {
               </div>
             </motion.section>
           </div>
-        </div>
-      </main>
-    </div>
+    </>
   )
 }

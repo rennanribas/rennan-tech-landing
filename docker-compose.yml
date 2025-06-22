@@ -2,13 +2,16 @@ services:
   app:
     build:
       context: .
-      target: ssr
+      target: development
     container_name: rennan-tech-app
     restart: unless-stopped
+    ports:
+      - '5173:5173'
+    volumes:
+      - .:/app
+      - /app/node_modules
     networks:
       - app-network
-    expose:
-      - '5173'
 
   nginx:
     image: nginx:alpine

@@ -59,9 +59,10 @@ jobs:
               cd "$PROJECT_DIR"
             fi
             
-            # Stop and remove existing containers
-            docker-compose down || true
-            docker container rm -f rennan-tech-app rennan-tech-nginx 2>/dev/null || true
+            # Stop and remove all existing Docker containers and networks to avoid conflicts
+            if [ -n "$(docker ps -q)" ]; then docker stop $(docker ps -q); fi
+            if [ -n "$(docker ps -a -q)" ]; then docker rm -f $(docker ps -a -q); fi
+            docker network prune -f || true
             
             # Setup SSL directory
             mkdir -p ssl

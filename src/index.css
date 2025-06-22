@@ -1,9 +1,7 @@
-@import "tailwindcss";
-
-@variant dark (&:where(.dark, .dark *));
+@import 'tailwindcss';
 
 @theme {
-  /* Color Palette */
+  /* Modern Color Palette - 2025 Trends */
   --color-mocha-50: #faf9f7;
   --color-mocha-100: #f5f3f0;
   --color-mocha-200: #ebe7e0;
@@ -26,7 +24,7 @@
   --color-dusk-700: #6332d4;
   --color-dusk-800: #522bb2;
   --color-dusk-900: #442691;
-  --color-dusk-950: #2a1662;
+  --color-dusk-950: #2a1664;
 
   --color-white: #ffffff;
   --color-lavender-50: #faf9ff;
@@ -40,11 +38,21 @@
   --color-lavender-800: #6b21a8;
   --color-lavender-900: #581c87;
 
-  /* Fonts */
-  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
-  --font-display: "Inter", system-ui, -apple-system, sans-serif;
+  --color-accent-warm: #f59e0b;
+  --color-accent-cool: #06b6d4;
+  --color-accent-success: #10b981;
+  --color-accent-danger: #ef4444;
 
-  /* Semantic Colors (Light mode by default) */
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-display: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+
+  --shadow-glass: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  --shadow-elevated: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  --shadow-soft: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+
   --color-background: var(--color-mocha-50);
   --color-foreground: var(--color-mocha-900);
   --color-border: var(--color-mocha-200);
@@ -56,9 +64,16 @@
   --color-card-foreground: var(--color-mocha-900);
   --color-muted: var(--color-mocha-200);
   --color-muted-foreground: var(--color-mocha-600);
+
+  --blur-subtle: blur(12px);
+  --blur-medium: blur(16px);
+  --blur-strong: blur(24px);
+  --glass-bg: rgba(255, 255, 255, 0.1);
+  --glass-border: rgba(255, 255, 255, 0.2);
+
+  --animate-shimmer: shimmer 2s ease-in-out infinite;
 }
 
-/* Dark Mode Overrides */
 :root.dark {
   --color-background: var(--color-mocha-950);
   --color-foreground: var(--color-mocha-100);
@@ -71,7 +86,12 @@
   --color-card-foreground: var(--color-mocha-100);
   --color-muted: var(--color-mocha-800);
   --color-muted-foreground: var(--color-mocha-400);
+  --glass-bg: rgba(0, 0, 0, 0.2);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --shadow-glass: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
 }
+
+@variant dark (&:where(.dark, .dark *));
 
 @layer base {
   :root {
@@ -81,9 +101,16 @@
     color-scheme: dark;
   }
 
+  * {
+    @apply transition-colors duration-300 ease-out;
+  }
+
   body {
     @apply bg-background text-foreground antialiased;
-    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
   }
 
   h1,
@@ -93,5 +120,89 @@
   h5,
   h6 {
     @apply font-display;
+    line-height: 1.2;
+    letter-spacing: -0.025em;
   }
+
+  button:focus-visible,
+  a:focus-visible,
+  input:focus-visible,
+  select:focus-visible,
+  textarea:focus-visible {
+    @apply outline-hidden ring-3 ring-primary/50 ring-offset-2 ring-offset-background;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    @apply bg-muted/30;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-muted-foreground/30 rounded-full;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-muted-foreground/50;
+  }
+}
+
+@utility glass {
+  background: var(--glass-bg);
+  backdrop-filter: var(--blur-medium);
+  border: 1px solid var(--glass-border);
+}
+
+@utility glass-subtle {
+  background: var(--glass-bg);
+  backdrop-filter: var(--blur-subtle);
+  border: 1px solid var(--glass-border);
+}
+
+@utility shadow-glass {
+  box-shadow: var(--shadow-glass);
+}
+
+@utility shadow-elevated {
+  box-shadow: var(--shadow-elevated);
+}
+
+@utility shadow-soft {
+  box-shadow: var(--shadow-soft);
+}
+
+@utility text-gradient {
+  background: linear-gradient(
+    135deg,
+    var(--color-primary),
+    var(--color-secondary)
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+@utility bg-gradient-modern {
+  background: linear-gradient(
+    135deg,
+    var(--color-dusk-500),
+    var(--color-lavender-600)
+  );
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@utility animate-shimmer {
+  animation: var(--animate-shimmer);
 }

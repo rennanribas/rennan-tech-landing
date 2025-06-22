@@ -1,5 +1,5 @@
 import { motion } from 'motion/react'
-import type { Technology } from '../types'
+import type { Technology } from '../../types'
 
 const proficiencyLevels = {
   beginner: 'Beginner',

@@ -1,6 +1,6 @@
 import { motion } from 'motion/react'
 import TechnologyItem from './TechnologyItem'
-import type { TechCategory as Category } from '../types'
+import type { TechCategory as Category } from '../../types'
 
 interface TechCategoryProps {
   category: Category

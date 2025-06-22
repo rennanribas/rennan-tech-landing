@@ -8,7 +8,54 @@ const initialState: FormState = {
   message: '',
 }
 
-export function ContactForm() {
+interface ContactFormProps {
+  isLoading?: boolean
+}
+
+function ContactFormSkeleton() {
+  return (
+    <motion.section
+      initial={{ opacity: 0, x: -40 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ duration: 0.6, delay: 0.2 }}
+      className='lg:col-span-3 bg-card rounded-2xl p-8 shadow-sm border border-border'
+    >
+      {/* Header skeleton */}
+      <div className='h-8 bg-gradient-to-r from-muted/40 via-muted/60 to-muted/40 bg-[length:200%_100%] animate-shimmer rounded-lg w-48 mb-8' />
+
+      <div className='space-y-6'>
+        {/* Name and Email row */}
+        <div className='grid md:grid-cols-2 gap-6'>
+          <div className='space-y-2'>
+            <div className='h-4 bg-muted/40 rounded w-16' />
+            <div className='h-12 bg-gradient-to-r from-muted/20 via-muted/40 to-muted/20 bg-[length:200%_100%] animate-shimmer rounded-xl' />
+          </div>
+          <div className='space-y-2'>
+            <div className='h-4 bg-muted/40 rounded w-16' />
+            <div className='h-12 bg-gradient-to-r from-muted/20 via-muted/40 to-muted/20 bg-[length:200%_100%] animate-shimmer rounded-xl' />
+          </div>
+        </div>
+
+        {/* Subject field */}
+        <div className='space-y-2'>
+          <div className='h-4 bg-muted/40 rounded w-20' />
+          <div className='h-12 bg-gradient-to-r from-muted/20 via-muted/40 to-muted/20 bg-[length:200%_100%] animate-shimmer rounded-xl' />
+        </div>
+
+        {/* Message field */}
+        <div className='space-y-2'>
+          <div className='h-4 bg-muted/40 rounded w-20' />
+          <div className='h-32 bg-gradient-to-r from-muted/20 via-muted/40 to-muted/20 bg-[length:200%_100%] animate-shimmer rounded-xl' />
+        </div>
+
+        {/* Submit button */}
+        <div className='h-12 bg-gradient-to-r from-primary/20 via-primary/40 to-primary/20 bg-[length:200%_100%] animate-shimmer rounded-xl w-32' />
+      </div>
+    </motion.section>
+  )
+}
+
+export function ContactForm({ isLoading = false }: ContactFormProps) {
   const [state, formAction] = useActionState(submitContactForm, initialState)
   const formRef = useRef<HTMLFormElement>(null)
 
@@ -17,6 +64,10 @@ export function ContactForm() {
       formRef.current?.reset()
     }
   }, [state])
+
+  if (isLoading) {
+    return <ContactFormSkeleton />
+  }
 
   return (
     <motion.section

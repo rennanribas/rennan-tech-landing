@@ -3,29 +3,27 @@ import react from '@vitejs/plugin-react-swc'
 import tailwindcss from '@tailwindcss/vite'
 import tsconfigPaths from 'vite-tsconfig-paths'
 
-// https://vite.dev/guide/ssr
 export default defineConfig({
   plugins: [react(), tailwindcss(), tsconfigPaths()],
 
   ssr: {
     noExternal: ['motion', 'react-icons', 'lucide-react'],
-    target: 'node',
   },
 
   build: {
+    ssrManifest: true,
+    manifest: true,
+    sourcemap: true,
     rollupOptions: {
       output: {
         manualChunks: {
           vendor: ['react', 'react-dom'],
           router: ['react-router-dom'],
-          animations: ['motion'],
           icons: ['lucide-react', 'react-icons'],
+          animation: ['motion'],
         },
       },
     },
-    sourcemap: true,
-    manifest: true,
-    ssrManifest: true,
   },
 
   optimizeDeps: {
@@ -40,11 +38,8 @@ export default defineConfig({
 
   server: {
     middlewareMode: false,
-    hmr: {
-      port: 24678,
-    },
+    hmr: { port: 24678 },
   },
-
   preview: {
     port: 3000,
   },

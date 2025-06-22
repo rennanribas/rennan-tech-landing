@@ -1,19 +1,30 @@
-import { renderToString } from 'react-dom/server'
+import { renderToPipeableStream } from 'react-dom/server'
 import { Router } from './router'
+import type { Response } from 'express'
 
-/**
- * Server-side rendering function following React 19.1 patterns
- * @param url - The request URL for routing
- * @returns Rendered HTML string
- */
-export function render(url: string): string {
-  try {
-    // Render the React app to HTML string using React 19.1 SSR
-    const html = renderToString(<Router url={url} />)
-    return html
-  } catch (error) {
-    console.error('SSR rendering error:', error)
-    // Return fallback HTML in case of error
-    return '<div>Error rendering page</div>'
-  }
+export function render(
+  url: string,
+  template: string,
+  res: Response
+): Promise<void> {
+  return new Promise((resolve, reject) => {
+    const { pipe } = renderToPipeableStream(<Router url={url} />, {
+      onShellReady() {
+        const htmlStart = template.split('<!--app-html-->')[0]
+        res.write(htmlStart)
+        pipe(res)
+      },
+      onShellError(error) {
+        reject(error)
+      },
+      onAllReady() {
+        const htmlEnd = template.split('<!--app-html-->')[1]
+        if (htmlEnd) res.end(htmlEnd)
+        resolve()
+      },
+      onError(error) {
+        console.error('SSR error:', error)
+      },
+    })
+  })
 }

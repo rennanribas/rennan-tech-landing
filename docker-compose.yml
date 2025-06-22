@@ -1,10 +1,14 @@
 services:
   app:
-    build: .
+    build:
+      context: .
+      target: ssr
     container_name: rennan-tech-app
     restart: unless-stopped
     networks:
       - app-network
+    expose:
+      - '5173'
 
   nginx:
     image: nginx:alpine

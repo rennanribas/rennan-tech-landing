@@ -1,9 +1,9 @@
 import {
   createBrowserRouter,
-  RouterProvider,
   createMemoryRouter,
+  RouterProvider,
+  type RouteObject,
 } from 'react-router-dom'
-import type { RouteObject } from 'react-router-dom'
 import PageLayout from './components/PageLayout'
 import Home from './pages/Home'
 import About from './pages/About'
@@ -15,34 +15,20 @@ const routes: RouteObject[] = [
     path: '/',
     element: <PageLayout />,
     children: [
-      {
-        index: true,
-        element: <Home />,
-      },
-      {
-        path: 'about',
-        element: <About />,
-      },
-      {
-        path: 'tech-stack',
-        element: <TechStack />,
-      },
-      {
-        path: 'contact',
-        element: <Contact />,
-      },
+      { index: true, element: <Home /> },
+      { path: 'about', element: <About /> },
+      { path: 'tech-stack', element: <TechStack /> },
+      { path: 'contact', element: <Contact /> },
     ],
   },
 ]
 
-export function Router({ url }: { url?: string } = {}) {
-  if (typeof window === 'undefined') {
-    const router = createMemoryRouter(routes, {
-      initialEntries: [url || '/'],
-    })
-    return <RouterProvider router={router} />
-  }
+export type RouterProps = { url?: string }
 
-  const router = createBrowserRouter(routes)
+export function Router({ url }: RouterProps = {}) {
+  const router =
+    typeof window === 'undefined'
+      ? createMemoryRouter(routes, { initialEntries: [url || '/'] })
+      : createBrowserRouter(routes)
   return <RouterProvider router={router} />
 }

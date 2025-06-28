@@ -24,8 +24,7 @@ jobs:
       - uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/github-actions-role
-          aws-region: ${{ env.REGION }}
-          audience: sts.amazonaws.com
+          aws-region: us-east-1
           role-skip-session-tagging: true
 
       # ─── Build & push image ─────────────────────────────────────────────

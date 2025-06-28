@@ -9,6 +9,7 @@ permissions:
   contents: read
 
 env:
+  REGION: ${{ secrets.AWS_REGION }}
   ECR_URI: ${{ secrets.ECR_REPOSITORY_URI }}
 
 jobs:
@@ -23,7 +24,7 @@ jobs:
       - uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/github-actions-role
-          aws-region: us-east-1
+          aws-region: ${{ env.REGION }}
           audience: sts.amazonaws.com
           role-skip-session-tagging: true
 

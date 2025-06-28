@@ -16,12 +16,7 @@ export default defineConfig({
     sourcemap: true,
     rollupOptions: {
       output: {
-        manualChunks: {
-          vendor: ['react', 'react-dom'],
-          router: ['react-router-dom'],
-          icons: ['lucide-react', 'react-icons'],
-          animation: ['motion'],
-        },
+        manualChunks: {},
       },
     },
   },

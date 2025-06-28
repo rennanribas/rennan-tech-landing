@@ -1,0 +1,51 @@
+name: Build & Deploy – Rennan Tech Landing
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  id-token: write # OIDC
+  contents: read
+
+env:
+  REGION: ${{ secrets.AWS_REGION }}
+  ECR_URI: ${{ secrets.ECR_REPOSITORY_URI }}
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    concurrency: production # 1 active run at a time
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # ─── AWS login via OIDC ────────────────────────────────────────────────
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/github-actions-role
+          aws-region: ${{ env.REGION }}
+          role-skip-session-tagging: true
+
+      # ─── Build & push image ───────────────────────────────────────────────
+      - name: Build Docker image
+        run: docker build -t $ECR_URI:latest .
+
+      - name: Push to ECR Public
+        run: |
+          aws ecr-public get-login-password | docker login --username AWS --password-stdin public.ecr.aws
+          docker push $ECR_URI:latest
+
+      # ─── Trigger remote redeploy via SSM ──────────────────────────────────
+      - name: Redeploy on EC2
+        run: |
+          aws ssm send-command \
+            --instance-ids "${{ secrets.INSTANCE_ID }}" \
+            --document-name "AWS-RunShellScript" \
+            --comment "Update rennan-tech-landing container" \
+            --parameters commands="
+              docker pull $ECR_URI:latest &&
+              docker tag  $ECR_URI:latest rennan-tech:latest &&
+              docker compose -f /home/ubuntu/infra-rennan-tech/docker-compose.yml up -d rennan-tech
+            " \
+            --output text

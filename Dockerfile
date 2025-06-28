@@ -1,39 +1,27 @@
-# --- Base Stage --- 
-FROM node:22-alpine AS base
-WORKDIR /app
-COPY package*.json ./
 
-# --- Development Stage ---
-FROM base AS development
-RUN npm install
-COPY . .
-EXPOSE 5173
-CMD ["npm", "run", "dev:ssr"]
+# Stage 1: Build the application
+FROM node:20-alpine AS builder
 
-# --- Build Stage ---
-FROM base AS builder
-RUN npm ci
-COPY . .
-RUN npm run build
-
-# --- SSR Server Stage ---
-FROM node:22-alpine AS ssr
 WORKDIR /app
 
-COPY --from=builder /app/package*.json ./
-COPY --from=builder /app/node_modules ./node_modules
+COPY package.json pnpm-lock.yaml ./
+
+RUN npm install -g pnpm && pnpm install --frozen-lockfile
+
+COPY . .
+
+RUN pnpm build
+
+# Stage 2: Production image
+FROM node:20-alpine AS production
+
+WORKDIR /app
+
 COPY --from=builder /app/dist ./dist
-COPY --from=builder /app/server.js ./
-COPY --from=builder /app/index.html ./
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/package.json ./
+COPY --from=builder /app/server.ts ./
 
-ENV NODE_ENV=production
-EXPOSE 5173
-CMD ["node", "server.js"]
+EXPOSE 80
 
-# --- NGINX Proxy Stage ---
-FROM nginx:alpine AS nginx
-COPY nginx-proxy.conf /etc/nginx/nginx.conf
-COPY ssl /etc/nginx/ssl
-EXPOSE 80 443
-CMD ["nginx", "-g", "daemon off;"]
-    
+CMD ["pnpm", "start"]

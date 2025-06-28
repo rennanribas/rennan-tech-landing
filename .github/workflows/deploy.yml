@@ -15,26 +15,37 @@ env:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    concurrency: production # 1 active run at a time
+    concurrency:
+      group: production
+      cancel-in-progress: false
 
     steps:
       - uses: actions/checkout@v4
 
       # ─── AWS login via OIDC ────────────────────────────────────────────────
-      - uses: aws-actions/configure-aws-credentials@v4
+      - name: Configure AWS credentials
+        id: aws-creds
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/github-actions-role
           aws-region: ${{ env.REGION }}
+          audience: sts.amazonaws.com
           role-skip-session-tagging: true
+
+      # Optional: quick who-am-I if you enabled ACTIONS_STEP_DEBUG=true
+      - name: Inspect caller identity
+        if: env.ACTIONS_STEP_DEBUG == 'true'
+        run: aws sts get-caller-identity
 
       # ─── Build & push image ───────────────────────────────────────────────
       - name: Build Docker image
-        run: docker build -t $ECR_URI:latest .
+        run: docker build -t "$ECR_URI:latest" .
 
       - name: Push to ECR Public
         run: |
-          aws ecr-public get-login-password | docker login --username AWS --password-stdin public.ecr.aws
-          docker push $ECR_URI:latest
+          aws ecr-public get-login-password --region us-east-1 \
+            | docker login --username AWS --password-stdin public.ecr.aws
+          docker push "$ECR_URI:latest"
 
       # ─── Trigger remote redeploy via SSM ──────────────────────────────────
       - name: Redeploy on EC2

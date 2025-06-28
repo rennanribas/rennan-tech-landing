@@ -34,8 +34,8 @@ export function ContactDetails() {
       transition={{ duration: 0.6, delay: 0.4 }}
       className='lg:col-span-2 space-y-8'
     >
-      <div className='bg-card rounded-2xl p-8 shadow-sm border border-border h-full'>
-        <h2 className='text-3xl font-bold text-card-foreground mb-8'>
+      <div className='glass rounded-3xl p-6 sm:p-8 shadow-modern-lg border-modern h-full'>
+        <h2 className='text-3xl sm:text-4xl font-bold text-foreground mb-8'>
           Contact Details
         </h2>
 
@@ -57,17 +57,17 @@ export function ContactDetails() {
                 transition={{ duration: 0.4, delay: 0.6 + index * 0.1 }}
                 className='flex items-start gap-4 p-4 rounded-xl hover:bg-background transition-colors group'
               >
-                <div className='p-3 bg-primary/10 rounded-xl border border-primary/20 transition-colors'>
+                <div className='p-3 bg-primary/20 rounded-xl border border-primary/30 transition-colors'>
                   <IconComponent className='text-primary' size={24} />
                 </div>
                 <div className='flex-1'>
-                  <h3 className='font-semibold text-card-foreground mb-1'>
+                  <h3 className='font-semibold text-foreground mb-1'>
                     {method.title}
                   </h3>
                   <p className='text-primary font-medium mb-1 break-all'>
                     {method.value}
                   </p>
-                  <p className='text-sm text-card-foreground/70'>
+                  <p className='text-sm text-foreground/80'>
                     {method.description}
                   </p>
                 </div>

@@ -7,13 +7,11 @@ export default function About() {
   const { experiences, skills } = useAboutData()
 
   return (
-    <div className='min-h-screen'>
-      <div className='space-y-16'>
-        <AboutHeader />
-        <div className='space-y-12'>
-          <ExperienceSection experiences={experiences} />
-          <SkillsSection skills={skills} />
-        </div>
+    <div className='space-y-12 sm:space-y-16'>
+      <AboutHeader />
+      <div className='space-y-8 sm:space-y-12'>
+        <ExperienceSection experiences={experiences} />
+        <SkillsSection skills={skills} />
       </div>
     </div>
   )

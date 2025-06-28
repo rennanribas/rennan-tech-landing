@@ -16,13 +16,16 @@ export default function PageLayout() {
   useTheme()
 
   return (
-    <div className='min-h-screen bg-background'>
+    <div className='min-h-screen bg-background bg-noise relative overflow-x-hidden'>
+      {/* Background gradient overlay */}
+      <div className='fixed inset-0 bg-gradient-hero pointer-events-none' />
+
       {/* Global Navigation */}
       <Navigation />
 
       {/* Main Content Area */}
-      <main className='pt-24 pb-16'>
-        <div className='max-w-6xl mx-auto px-6'>
+      <main className='relative z-10'>
+        <div className='container-responsive'>
           <Outlet />
         </div>
       </main>

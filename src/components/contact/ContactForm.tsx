@@ -1,7 +1,9 @@
 import { motion } from 'motion/react'
 import { useActionState, useEffect, useRef } from 'react'
+import { useFormStatus } from 'react-dom'
 import { submitContactForm, type FormState } from '../../actions/contactActions'
-import { SubmitButton } from '../SubmitButton'
+import { Button } from '../ui/Button'
+import { MdSend } from 'react-icons/md'
 
 const initialState: FormState = {
   status: 'idle',
@@ -18,14 +20,14 @@ function ContactFormSkeleton() {
       initial={{ opacity: 0, x: -40 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 0.6, delay: 0.2 }}
-      className='lg:col-span-3 bg-card rounded-2xl p-8 shadow-sm border border-border'
+      className='lg:col-span-3 glass rounded-3xl p-6 sm:p-8 shadow-modern-lg border-modern'
     >
       {/* Header skeleton */}
       <div className='h-8 bg-gradient-to-r from-muted/40 via-muted/60 to-muted/40 bg-[length:200%_100%] animate-shimmer rounded-lg w-48 mb-8' />
 
       <div className='space-y-6'>
         {/* Name and Email row */}
-        <div className='grid md:grid-cols-2 gap-6'>
+        <div className='grid sm:grid-cols-2 gap-4 sm:gap-6'>
           <div className='space-y-2'>
             <div className='h-4 bg-muted/40 rounded w-16' />
             <div className='h-12 bg-gradient-to-r from-muted/20 via-muted/40 to-muted/20 bg-[length:200%_100%] animate-shimmer rounded-xl' />
@@ -55,6 +57,91 @@ function ContactFormSkeleton() {
   )
 }
 
+function FormContent() {
+  const { pending } = useFormStatus()
+
+  return (
+    <>
+      <div className='grid sm:grid-cols-2 gap-4 sm:gap-6'>
+        <div>
+          <label
+            htmlFor='name'
+            className='block text-sm font-medium text-foreground/80 mb-2'
+          >
+            Name *
+          </label>
+          <input
+            type='text'
+            id='name'
+            name='name'
+            required
+            disabled={pending}
+            className='w-full px-4 py-3 bg-background/50 border border-border/30 rounded-xl focus:ring-2 focus:ring-primary/50 focus:border-primary/50 transition-all duration-300 outline-none placeholder:text-foreground/50 disabled:opacity-50 disabled:cursor-not-allowed'
+            placeholder='Your Name'
+          />
+        </div>
+        <div>
+          <label
+            htmlFor='email'
+            className='block text-sm font-medium text-foreground/80 mb-2'
+          >
+            Email *
+          </label>
+          <input
+            type='email'
+            id='email'
+            name='email'
+            required
+            disabled={pending}
+            className='w-full px-4 py-3 bg-background/50 border border-border/30 rounded-xl focus:ring-2 focus:ring-primary/50 focus:border-primary/50 transition-all duration-300 outline-none placeholder:text-foreground/50 disabled:opacity-50 disabled:cursor-not-allowed'
+            placeholder='your.email@example.com'
+          />
+        </div>
+      </div>
+
+      <div>
+        <label
+          htmlFor='subject'
+          className='block text-sm font-medium text-foreground/80 mb-2'
+        >
+          Subject *
+        </label>
+        <input
+          type='text'
+          id='subject'
+          name='subject'
+          required
+          disabled={pending}
+          className='w-full px-4 py-3 bg-background/50 border border-border/30 rounded-xl focus:ring-2 focus:ring-primary/50 focus:border-primary/50 transition-all duration-300 outline-none placeholder:text-foreground/50 disabled:opacity-50 disabled:cursor-not-allowed'
+          placeholder='What can I help you with?'
+        />
+      </div>
+
+      <div>
+        <label
+          htmlFor='message'
+          className='block text-sm font-medium text-foreground/80 mb-2'
+        >
+          Message *
+        </label>
+        <textarea
+          id='message'
+          name='message'
+          rows={5}
+          required
+          disabled={pending}
+          className='w-full px-4 py-3 bg-background/50 border border-border/30 rounded-xl focus:ring-2 focus:ring-primary/50 focus:border-primary/50 transition-all duration-300 outline-none resize-none placeholder:text-foreground/50 disabled:opacity-50 disabled:cursor-not-allowed'
+          placeholder='Your message...'
+        />
+      </div>
+
+      <Button type='submit' isLoading={pending}>
+        Send Message <MdSend size={20} />
+      </Button>
+    </>
+  )
+}
+
 export function ContactForm({ isLoading = false }: ContactFormProps) {
   const [state, formAction] = useActionState(submitContactForm, initialState)
   const formRef = useRef<HTMLFormElement>(null)
@@ -74,83 +161,26 @@ export function ContactForm({ isLoading = false }: ContactFormProps) {
       initial={{ opacity: 0, x: -40 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 0.6, delay: 0.2 }}
-      className='lg:col-span-3 bg-card rounded-2xl p-8 shadow-sm border border-border'
+      className='lg:col-span-3 glass rounded-3xl p-6 sm:p-8 shadow-modern-lg border-modern'
     >
-      <h2 className='text-3xl font-bold text-card-foreground mb-8'>
+      <motion.h2
+        className='text-3xl sm:text-4xl font-bold text-foreground mb-6 sm:mb-8'
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.3 }}
+      >
         Send a Message
-      </h2>
+      </motion.h2>
 
-      <form ref={formRef} action={formAction} className='space-y-6'>
-        <div className='grid md:grid-cols-2 gap-6'>
-          <div>
-            <label
-              htmlFor='name'
-              className='block text-sm font-medium text-card-foreground/80 mb-2'
-            >
-              Name *
-            </label>
-            <input
-              type='text'
-              id='name'
-              name='name'
-              required
-              className='w-full px-4 py-3 border border-border bg-background rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent transition-colors'
-              placeholder='Your name'
-            />
-          </div>
-          <div>
-            <label
-              htmlFor='email'
-              className='block text-sm font-medium text-card-foreground/80 mb-2'
-            >
-              Email *
-            </label>
-            <input
-              type='email'
-              id='email'
-              name='email'
-              required
-              className='w-full px-4 py-3 border border-border bg-background rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent transition-colors'
-              placeholder='your.email@example.com'
-            />
-          </div>
-        </div>
-
-        <div>
-          <label
-            htmlFor='subject'
-            className='block text-sm font-medium text-card-foreground/80 mb-2'
-          >
-            Subject *
-          </label>
-          <input
-            type='text'
-            id='subject'
-            name='subject'
-            required
-            className='w-full px-4 py-3 border border-border bg-background rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent transition-colors'
-            placeholder="What's this about?"
-          />
-        </div>
-
-        <div>
-          <label
-            htmlFor='message'
-            className='block text-sm font-medium text-card-foreground/80 mb-2'
-          >
-            Message *
-          </label>
-          <textarea
-            id='message'
-            name='message'
-            required
-            rows={6}
-            className='w-full px-4 py-3 border border-border bg-background rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent transition-colors resize-none'
-            placeholder='Tell me about your project or inquiry...'
-          />
-        </div>
-
-        <SubmitButton formState={state} />
+      <motion.form
+        ref={formRef}
+        action={formAction}
+        className='space-y-6'
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.4 }}
+      >
+        <FormContent />
         {state.message && (
           <p
             className={`text-sm mt-2 ${
@@ -160,7 +190,7 @@ export function ContactForm({ isLoading = false }: ContactFormProps) {
             {state.message}
           </p>
         )}
-      </form>
+      </motion.form>
     </motion.section>
   )
 }

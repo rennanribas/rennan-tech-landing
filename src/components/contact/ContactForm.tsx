@@ -3,7 +3,7 @@ import { useActionState, useEffect, useRef } from 'react'
 import { useFormStatus } from 'react-dom'
 import { submitContactForm, type FormState } from '../../actions/contactActions'
 import { Button } from '../ui/Button'
-import { MdSend } from 'react-icons/md'
+import { MdSend, MdPerson, MdEmail, MdSubject, MdMessage } from 'react-icons/md'
 
 const initialState: FormState = {
   status: 'idle',
@@ -14,130 +14,186 @@ interface ContactFormProps {
   isLoading?: boolean
 }
 
-function ContactFormSkeleton() {
-  return (
-    <motion.section
-      initial={{ opacity: 0, x: -40 }}
-      animate={{ opacity: 1, x: 0 }}
-      transition={{ duration: 0.6, delay: 0.2 }}
-      className='lg:col-span-3 glass rounded-3xl p-6 sm:p-8 shadow-modern-lg border-modern'
-    >
-      {/* Header skeleton */}
-      <div className='h-8 bg-gradient-to-r from-muted/40 via-muted/60 to-muted/40 bg-[length:200%_100%] animate-shimmer rounded-lg w-48 mb-8' />
+const ContactFormSkeleton = () => (
+  <motion.section
+    initial={{ opacity: 0, y: 20 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.6, ease: 'easeOut' }}
+    className='relative overflow-hidden rounded-2xl glass-surface glass-refraction glass-dispersion shadow-glass'
+  >
+    {/* Apple Liquid Glass 2025 Effects */}
+    <div className='absolute inset-0 glass-highlight opacity-40' />
+    <div className='absolute inset-0 bg-gradient-to-br from-primary/8 via-transparent to-secondary/8' />
 
-      <div className='space-y-6'>
-        {/* Name and Email row */}
-        <div className='grid sm:grid-cols-2 gap-4 sm:gap-6'>
-          <div className='space-y-2'>
-            <div className='h-4 bg-muted/40 rounded w-16' />
-            <div className='h-12 bg-gradient-to-r from-muted/20 via-muted/40 to-muted/20 bg-[length:200%_100%] animate-shimmer rounded-xl' />
-          </div>
-          <div className='space-y-2'>
-            <div className='h-4 bg-muted/40 rounded w-16' />
-            <div className='h-12 bg-gradient-to-r from-muted/20 via-muted/40 to-muted/20 bg-[length:200%_100%] animate-shimmer rounded-xl' />
-          </div>
-        </div>
+    {/* Dynamic Light Reflections - Apple 2025 Style */}
+    <motion.div
+      className='absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/30 to-transparent'
+      animate={{ x: [-100, 100] }}
+      transition={{ duration: 3, repeat: Infinity, ease: 'linear' }}
+    />
+    <motion.div
+      className='absolute top-0 left-0 h-full w-px bg-gradient-to-b from-transparent via-white/20 to-transparent'
+      animate={{ y: [-50, 50] }}
+      transition={{ duration: 4, repeat: Infinity, ease: 'linear' }}
+    />
 
-        {/* Subject field */}
+    <div className='relative z-20 p-8 space-y-6'>
+      {/* Form Fields Skeleton */}
+      <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
         <div className='space-y-2'>
-          <div className='h-4 bg-muted/40 rounded w-20' />
-          <div className='h-12 bg-gradient-to-r from-muted/20 via-muted/40 to-muted/20 bg-[length:200%_100%] animate-shimmer rounded-xl' />
+          <div className='h-4 bg-muted/30 rounded animate-pulse' />
+          <div className='h-12 glass-subtle rounded-lg animate-pulse' />
         </div>
-
-        {/* Message field */}
         <div className='space-y-2'>
-          <div className='h-4 bg-muted/40 rounded w-20' />
-          <div className='h-32 bg-gradient-to-r from-muted/20 via-muted/40 to-muted/20 bg-[length:200%_100%] animate-shimmer rounded-xl' />
+          <div className='h-4 bg-muted/30 rounded animate-pulse' />
+          <div className='h-12 glass-subtle rounded-lg animate-pulse' />
         </div>
-
-        {/* Submit button */}
-        <div className='h-12 bg-gradient-to-r from-primary/20 via-primary/40 to-primary/20 bg-[length:200%_100%] animate-shimmer rounded-xl w-32' />
       </div>
-    </motion.section>
-  )
-}
+
+      <div className='space-y-2'>
+        <div className='h-4 bg-muted/30 rounded animate-pulse' />
+        <div className='h-12 glass-subtle rounded-lg animate-pulse' />
+      </div>
+
+      <div className='space-y-2'>
+        <div className='h-4 bg-muted/30 rounded animate-pulse' />
+        <div className='h-32 glass-subtle rounded-lg animate-pulse' />
+      </div>
+
+      <div className='h-12 glass rounded-lg animate-pulse' />
+    </div>
+  </motion.section>
+)
 
 function FormContent() {
   const { pending } = useFormStatus()
 
+  const inputClasses = `
+    w-full px-4 py-3 rounded-xl border transition-all duration-300 ease-out
+    glass-surface backdrop-blur-md relative z-10
+    text-foreground placeholder:text-muted-foreground
+    focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary/50
+    hover:glass-highlight hover:shadow-soft
+    disabled:opacity-50 disabled:cursor-not-allowed
+    before:absolute before:inset-0 before:glass-refraction before:opacity-30
+  `
+
+  const labelClasses = `
+    block text-sm font-medium text-foreground mb-2
+    transition-colors duration-200 relative z-10
+  `
+
   return (
     <>
-      <div className='grid sm:grid-cols-2 gap-4 sm:gap-6'>
-        <div>
-          <label
-            htmlFor='name'
-            className='block text-sm font-medium text-foreground/80 mb-2'
-          >
-            Name *
+      <motion.div
+        className='grid sm:grid-cols-2 gap-6'
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.1 }}
+      >
+        <motion.div
+          whileHover={{ scale: 1.01 }}
+          transition={{ duration: 0.2 }}
+          className='relative'
+        >
+          <label htmlFor='name' className={labelClasses}>
+            <MdPerson className='w-4 h-4 text-primary inline mr-2' />
+            Name
           </label>
+          <div className='relative'>
+            <input
+              type='text'
+              id='name'
+              name='name'
+              required
+              disabled={pending}
+              className={inputClasses}
+              placeholder='Your full name'
+            />
+          </div>
+        </motion.div>
+
+        <motion.div
+          whileHover={{ scale: 1.01 }}
+          transition={{ duration: 0.2 }}
+          className='relative'
+        >
+          <label htmlFor='email' className={labelClasses}>
+            <MdEmail className='w-4 h-4 text-primary inline mr-2' />
+            Email
+          </label>
+          <div className='relative'>
+            <input
+              type='email'
+              id='email'
+              name='email'
+              required
+              disabled={pending}
+              className={inputClasses}
+              placeholder='your.email@example.com'
+            />
+          </div>
+        </motion.div>
+      </motion.div>
+
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.4 }}
+        whileHover={{ scale: 1.01 }}
+        className='relative'
+      >
+        <label htmlFor='subject' className={labelClasses}>
+          <MdSubject className='w-4 h-4 text-primary inline mr-2' />
+          Subject
+        </label>
+        <div className='relative'>
           <input
             type='text'
-            id='name'
-            name='name'
+            id='subject'
+            name='subject'
             required
             disabled={pending}
-            className='w-full px-4 py-3 bg-background/50 border border-border/30 rounded-xl focus:ring-2 focus:ring-primary/50 focus:border-primary/50 transition-all duration-300 outline-none placeholder:text-foreground/50 disabled:opacity-50 disabled:cursor-not-allowed'
-            placeholder='Your Name'
+            className={inputClasses}
+            placeholder="What's this about?"
           />
         </div>
-        <div>
-          <label
-            htmlFor='email'
-            className='block text-sm font-medium text-foreground/80 mb-2'
-          >
-            Email *
-          </label>
-          <input
-            type='email'
-            id='email'
-            name='email'
+      </motion.div>
+
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.5 }}
+        whileHover={{ scale: 1.01 }}
+        className='relative'
+      >
+        <label htmlFor='message' className={labelClasses}>
+          <MdMessage className='w-4 h-4 text-primary inline mr-2' />
+          Message
+        </label>
+        <div className='relative'>
+          <textarea
+            id='message'
+            name='message'
             required
             disabled={pending}
-            className='w-full px-4 py-3 bg-background/50 border border-border/30 rounded-xl focus:ring-2 focus:ring-primary/50 focus:border-primary/50 transition-all duration-300 outline-none placeholder:text-foreground/50 disabled:opacity-50 disabled:cursor-not-allowed'
-            placeholder='your.email@example.com'
+            rows={6}
+            className={inputClasses}
+            placeholder='Tell me about your project, ideas, or how we can work together...'
           />
         </div>
-      </div>
+      </motion.div>
 
-      <div>
-        <label
-          htmlFor='subject'
-          className='block text-sm font-medium text-foreground/80 mb-2'
-        >
-          Subject *
-        </label>
-        <input
-          type='text'
-          id='subject'
-          name='subject'
-          required
-          disabled={pending}
-          className='w-full px-4 py-3 bg-background/50 border border-border/30 rounded-xl focus:ring-2 focus:ring-primary/50 focus:border-primary/50 transition-all duration-300 outline-none placeholder:text-foreground/50 disabled:opacity-50 disabled:cursor-not-allowed'
-          placeholder='What can I help you with?'
-        />
-      </div>
-
-      <div>
-        <label
-          htmlFor='message'
-          className='block text-sm font-medium text-foreground/80 mb-2'
-        >
-          Message *
-        </label>
-        <textarea
-          id='message'
-          name='message'
-          rows={5}
-          required
-          disabled={pending}
-          className='w-full px-4 py-3 bg-background/50 border border-border/30 rounded-xl focus:ring-2 focus:ring-primary/50 focus:border-primary/50 transition-all duration-300 outline-none resize-none placeholder:text-foreground/50 disabled:opacity-50 disabled:cursor-not-allowed'
-          placeholder='Your message...'
-        />
-      </div>
-
-      <Button type='submit' isLoading={pending}>
-        Send Message <MdSend size={20} />
-      </Button>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.4 }}
+      >
+        <Button type='submit' isLoading={pending} variant='glass'>
+          <MdSend size={20} />
+          Send Message
+        </Button>
+      </motion.div>
     </>
   )
 }
@@ -158,39 +214,65 @@ export function ContactForm({ isLoading = false }: ContactFormProps) {
 
   return (
     <motion.section
-      initial={{ opacity: 0, x: -40 }}
-      animate={{ opacity: 1, x: 0 }}
-      transition={{ duration: 0.6, delay: 0.2 }}
-      className='lg:col-span-3 glass rounded-3xl p-6 sm:p-8 shadow-modern-lg border-modern'
+      initial={{ opacity: 0, y: 20, scale: 0.95 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      transition={{ duration: 0.8, delay: 0.2, ease: [0.25, 0.46, 0.45, 0.94] }}
+      className='lg:col-span-3 relative overflow-hidden rounded-[28px] '
     >
-      <motion.h2
-        className='text-3xl sm:text-4xl font-bold text-foreground mb-6 sm:mb-8'
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, delay: 0.3 }}
-      >
-        Send a Message
-      </motion.h2>
+      {/* Apple Liquid Glass 2025 Container */}
+      <div className='relative glass-surface glass-refraction glass-dispersion rounded-[28px] p-8 sm:p-10 shadow-glass hover:shadow-elevated transition-all duration-700'>
+        {/* Apple 2025 Glass Highlight */}
+        <div className='absolute inset-0 glass-highlight opacity-30 rounded-[28px]' />
 
-      <motion.form
-        ref={formRef}
-        action={formAction}
-        className='space-y-6'
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, delay: 0.4 }}
-      >
-        <FormContent />
-        {state.message && (
-          <p
-            className={`text-sm mt-2 ${
-              state.status === 'error' ? 'text-red-500' : 'text-green-500'
-            }`}
+        {/* Dynamic light reflections - Apple 2025 Style */}
+        <motion.div
+          className='absolute top-0 left-1/4 w-1/2 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent'
+          animate={{ x: [-20, 20] }}
+          transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+        />
+        <motion.div
+          className='absolute top-1/4 right-0 w-px h-1/2 bg-gradient-to-b from-transparent via-white/20 to-transparent'
+          animate={{ y: [-10, 10] }}
+          transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
+        />
+
+        <div className='relative z-10'>
+          <motion.h2
+            className='text-3xl sm:text-4xl font-bold bg-gradient-to-r from-foreground via-foreground/90 to-foreground/80 bg-clip-text text-transparent mb-8 sm:mb-10'
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.3 }}
           >
-            {state.message}
-          </p>
-        )}
-      </motion.form>
+            Send a Message
+          </motion.h2>
+
+          <motion.form
+            ref={formRef}
+            action={formAction}
+            className='space-y-8'
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+          >
+            <FormContent />
+
+            {state.message && (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95, y: 10 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+                className={`p-4 rounded-2xl border backdrop-blur-sm ${
+                  state.status === 'error'
+                    ? 'bg-red-500/10 border-red-500/20 text-red-600'
+                    : 'bg-green-500/10 border-green-500/20 text-green-600'
+                }`}
+              >
+                <p className='text-sm font-medium'>{state.message}</p>
+              </motion.div>
+            )}
+          </motion.form>
+        </div>
+      </div>
     </motion.section>
   )
 }

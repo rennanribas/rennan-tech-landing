@@ -43,11 +43,11 @@
 
   /* Professional Accents */
   --color-white: #ffffff;
-  --color-accent-warm: #d97706;  /* Sophisticated orange */
-  --color-accent-cool: #0891b2;  /* Professional teal */
-  --color-accent-success: #059669;  /* Muted green */
-  --color-accent-danger: #dc2626;  /* Professional red */
-  --color-accent-gold: #d4af37;  /* Luxury gold accent */
+  --color-accent-warm: #d97706; /* Sophisticated orange */
+  --color-accent-cool: #0891b2; /* Professional teal */
+  --color-accent-success: #059669; /* Muted green */
+  --color-accent-danger: #dc2626; /* Professional red */
+  --color-accent-gold: #d4af37; /* Luxury gold accent */
 
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
   --font-display: 'Inter', system-ui, -apple-system, sans-serif;
@@ -74,8 +74,25 @@
   --blur-subtle: blur(12px);
   --blur-medium: blur(16px);
   --blur-strong: blur(24px);
-  --glass-bg: rgba(255, 255, 255, 0.1);
-  --glass-border: rgba(255, 255, 255, 0.2);
+
+  /* Apple Liquid Glass 2025 - Light Mode */
+  --glass-bg: color-mix(in oklab, var(--color-white) 8%, transparent);
+  --glass-border: color-mix(in oklab, var(--color-slate-900) 12%, transparent);
+  --glass-surface: color-mix(in oklab, var(--color-white) 15%, transparent);
+  --glass-highlight: color-mix(in oklab, var(--color-white) 25%, transparent);
+  --glass-shadow: color-mix(in oklab, var(--color-slate-900) 8%, transparent);
+  --glass-refraction: linear-gradient(
+    135deg,
+    color-mix(in oklab, var(--color-white) 20%, transparent) 0%,
+    color-mix(in oklab, var(--color-white) 5%, transparent) 50%,
+    color-mix(in oklab, var(--color-slate-900) 3%, transparent) 100%
+  );
+  --glass-dispersion: conic-gradient(
+    from 45deg at 50% 50%,
+    color-mix(in oklab, var(--color-navy-400) 15%, transparent),
+    color-mix(in oklab, var(--color-mocha-400) 10%, transparent),
+    color-mix(in oklab, var(--color-navy-400) 15%, transparent)
+  );
 
   --animate-shimmer: shimmer 2s ease-in-out infinite;
 }
@@ -92,8 +109,25 @@
   --color-card-foreground: var(--color-slate-100);
   --color-muted: var(--color-slate-800);
   --color-muted-foreground: var(--color-slate-400);
-  --glass-bg: rgba(0, 0, 0, 0.2);
-  --glass-border: rgba(255, 255, 255, 0.1);
+
+  /* Apple Liquid Glass 2025 - Dark Mode */
+  --glass-bg: color-mix(in oklab, var(--color-slate-950) 15%, transparent);
+  --glass-border: color-mix(in oklab, var(--color-white) 8%, transparent);
+  --glass-surface: color-mix(in oklab, var(--color-slate-900) 20%, transparent);
+  --glass-highlight: color-mix(in oklab, var(--color-white) 12%, transparent);
+  --glass-shadow: color-mix(in oklab, var(--color-slate-950) 25%, transparent);
+  --glass-refraction: linear-gradient(
+    135deg,
+    color-mix(in oklab, var(--color-white) 15%, transparent) 0%,
+    color-mix(in oklab, var(--color-slate-800) 8%, transparent) 50%,
+    color-mix(in oklab, var(--color-slate-950) 5%, transparent) 100%
+  );
+  --glass-dispersion: conic-gradient(
+    from 45deg at 50% 50%,
+    color-mix(in oklab, var(--color-navy-300) 20%, transparent),
+    color-mix(in oklab, var(--color-mocha-300) 15%, transparent),
+    color-mix(in oklab, var(--color-navy-300) 20%, transparent)
+  );
   --shadow-glass: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
 }
 
@@ -189,16 +223,60 @@
 }
 
 @layer utilities {
+  /* Apple Liquid Glass 2025 System */
   .glass {
     background: var(--glass-bg);
     backdrop-filter: var(--blur-medium);
     border: 1px solid var(--glass-border);
+    position: relative;
+    overflow: hidden;
   }
 
   .glass-subtle {
     background: var(--glass-bg);
     backdrop-filter: var(--blur-subtle);
     border: 1px solid var(--glass-border);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .glass-surface {
+    background: var(--glass-surface);
+    backdrop-filter: var(--blur-medium);
+    border: 1px solid var(--glass-border);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .glass-refraction::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--glass-refraction);
+    opacity: 0.6;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .glass-dispersion::after {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    background: var(--glass-dispersion);
+    border-radius: inherit;
+    opacity: 0.3;
+    pointer-events: none;
+    z-index: 0;
+    filter: blur(1px);
+  }
+
+  .glass-highlight {
+    background: linear-gradient(
+      135deg,
+      var(--glass-highlight) 0%,
+      transparent 50%,
+      var(--glass-shadow) 100%
+    );
   }
 
   .shadow-glass {
@@ -214,11 +292,13 @@
   }
 
   .shadow-modern {
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+      0 2px 4px -1px rgba(0, 0, 0, 0.06);
   }
 
   .shadow-modern-lg {
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+      0 4px 6px -2px rgba(0, 0, 0, 0.05);
   }
 
   .border-modern {
@@ -226,7 +306,11 @@
   }
 
   .bg-gradient-radial {
-    background: radial-gradient(ellipse at center, var(--gradient-from), var(--gradient-to));
+    background: radial-gradient(
+      ellipse at center,
+      var(--gradient-from),
+      var(--gradient-to)
+    );
   }
 
   .bg-noise {
@@ -283,28 +367,29 @@
   }
 }
 
-  .animate-shimmer {
-    animation: var(--animate-shimmer);
-  }
+.animate-shimmer {
+  animation: var(--animate-shimmer);
+}
 
-  .animate-float {
-    animation: float 6s ease-in-out infinite;
-  }
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
 
-  .animate-pulse-slow {
-    animation: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-  }
+.animate-pulse-slow {
+  animation: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
 
-  .animate-fade-in {
-    animation: fadeIn 0.5s ease-out;
-  }
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-out;
+}
 
-  .animate-slide-up {
-    animation: slideUp 0.5s ease-out;
-  }
+.animate-slide-up {
+  animation: slideUp 0.5s ease-out;
+}
 
 @keyframes float {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateY(0px);
   }
   50% {

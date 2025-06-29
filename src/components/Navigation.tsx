@@ -20,21 +20,21 @@ export default function Navigation() {
 
   const linkClassName = ({ isActive }: { isActive: boolean }): string =>
     `relative font-semibold transition-all duration-300 px-4 py-3 rounded-xl group ${
-      isActive
-        ? 'text-primary'
-        : 'text-foreground/70 hover:text-foreground'
+      isActive ? 'text-primary' : 'text-foreground/70 hover:text-foreground'
     }`
 
   const mobileLinkClassName = ({ isActive }: { isActive: boolean }): string =>
     `relative font-medium transition-all duration-300 py-3 px-4 rounded-xl ${
-      isActive ? 'text-primary bg-primary/5' : 'text-foreground/80 hover:text-foreground hover:bg-muted/30'
+      isActive
+        ? 'text-primary bg-primary/5'
+        : 'text-foreground/80 hover:text-foreground hover:bg-muted/30'
     }`
 
   return (
-    <motion.nav 
+    <motion.nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        isScrolled 
-          ? 'bg-background/80 backdrop-blur-xl border-b border-border/20 shadow-xl' 
+        isScrolled
+          ? 'bg-background/80 backdrop-blur-xl border-b border-border/20 shadow-xl'
           : 'bg-transparent'
       }`}
       initial={{ y: -100 }}
@@ -43,10 +43,7 @@ export default function Navigation() {
     >
       <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
         <div className='flex items-center justify-between h-16 lg:h-20'>
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
+          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
             <NavLink
               to='/'
               className='text-xl lg:text-2xl font-bold text-foreground hover:text-primary transition-all duration-300 tracking-tight'
@@ -73,7 +70,11 @@ export default function Navigation() {
                           <motion.div
                             className='absolute inset-0 bg-primary/10 rounded-xl'
                             layoutId='activeTab'
-                            transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+                            transition={{
+                              type: 'spring',
+                              stiffness: 300,
+                              damping: 30,
+                            }}
                           />
                         )}
                         <div className='absolute inset-0 bg-muted/30 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300' />
@@ -83,7 +84,7 @@ export default function Navigation() {
                 </motion.div>
               ))}
             </div>
-            <motion.div 
+            <motion.div
               className='ml-8 pl-8 border-l border-border/20'
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -130,7 +131,7 @@ export default function Navigation() {
         {/* Mobile Navigation */}
         <AnimatePresence>
           {isMenuOpen && (
-            <motion.div 
+            <motion.div
               className='lg:hidden'
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
@@ -155,7 +156,7 @@ export default function Navigation() {
                       </NavLink>
                     </motion.div>
                   ))}
-                  <motion.div 
+                  <motion.div
                     className='pt-6 mt-4 border-t border-border/20'
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}

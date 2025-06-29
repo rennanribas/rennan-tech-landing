@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'motion/react'
 import { useTheme } from '../hooks/useTheme'
 
 export function ThemeToggle() {
-  const { theme, effectiveTheme, setTheme } = useTheme()
+  const { theme, setTheme } = useTheme()
 
   const themes = [
     {
@@ -60,7 +60,7 @@ export function ThemeToggle() {
                 <Icon className='h-4 w-4' />
               </motion.div>
             </AnimatePresence>
-            
+
             {isActive && (
               <motion.div
                 className='absolute inset-0 bg-primary/10 rounded-xl border border-primary/20'
@@ -68,7 +68,7 @@ export function ThemeToggle() {
                 transition={{
                   type: 'spring',
                   stiffness: 300,
-                  damping: 30
+                  damping: 30,
                 }}
               />
             )}

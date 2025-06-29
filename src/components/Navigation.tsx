@@ -19,15 +19,17 @@ export default function Navigation() {
   }, [])
 
   const linkClassName = ({ isActive }: { isActive: boolean }): string =>
-    `relative font-semibold transition-all duration-300 px-4 py-3 rounded-xl group ${
-      isActive ? 'text-primary' : 'text-foreground/70 hover:text-foreground'
+    `relative font-semibold transition-all duration-300 px-4 py-3 rounded-xl group overflow-hidden ${
+      isActive 
+        ? 'text-primary glass-subtle shadow-soft' 
+        : 'text-foreground/70 hover:text-foreground hover:glass-subtle hover:shadow-soft'
     }`
 
   const mobileLinkClassName = ({ isActive }: { isActive: boolean }): string =>
-    `relative font-medium transition-all duration-300 py-3 px-4 rounded-xl ${
+    `relative font-medium transition-all duration-300 py-3 px-4 rounded-xl overflow-hidden ${
       isActive
-        ? 'text-primary bg-primary/5'
-        : 'text-foreground/80 hover:text-foreground hover:bg-muted/30'
+        ? 'text-primary glass-surface shadow-soft'
+        : 'text-foreground/80 hover:text-foreground hover:glass-subtle hover:shadow-soft'
     }`
 
   return (
@@ -68,7 +70,7 @@ export default function Navigation() {
                         <span className='relative z-10'>{item.label}</span>
                         {isActive && (
                           <motion.div
-                            className='absolute inset-0 bg-primary/10 rounded-xl'
+                            className='absolute inset-0 glass-highlight opacity-50 rounded-xl'
                             layoutId='activeTab'
                             transition={{
                               type: 'spring',
@@ -77,7 +79,11 @@ export default function Navigation() {
                             }}
                           />
                         )}
-                        <div className='absolute inset-0 bg-muted/30 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300' />
+                        {/* Subtle glass reflection on hover */}
+                        <motion.div 
+                          className='absolute inset-0 glass-highlight opacity-0 group-hover:opacity-30 rounded-xl transition-opacity duration-300'
+                          whileHover={{ opacity: 0.3 }}
+                        />
                       </>
                     )}
                   </NavLink>
@@ -97,7 +103,7 @@ export default function Navigation() {
           {/* Mobile Menu Button */}
           <motion.button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className='lg:hidden p-3 text-foreground/60 hover:text-foreground transition-all duration-300 rounded-xl hover:bg-muted/30'
+            className='lg:hidden p-3 text-foreground/60 hover:text-foreground transition-all duration-300 rounded-xl hover:glass-subtle hover:shadow-soft relative overflow-hidden'
             aria-label='Toggle menu'
             whileTap={{ scale: 0.95 }}
             whileHover={{ scale: 1.05 }}
@@ -138,7 +144,10 @@ export default function Navigation() {
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
             >
-              <div className='px-4 py-6 border-t border-border/20 bg-background/50 backdrop-blur-xl'>
+              <div className='px-4 py-6 border-t border-glass-border glass-surface glass-refraction relative overflow-hidden'>
+                {/* Mobile Menu Glass Effects */}
+                <div className='absolute inset-0 glass-highlight opacity-20' />
+                <div className='absolute inset-0 bg-gradient-to-br from-primary/3 via-transparent to-secondary/3' />
                 <div className='flex flex-col space-y-2'>
                   {navItems.map((item, index) => (
                     <motion.div
@@ -148,12 +157,19 @@ export default function Navigation() {
                       transition={{ delay: index * 0.1 }}
                     >
                       <NavLink
-                        to={item.to}
-                        onClick={() => setIsMenuOpen(false)}
-                        className={mobileLinkClassName}
-                      >
-                        {item.label}
-                      </NavLink>
+                          to={item.to}
+                          onClick={() => setIsMenuOpen(false)}
+                          className={mobileLinkClassName}
+                        >
+                          {({ isActive }) => (
+                            <>
+                              <span className='relative z-10'>{item.label}</span>
+                              {isActive && (
+                                <div className='absolute inset-0 glass-highlight opacity-40 rounded-xl' />
+                              )}
+                            </>
+                          )}
+                        </NavLink>
                     </motion.div>
                   ))}
                   <motion.div

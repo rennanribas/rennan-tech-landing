@@ -24,7 +24,7 @@ export default function PageLayout() {
       <Navigation />
 
       {/* Main Content Area */}
-      <main className='relative z-10'>
+      <main className='relative z-10 pt-16 lg:pt-20'>
         <div className='container-responsive'>
           <Outlet />
         </div>

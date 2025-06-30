@@ -1,6 +1,6 @@
 import { Outlet } from 'react-router-dom'
 import { useTheme } from '../hooks/useTheme'
-import Navigation from './Navigation'
+import Header from './Header'
 
 /**
  * Root Layout Component - Single Source of Truth
@@ -21,7 +21,7 @@ export default function PageLayout() {
       <div className='fixed inset-0 bg-gradient-hero pointer-events-none' />
 
       {/* Global Navigation */}
-      <Navigation />
+      <Header />
 
       {/* Main Content Area */}
       <main className='relative z-10 pt-16 lg:pt-20'>

@@ -1,5 +1,6 @@
+import { motion } from 'motion/react'
 import { useAboutData } from '../hooks/useAboutData'
-import { AboutHeader } from '../components/about/AboutHeader'
+import { PageTitle } from '../components/about/PageTitle'
 import { ExperienceSection } from '../components/about/ExperienceSection'
 import { SkillsSection } from '../components/about/SkillsSection'
 
@@ -7,12 +8,14 @@ export default function About() {
   const { experiences, skills } = useAboutData()
 
   return (
-    <div className='space-y-12 sm:space-y-16'>
-      <AboutHeader />
-      <div className='space-y-8 sm:space-y-12'>
-        <ExperienceSection experiences={experiences} />
-        <SkillsSection skills={skills} />
-      </div>
-    </div>
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+    >
+      <PageTitle />
+      <ExperienceSection experiences={experiences} />
+      <SkillsSection skills={skills} />
+    </motion.div>
   )
 }

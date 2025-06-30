@@ -1,6 +1,6 @@
 import { useTechStack } from '../hooks/useTechStack'
 import TechCategory from '../components/tech-stack/TechCategory'
-import TechStackHeader from '../components/tech-stack/TechStackHeader'
+import TechStackTitle from '../components/tech-stack/TechStackTitle'
 import ContinuousLearning from '../components/ContinuousLearning'
 
 export default function TechStack() {
@@ -8,8 +8,8 @@ export default function TechStack() {
 
   return (
     <div className='space-y-8 sm:space-y-12'>
-      <TechStackHeader />
-      <div className='space-y-8 sm:space-y-12'>
+      <TechStackTitle />
+      <section className='space-y-8 sm:space-y-12'>
         {categories.map((category, categoryIndex) => (
           <TechCategory
             key={categoryIndex}
@@ -17,7 +17,7 @@ export default function TechStack() {
             categoryIndex={categoryIndex}
           />
         ))}
-      </div>
+      </section>
       <ContinuousLearning />
     </div>
   )

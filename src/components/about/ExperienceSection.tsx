@@ -1,4 +1,3 @@
-import { motion } from 'motion/react'
 import { Calendar } from 'lucide-react'
 
 interface Experience {
@@ -13,11 +12,7 @@ interface ExperienceSectionProps {
 
 export function ExperienceSection({ experiences }: ExperienceSectionProps) {
   return (
-    <motion.section
-      initial={{ opacity: 0, y: 40 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6, delay: 0.2 }}
-    >
+    <section>
       <h2 className='text-3xl font-bold text-foreground mb-8 flex items-center gap-3'>
         <Calendar className='text-primary' />
         Work Experience
@@ -38,6 +33,6 @@ export function ExperienceSection({ experiences }: ExperienceSectionProps) {
           </div>
         ))}
       </div>
-    </motion.section>
+    </section>
   )
 }

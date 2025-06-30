@@ -2,13 +2,13 @@ import { useState, useEffect } from 'react'
 import { NavLink } from 'react-router-dom'
 import { Menu, X } from 'lucide-react'
 import { motion, AnimatePresence } from 'motion/react'
-import { useNavigation } from '../hooks/useNavigation'
+import { useHeader } from '../hooks/useHeader'
 import { ThemeToggle } from './ThemeToggle'
 
-export default function Navigation() {
+export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
-  const { navItems } = useNavigation()
+  const { navItems } = useHeader()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -20,8 +20,8 @@ export default function Navigation() {
 
   const linkClassName = ({ isActive }: { isActive: boolean }): string =>
     `relative font-semibold transition-all duration-300 px-4 py-3 rounded-xl group overflow-hidden ${
-      isActive 
-        ? 'text-primary glass-subtle shadow-soft' 
+      isActive
+        ? 'text-primary glass-subtle shadow-soft'
         : 'text-foreground/70 hover:text-foreground hover:glass-subtle hover:shadow-soft'
     }`
 
@@ -80,7 +80,7 @@ export default function Navigation() {
                           />
                         )}
                         {/* Subtle glass reflection on hover */}
-                        <motion.div 
+                        <motion.div
                           className='absolute inset-0 glass-highlight opacity-0 group-hover:opacity-30 rounded-xl transition-opacity duration-300'
                           whileHover={{ opacity: 0.3 }}
                         />
@@ -157,19 +157,19 @@ export default function Navigation() {
                       transition={{ delay: index * 0.1 }}
                     >
                       <NavLink
-                          to={item.to}
-                          onClick={() => setIsMenuOpen(false)}
-                          className={mobileLinkClassName}
-                        >
-                          {({ isActive }) => (
-                            <>
-                              <span className='relative z-10'>{item.label}</span>
-                              {isActive && (
-                                <div className='absolute inset-0 glass-highlight opacity-40 rounded-xl' />
-                              )}
-                            </>
-                          )}
-                        </NavLink>
+                        to={item.to}
+                        onClick={() => setIsMenuOpen(false)}
+                        className={mobileLinkClassName}
+                      >
+                        {({ isActive }) => (
+                          <>
+                            <span className='relative z-10'>{item.label}</span>
+                            {isActive && (
+                              <div className='absolute inset-0 glass-highlight opacity-40 rounded-xl' />
+                            )}
+                          </>
+                        )}
+                      </NavLink>
                     </motion.div>
                   ))}
                   <motion.div

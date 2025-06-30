@@ -1,4 +1,3 @@
-import { motion } from 'motion/react'
 import { Award, User } from 'lucide-react'
 
 interface SkillCategory {
@@ -12,11 +11,7 @@ interface SkillsSectionProps {
 
 export function SkillsSection({ skills }: SkillsSectionProps) {
   return (
-    <motion.section
-      initial={{ opacity: 0, y: 40 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6, delay: 0.4 }}
-    >
+    <section>
       <h2 className='text-3xl font-bold text-foreground mb-8 flex items-center gap-3'>
         <Award className='text-primary' />
         Skills & Expertise
@@ -44,6 +39,6 @@ export function SkillsSection({ skills }: SkillsSectionProps) {
           </div>
         ))}
       </div>
-    </motion.section>
+    </section>
   )
 }

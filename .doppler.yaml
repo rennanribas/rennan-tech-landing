@@ -1,0 +1,16 @@
+# Doppler configuration for rennan-tech-landing
+setup:
+  project: rennan-tech-landing
+  config: production
+
+# Environment mappings
+environments:
+  development:
+    project: rennan-tech-landing
+    config: dev
+  staging:
+    project: rennan-tech-landing
+    config: staging
+  production:
+    project: rennan-tech-landing
+    config: production

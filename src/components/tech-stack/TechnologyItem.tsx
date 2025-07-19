@@ -9,10 +9,10 @@ const proficiencyLevels = {
 }
 
 const levelWidth = {
-  beginner: 'w-1/4',
-  intermediate: 'w-2/4',
-  advanced: 'w-3/4',
-  expert: 'w-4/4',
+  beginner: '25%',
+  intermediate: '50%',
+  advanced: '75%',
+  expert: '100%',
 }
 
 const levelColor = {
@@ -51,13 +51,14 @@ export default function TechnologyItem({
       </div>
       <p className='text-sm text-card-foreground/80 mb-2'>{tech.description}</p>
 
-      <div className='w-full bg-muted rounded-full h-2'>
+      <div className='w-full bg-muted rounded-full h-2 overflow-hidden'>
         <motion.div
           initial={{ width: 0 }}
           animate={{ width: levelWidth[tech.level] }}
           transition={{
             duration: 1,
             delay: categoryIndex * 0.2 + techIndex * 0.1 + 0.5,
+            ease: 'easeOut',
           }}
           className={`${levelColor[tech.level]} h-2 rounded-full`}
         />

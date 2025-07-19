@@ -19,26 +19,12 @@ const ContactFormSkeleton = () => (
     initial={{ opacity: 0, y: 20 }}
     animate={{ opacity: 1, y: 0 }}
     transition={{ duration: 0.6, ease: 'easeOut' }}
-    className='relative overflow-hidden rounded-2xl glass-surface glass-refraction glass-dispersion shadow-glass'
+    className='relative overflow-hidden rounded-2xl glass-surface shadow-glass'
   >
-    {/* Apple Liquid Glass 2025 Effects */}
     <div className='absolute inset-0 glass-highlight opacity-40' />
     <div className='absolute inset-0 bg-gradient-to-br from-primary/8 via-transparent to-secondary/8' />
 
-    {/* Dynamic Light Reflections - Apple 2025 Style */}
-    <motion.div
-      className='absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/30 to-transparent'
-      animate={{ x: [-100, 100] }}
-      transition={{ duration: 3, repeat: Infinity, ease: 'linear' }}
-    />
-    <motion.div
-      className='absolute top-0 left-0 h-full w-px bg-gradient-to-b from-transparent via-white/20 to-transparent'
-      animate={{ y: [-50, 50] }}
-      transition={{ duration: 4, repeat: Infinity, ease: 'linear' }}
-    />
-
     <div className='relative z-20 p-8 space-y-6'>
-      {/* Form Fields Skeleton */}
       <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
         <div className='space-y-2'>
           <div className='h-4 bg-muted/30 rounded animate-pulse' />
@@ -69,18 +55,17 @@ function FormContent() {
   const { pending } = useFormStatus()
 
   const inputClasses = `
-    w-full px-4 py-3 rounded-xl border transition-all duration-300 ease-out
-    glass-surface backdrop-blur-md relative z-10
+    w-full px-4 py-3 rounded-xl border transition-all duration-300
+    glass-surface backdrop-blur-md
     text-foreground placeholder:text-muted-foreground
     focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary/50
     hover:glass-highlight hover:shadow-soft
     disabled:opacity-50 disabled:cursor-not-allowed
-    before:absolute before:inset-0 before:glass-refraction before:opacity-30
   `
 
   const labelClasses = `
     block text-sm font-medium text-foreground mb-2
-    transition-colors duration-200 relative z-10
+    transition-colors duration-200
   `
 
   return (
@@ -94,45 +79,39 @@ function FormContent() {
         <motion.div
           whileHover={{ scale: 1.01 }}
           transition={{ duration: 0.2 }}
-          className='relative'
         >
           <label htmlFor='name' className={labelClasses}>
             <MdPerson className='w-4 h-4 text-primary inline mr-2' />
             Name
           </label>
-          <div className='relative'>
-            <input
-              type='text'
-              id='name'
-              name='name'
-              required
-              disabled={pending}
-              className={inputClasses}
-              placeholder='Your full name'
-            />
-          </div>
+          <input
+            type='text'
+            id='name'
+            name='name'
+            required
+            disabled={pending}
+            className={inputClasses}
+            placeholder='Your full name'
+          />
         </motion.div>
 
         <motion.div
           whileHover={{ scale: 1.01 }}
           transition={{ duration: 0.2 }}
-          className='relative'
         >
           <label htmlFor='email' className={labelClasses}>
             <MdEmail className='w-4 h-4 text-primary inline mr-2' />
             Email
           </label>
-          <div className='relative'>
-            <input
-              type='email'
-              id='email'
-              name='email'
-              required
-              disabled={pending}
-              className={inputClasses}
-              placeholder='your.email@example.com'
-            />
-          </div>
+          <input
+            type='email'
+            id='email'
+            name='email'
+            required
+            disabled={pending}
+            className={inputClasses}
+            placeholder='your.email@example.com'
+          />
         </motion.div>
       </motion.div>
 
@@ -141,23 +120,20 @@ function FormContent() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.4 }}
         whileHover={{ scale: 1.01 }}
-        className='relative'
       >
         <label htmlFor='subject' className={labelClasses}>
           <MdSubject className='w-4 h-4 text-primary inline mr-2' />
           Subject
         </label>
-        <div className='relative'>
-          <input
-            type='text'
-            id='subject'
-            name='subject'
-            required
-            disabled={pending}
-            className={inputClasses}
-            placeholder="What's this about?"
-          />
-        </div>
+        <input
+          type='text'
+          id='subject'
+          name='subject'
+          required
+          disabled={pending}
+          className={inputClasses}
+          placeholder="What's this about?"
+        />
       </motion.div>
 
       <motion.div
@@ -165,23 +141,20 @@ function FormContent() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.5 }}
         whileHover={{ scale: 1.01 }}
-        className='relative'
       >
         <label htmlFor='message' className={labelClasses}>
           <MdMessage className='w-4 h-4 text-primary inline mr-2' />
           Message
         </label>
-        <div className='relative'>
-          <textarea
-            id='message'
-            name='message'
-            required
-            disabled={pending}
-            rows={6}
-            className={inputClasses}
-            placeholder='Tell me about your project, ideas, or how we can work together...'
-          />
-        </div>
+        <textarea
+          id='message'
+          name='message'
+          required
+          disabled={pending}
+          rows={6}
+          className={inputClasses}
+          placeholder='Tell me about your project, ideas, or how we can work together...'
+        />
       </motion.div>
 
       <motion.div
@@ -217,14 +190,11 @@ export function ContactForm({ isLoading = false }: ContactFormProps) {
       initial={{ opacity: 0, y: 20, scale: 0.95 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
       transition={{ duration: 0.8, delay: 0.2, ease: [0.25, 0.46, 0.45, 0.94] }}
-      className='lg:col-span-3 relative overflow-hidden rounded-[28px] '
+      className='lg:col-span-3 relative overflow-hidden rounded-[28px]'
     >
-      {/* Apple Liquid Glass 2025 Container */}
-      <div className='relative glass-surface glass-refraction glass-dispersion rounded-[28px] p-8 sm:p-10 shadow-glass hover:shadow-elevated transition-all duration-700'>
-        {/* Apple 2025 Glass Highlight */}
+      <div className='relative glass-surface rounded-[28px] p-8 sm:p-10 shadow-glass hover:shadow-elevated transition-all duration-700'>
         <div className='absolute inset-0 glass-highlight opacity-30 rounded-[28px]' />
 
-        {/* Dynamic light reflections - Apple 2025 Style */}
         <motion.div
           className='absolute top-0 left-1/4 w-1/2 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent'
           animate={{ x: [-20, 20] }}

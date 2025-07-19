@@ -6,10 +6,13 @@ export default function Contact() {
   return (
     <div className='space-y-8 sm:space-y-12'>
       <ContactHeader />
-      <div className='grid lg:grid-cols-5 gap-6 sm:gap-8 lg:gap-12'>
-        <ContactForm />
-        <ContactDetails />
+      <div className='flex justify-center'>
+        <div className='w-full max-w-2xl'>
+          <ContactDetails />
+        </div>
       </div>
+      {/* Contact form is temporarily disabled */}
+      <ContactForm />
     </div>
   )
 }

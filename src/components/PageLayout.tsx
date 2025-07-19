@@ -1,6 +1,7 @@
 import { Outlet } from 'react-router-dom'
 import { useTheme } from '../hooks/useTheme'
 import Header from './Header'
+import Footer from './Footer'
 
 /**
  * Root Layout Component - Single Source of Truth
@@ -29,6 +30,9 @@ export default function PageLayout() {
           <Outlet />
         </div>
       </main>
+
+      {/* Footer */}
+      <Footer />
     </div>
   )
 }

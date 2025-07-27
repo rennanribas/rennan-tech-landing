@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1024" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#16A8FF"/>
+      <stop offset="100%" stop-color="#66FFE7"/>
+    </linearGradient>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <rect width="1024" height="1024" fill="none"/>
+  <!-- Hexagon -->
+  <path d="M512 160 L803 320 L803 640 L512 800 L221 640 L221 320 Z" fill="none" stroke="url(#g)" stroke-width="22" opacity="0.95"/>
+  <path d="M512 178 L787 328 L787 632 L512 782 L237 632 L237 328 Z" fill="none" stroke="white" stroke-opacity="0.28" stroke-width="2"/>
+  <!-- Pulse path -->
+  <path d="M260 512 H440 L470 380 L500 646 L540 470 L560 512 H764" fill="none" stroke="#ECFDFF" stroke-width="8" filter="url(#glow)"/>
+</svg>

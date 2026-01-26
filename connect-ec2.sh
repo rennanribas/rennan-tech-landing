@@ -1,2 +1,3 @@
 #!/bin/bash
-ssh -i engineer-lab-ec2-key.pem ec2-user@3.87.5.134
+source "$(dirname "$0")/.env"
+ssh -i ${EC2_SSH_KEY} ${EC2_USER}@${EC2_HOST}

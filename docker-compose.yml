@@ -17,7 +17,7 @@ services:
     image: ${ECR_REPOSITORY_URI:-rennan-tech-landing}
     build:
       context: .
-      target: static
+      target: ssr
     container_name: rennan-tech-landing
     restart: unless-stopped
     networks:

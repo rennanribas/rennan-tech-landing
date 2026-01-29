@@ -34,7 +34,7 @@ jobs:
           ECR_REPOSITORY_URI: ${{ secrets.ECR_REPOSITORY_URI }}
         run: |
           IMAGE_TAG=${{ github.sha }}
-          docker build --target static -t $ECR_REPOSITORY_URI:$IMAGE_TAG .
+          docker build --target ssr -t $ECR_REPOSITORY_URI:$IMAGE_TAG .
           docker push $ECR_REPOSITORY_URI:$IMAGE_TAG
           docker tag $ECR_REPOSITORY_URI:$IMAGE_TAG $ECR_REPOSITORY_URI:latest
           docker push $ECR_REPOSITORY_URI:latest

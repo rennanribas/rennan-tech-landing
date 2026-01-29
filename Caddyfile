@@ -1,0 +1,3 @@
+rennan.tech, www.rennan.tech {
+  reverse_proxy landing:80
+}

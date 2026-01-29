@@ -1,28 +1,25 @@
 services:
-  app:
-    build:
-      context: .
-      target: development
-    container_name: rennan-tech-app
-    restart: unless-stopped
-    ports:
-      - '5173:5173'
-    volumes:
-      - .:/app
-      - /app/node_modules
-    networks:
-      - app-network
-
-  nginx:
-    build:
-      context: .
-      target: nginx
-    container_name: rennan-tech-nginx
+  caddy:
+    image: caddy:alpine
+    container_name: caddy
     restart: unless-stopped
     ports:
       - '80:80'
+      - '443:443'
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
     depends_on:
-      - app
+      - landing
+    networks:
+      - app-network
+
+  landing:
+    image: ${ECR_REPOSITORY_URI:-rennan-tech-landing}
+    build:
+      context: .
+      target: static
+    container_name: rennan-tech-landing
+    restart: unless-stopped
     networks:
       - app-network
 

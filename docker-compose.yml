@@ -14,10 +14,7 @@ services:
       - app-network
 
   landing:
-    image: ${ECR_REPOSITORY_URI:-rennan-tech-landing}
-    build:
-      context: .
-      target: ssr
+    image: ${ECR_REPOSITORY_URI}
     container_name: rennan-tech-landing
     restart: unless-stopped
     networks:

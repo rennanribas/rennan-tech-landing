@@ -24,13 +24,11 @@ WORKDIR /app
 RUN npm install -g pnpm
 
 COPY --from=builder /app/package.json /app/pnpm-lock.yaml ./
-COPY --from=builder /app/server.ts ./
-COPY --from=builder /app/index.html ./
 COPY --from=builder /app/dist ./dist
-COPY --from=builder /app/src ./src
+COPY --from=builder /app/server.ts ./
 RUN pnpm install --frozen-lockfile
 
 ENV NODE_ENV=production
 EXPOSE 5173
-CMD ["pnpm", "run", "dev:ssr"]
+CMD ["pnpm", "exec", "tsx", "server.ts"]
     

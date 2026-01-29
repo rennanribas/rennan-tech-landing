@@ -15,6 +15,16 @@ async function createServer() {
     const distServer = path.join(__dirname, 'dist/server')
     app.use(express.static(distClient, { index: false }))
 
+    // 404 immediately for scanner/sensitive paths (avoid hitting SSR and log noise)
+    app.use((req: Request, res: Response, next: NextFunction) => {
+      const p = req.path
+      if (p.startsWith('/.') || p === '/actutor/env') {
+        res.status(404).end()
+        return
+      }
+      next()
+    })
+
     app.use('*', async (req: Request, res: Response) => {
       try {
         const template = fs.readFileSync(

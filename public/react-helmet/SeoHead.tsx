@@ -15,7 +15,7 @@ type Props = {
 export function SeoHead({ 
   title = "Rennan Ribas - Senior Software Engineer", 
   description = "Senior Software Engineer with 10+ years delivering scalable, cloud-native applications. Expert in TypeScript, React, NestJS, and cloud architecture.", 
-  imageUrl = "/brand_icon_pack/icons/icon-512.png", 
+  imageUrl = "/icons/icon-512.png", 
   domain = "rennanribas.tech",
   url = "https://rennanribas.tech",
   author = "Rennan Ribas",
@@ -35,17 +35,17 @@ export function SeoHead({
         <meta name="format-detection" content="telephone=no" />
         
         {/* Favicon and Icons - 2025 Best Practices */}
-        <link rel="icon" href="/brand_icon_pack/icons/favicon.ico" sizes="32x32" />
-        <link rel="icon" type="image/svg+xml" href="/brand_icon_pack/icons/icon.svg" />
-        <link rel="icon" type="image/png" sizes="16x16" href="/brand_icon_pack/icons/icon-16.png" />
-        <link rel="icon" type="image/png" sizes="32x32" href="/brand_icon_pack/icons/icon-32.png" />
-        <link rel="icon" type="image/png" sizes="48x48" href="/brand_icon_pack/icons/icon-48.png" />
-        <link rel="icon" type="image/png" sizes="192x192" href="/brand_icon_pack/icons/icon-192.png" />
-        <link rel="icon" type="image/png" sizes="512x512" href="/brand_icon_pack/icons/icon-512.png" />
+        <link rel="icon" href="/icons/favicon.ico" sizes="32x32" />
+        <link rel="icon" type="image/svg+xml" href="/icons/icon.svg" />
+        <link rel="icon" type="image/png" sizes="16x16" href="/icons/icon-16.png" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-32.png" />
+        <link rel="icon" type="image/png" sizes="48x48" href="/icons/icon-48.png" />
+        <link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192.png" />
+        <link rel="icon" type="image/png" sizes="512x512" href="/icons/icon-512.png" />
         
         {/* Apple Touch Icons */}
-        <link rel="apple-touch-icon" sizes="180x180" href="/brand_icon_pack/icons/apple-touch-icon.png" />
-        <link rel="mask-icon" href="/brand_icon_pack/icons/safari-pinned-tab.svg" color="#0ea5e9" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png" />
+        <link rel="mask-icon" href="/icons/safari-pinned-tab.svg" color="#0ea5e9" />
         
         {/* PWA Manifest */}
         <link rel="manifest" href="/site.webmanifest" />
@@ -53,7 +53,7 @@ export function SeoHead({
         {/* Theme Colors */}
         <meta name="theme-color" content="#0ea5e9" />
         <meta name="msapplication-TileColor" content="#0ea5e9" />
-        <meta name="msapplication-TileImage" content="/brand_icon_pack/icons/icon-256.png" />
+        <meta name="msapplication-TileImage" content="/icons/icon-256.png" />
         
         {/* iOS Safari */}
         <meta name="apple-mobile-web-app-capable" content="yes" />

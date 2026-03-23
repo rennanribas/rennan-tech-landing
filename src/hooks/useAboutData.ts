@@ -68,7 +68,7 @@ export function useAboutData() {
       summary:
         'Worked across media and fintech initiatives for distributed product teams, balancing backend delivery with frontend execution.',
       highlights: [
-        'Built NestJS services for a Televisa live-streaming project, including a Google Sheets bridge that connected legacy scheduling to a new microservice.',
+        'Built NestJS services for a live-streaming platform, connecting legacy scheduling workflows to a newer microservice architecture.',
         'Contributed to a U.S. tech banking MVP by delivering React and TypeScript web interfaces.',
       ],
       stack: [
@@ -76,7 +76,8 @@ export function useAboutData() {
         'React',
         'TypeScript',
         'Microservices',
-        'Google Sheets API',
+        'GCP',
+        'Cloud Functions',
       ],
     },
     {
@@ -84,17 +85,30 @@ export function useAboutData() {
       company: 'Indie Campers',
       period: 'Mar 2021 - Oct 2021',
       summary:
-        'Built customer-facing marketplace features for a European camper-rental platform using Nuxt.js, Vue.js, and TypeScript.',
-      highlights: [],
-      stack: ['Vue.js', 'Nuxt.js', 'TypeScript'],
+        'Worked deeply in the client area of a European camper-rental platform while helping shape the first marketplace capabilities that expanded the product beyond a purely B2C model.',
+      highlights: [
+        'Delivered account-area features in Nuxt.js, Vue.js, and TypeScript, translating product and operational requirements into production-ready flows.',
+        'Improved day-to-day engineering workflow with stronger linting, pre-commit hooks, and faster local build and hot-reload feedback loops.',
+        'Contributed end-to-end to marketplace MVP implementation, handling frontend delivery alongside backend service, controller, and schema work needed to support new rental flows.',
+      ],
+      stack: [
+        'Vue.js',
+        'Nuxt.js',
+        'TypeScript',
+        'Marketplace',
+        'Developer Tooling',
+      ],
     },
     {
       title: 'Senior Full-Stack Engineer',
       company: 'Kaffa Mobile',
       period: 'Mar 2020 - Mar 2021',
       summary:
-        'Built an API gateway and JWT-based authentication flows with Node.js, Express, and React.',
-      highlights: [],
+        'Worked across backend and frontend layers to establish secure access flows and API orchestration with Node.js, Express, and React.',
+      highlights: [
+        'Built an API gateway that centralized request handling and service access.',
+        'Implemented JWT-based authentication flows across the application and backend APIs.',
+      ],
       stack: ['Node.js', 'Express', 'React', 'JWT', 'API Gateway'],
     },
     {
@@ -102,17 +116,29 @@ export function useAboutData() {
       company: 'Bten US',
       period: 'May 2019 - Feb 2020',
       summary:
-        'Shipped customer experience SaaS features and implemented Node.js and Express APIs backed by Sequelize and TypeScript.',
-      highlights: [],
-      stack: ['Node.js', 'Express', 'Sequelize', 'TypeScript', 'SaaS'],
+        'Built customer-facing SaaS features while implementing Node.js and Express APIs backed by Sequelize and TypeScript.',
+      highlights: [
+        'Delivered product features across customer experience flows and backend services.',
+        'Implemented API and data-access layers with Express, Sequelize, and TypeScript.',
+      ],
+      stack: [
+        'Node.js',
+        'Express',
+        'Sequelize',
+        'TypeScript',
+        'SaaS',
+      ],
     },
     {
       title: 'Software Developer',
       company: 'CETEC Educacional',
       period: 'Jan 2013 - Dec 2017',
       summary:
-        'Built educational software in C#, JavaScript, HTML, and CSS, and developed a teacher portal with ASP.NET.',
-      highlights: [],
+        'Built educational software and a teacher portal, working across web interfaces and application features used in academic workflows.',
+      highlights: [
+        'Developed education-focused product features in C#, JavaScript, HTML, and CSS.',
+        'Built a teacher portal with ASP.NET, contributing to the web layer used by instructors and administrators.',
+      ],
       stack: ['C#', 'JavaScript', 'ASP.NET', 'HTML', 'CSS'],
     },
   ]

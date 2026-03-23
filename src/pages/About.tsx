@@ -5,7 +5,7 @@ import { ExperienceSection } from '../components/about/ExperienceSection'
 import { SkillsSection } from '../components/about/SkillsSection'
 
 export default function About() {
-  const { experiences, skills } = useAboutData()
+  const { experiences, capabilities } = useAboutData()
 
   return (
     <motion.div
@@ -15,7 +15,7 @@ export default function About() {
     >
       <PageTitle />
       <ExperienceSection experiences={experiences} />
-      <SkillsSection skills={skills} />
+      <SkillsSection capabilities={capabilities} />
     </motion.div>
   )
 }

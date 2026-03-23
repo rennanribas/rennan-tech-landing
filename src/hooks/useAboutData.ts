@@ -7,9 +7,11 @@ export interface Experience {
   stack: string[]
 }
 
-export interface SkillCategory {
-  category: string
-  items: string[]
+export interface Capability {
+  title: string
+  description: string
+  focus: string[]
+  tools: string[]
 }
 
 export function useAboutData() {
@@ -143,64 +145,66 @@ export function useAboutData() {
     },
   ]
 
-  const skills: SkillCategory[] = [
+  const capabilities: Capability[] = [
     {
-      category: 'Languages',
-      items: ['TypeScript', 'JavaScript', 'Dart', 'Swift', 'C#'],
-    },
-    {
-      category: 'Backend & APIs',
-      items: [
+      title: 'Backend Systems & APIs',
+      description:
+        'Most of my recent work centers on service design, API contracts, integration-heavy features, and asynchronous workflows that need to stay maintainable as products evolve.',
+      focus: [
+        'Node.js and NestJS services built for both product teams and platform-oriented environments.',
+        'REST and GraphQL APIs, queue-backed processing, exporter flows, and integration layers.',
+        'Relational and time-series data handled with PostgreSQL, Redis, Prisma, Sequelize, and TypeORM.',
+      ],
+      tools: [
+        'TypeScript',
         'Node.js',
         'NestJS',
-        'Express',
-        'REST APIs',
         'GraphQL',
-        'Microservices',
-      ],
-    },
-    {
-      category: 'Frontend',
-      items: ['React', 'Next.js', 'React Native', 'Vue.js', 'Nuxt.js', 'Flutter'],
-    },
-    {
-      category: 'Data & Persistence',
-      items: [
         'PostgreSQL',
-        'MS SQL Server',
         'Redis',
-        'Prisma',
-        'Sequelize',
-        'TypeORM',
-        'TimescaleDB',
       ],
     },
     {
-      category: 'Cloud & Delivery',
-      items: [
+      title: 'Web Product Engineering',
+      description:
+        'A large part of my experience is in web products, especially React-centered applications that need to move from requirements and designs into reliable, maintainable interfaces.',
+      focus: [
+        'Production features and MVPs across React, Next.js, Vue, and Nuxt applications.',
+        'Close collaboration with founders, product stakeholders, designers, and testers.',
+        'Frontend architecture and implementation choices that keep web applications maintainable as they grow.',
+      ],
+      tools: ['React', 'Next.js', 'Vue.js', 'Nuxt.js', 'TypeScript'],
+    },
+    {
+      title: 'Cloud & Delivery',
+      description:
+        'I like owning software beyond the feature itself, including how it is built, released, and kept dependable in real environments.',
+      focus: [
+        'AWS and GCP environments spanning application delivery, supporting infrastructure, and release workflows.',
+        'CI/CD pipelines, containerized services, release automation, and production operations.',
+        'Cost-aware decisions that reuse existing systems when that leads to a better delivery path.',
+      ],
+      tools: [
         'AWS',
-        'Google Cloud',
+        'GCP',
         'Docker',
-        'ECS/Fargate',
-        'Lambda',
         'Terraform',
         'GitHub Actions',
         'Bitbucket Pipelines',
-        'NGINX',
       ],
     },
     {
-      category: 'Architecture & Execution',
-      items: [
-        'Distributed Systems',
-        'CI/CD Automation',
-        'Dependency Injection',
-        'Clean Architecture',
-        'Performance Optimization',
-        'Platform Tooling',
+      title: 'Mobile & Native Integrations',
+      description:
+        'Mobile work is a smaller part of my experience, but it is an area I enjoy and can contribute to when a product needs platform-specific behavior or tighter iOS integration.',
+      focus: [
+        'Selected React Native and Flutter work for MVPs, product experiments, and mobile-facing features.',
+        'Swift bridge layers for iOS-specific flows, background execution, and native integrations when framework-level solutions are not enough.',
+        'A useful complementary strength for web and backend-heavy products that also need Apple ecosystem support.',
       ],
+      tools: ['React Native', 'Flutter', 'Swift', 'iOS', 'Native Integrations'],
     },
   ]
 
-  return { experiences, skills }
+  return { experiences, capabilities }
 }

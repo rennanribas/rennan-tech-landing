@@ -1,4 +1,4 @@
-import { MdEmail, MdArrowForward } from 'react-icons/md'
+import { MdEmail } from 'react-icons/md'
 import { FaGithub, FaLinkedin } from 'react-icons/fa'
 import { motion, useScroll, useTransform } from 'motion/react'
 
@@ -60,44 +60,6 @@ export function Hero() {
             in TypeScript, React, and cloud-native technologies. Delivering
             scalable systems that drive business growth.
           </motion.p>
-
-          <motion.div
-            className='flex flex-col sm:flex-row items-center justify-center gap-4 mb-8'
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.8, duration: 0.6 }}
-          >
-            <motion.a
-              whileHover={{
-                scale: 1.05,
-                y: -3,
-                boxShadow: '0 20px 40px rgba(0,0,0,0.15)',
-              }}
-              whileTap={{ scale: 0.95 }}
-              href='/contact'
-              className='group relative bg-primary text-primary-foreground font-semibold py-3 px-6 sm:py-4 sm:px-10 rounded-xl sm:rounded-2xl overflow-hidden transition-all duration-500 flex items-center gap-2 sm:gap-3 shadow-xl hover:shadow-2xl w-full sm:w-auto justify-center'
-            >
-              <div className='absolute inset-0 bg-gradient-to-r from-primary to-primary/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300' />
-              <span className='relative z-10'>Let's Collaborate</span>
-              <MdArrowForward
-                size={20}
-                className='relative z-10 group-hover:translate-x-1 transition-transform duration-300'
-              />
-            </motion.a>
-
-            <motion.a
-              whileHover={{
-                scale: 1.05,
-                y: -3,
-                backgroundColor: 'rgba(255,255,255,0.1)',
-              }}
-              whileTap={{ scale: 0.95 }}
-              href='/about'
-              className='inline-flex items-center gap-2 sm:gap-3 bg-transparent border-2 border-border/30 hover:border-primary/50 text-foreground px-6 sm:px-10 py-3 sm:py-4 rounded-xl sm:rounded-2xl font-semibold transition-all duration-500 backdrop-blur-sm hover:backdrop-blur-md w-full sm:w-auto justify-center'
-            >
-              View Portfolio
-            </motion.a>
-          </motion.div>
 
           <motion.div
             initial={{ opacity: 0, y: 30 }}

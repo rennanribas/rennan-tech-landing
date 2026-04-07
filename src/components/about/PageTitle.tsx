@@ -7,13 +7,11 @@ export function PageTitle() {
         About
       </p>
       <h1 className='text-4xl sm:text-5xl md:text-6xl font-bold text-foreground mb-4 tracking-tight'>
-        Backend depth, product context, and pragmatic delivery.
+        Senior Software Engineer.
       </h1>
-      <p className='text-lg sm:text-xl text-foreground/80 max-w-4xl mx-auto leading-relaxed'>
-        I work across services, web applications, and delivery workflows,
-        helping teams ship reliable software without adding unnecessary
-        complexity. Most of my recent work centers on TypeScript, Node.js,
-        NestJS, React, PostgreSQL, and AWS.
+      <p className='text-lg sm:text-xl text-foreground/80 max-w-3xl mx-auto leading-relaxed'>
+        10+ years shipping end-to-end products across backend, web, and mobile,
+        from architecture to delivery.
       </p>
     </section>
   )

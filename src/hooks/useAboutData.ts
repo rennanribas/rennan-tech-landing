@@ -21,11 +21,12 @@ export function useAboutData() {
       company: 'Trio (StudyLog)',
       period: 'Oct 2024 - Present',
       summary:
-        'Owning backend and application architecture in a multi-version product environment, working across NestJS, GraphQL, Next.js, and React.',
+        'Own backend architecture for production platforms in scientific research and healthcare, leading delivery across NestJS, GraphQL, and AWS, with a focus on scalable APIs, data-intensive workflows, and AI-assisted product features.',
       highlights: [
-        'Build and maintain services backed by Sequelize, Prisma, Redis, and AWS.',
-        'Define backend contracts, service boundaries, and integration patterns that keep product changes manageable.',
-        'Develop asynchronous and export flows with BullMQ and Docker while contributing to GitHub Actions and database versioning.',
+        'Architect and ship backend services on NestJS, GraphQL, Redis, and AWS supporting two production systems.',
+        'Define service boundaries, repository abstractions, and clean architecture patterns that keep a multi-version codebase maintainable.',
+        'Design asynchronous processing pipelines and export workflows with BullMQ, Docker, and GitHub Actions.',
+        'Collaborate with stakeholders to translate business requirements into system design decisions and delivery roadmaps.',
       ],
       stack: [
         'TypeScript',
@@ -35,7 +36,10 @@ export function useAboutData() {
         'React',
         'Redis',
         'Prisma',
+        'PostgreSQL',
         'AWS',
+        'BullMQ',
+        'Docker',
       ],
     },
     {
@@ -43,24 +47,29 @@ export function useAboutData() {
       company: 'Independent Consulting Engagements',
       period: 'Aug 2023 - Sep 2024',
       summary:
-        'Delivered short-term product and platform engagements across mobile applications, backend services, and cloud operations, with most of the work centered on iOS-first, data-heavy experiences.',
+        'Designed and built a data-intensive platform integrating mobile applications, backend services, and AI-assisted features, working directly with founders on technical direction and MVP definition.',
       highlights: [
-        'Built React Native and Flutter applications from early product concepts into testable MVPs, translating Figma designs into flows used by internal and external testers.',
-        'Designed native iOS bridge layers in Swift to support background health-data collection, secure transport, queue-based processing, and reliable synchronization with backend services.',
-        'Owned architecture and operations across legacy and new systems, spanning NestJS APIs, PostgreSQL and TimescaleDB, Redis queues, AWS delivery pipelines, Docker, ECR, EC2, Terraform, and App Store release workflows.',
-        'Worked closely with founders on product direction, investor-facing iterations, and hiring, including technical interviews and coordination with data specialists and engineers.',
+        'Developed an LLM-based assistant using locally hosted models to deliver contextual insights grounded in structured user data.',
+        'Architected ingestion and processing pipelines with queue-based workers (BullMQ, Redis) for high-throughput workloads.',
+        'Built time-series data systems on PostgreSQL and TimescaleDB for efficient querying and analytics.',
+        'Owned cloud infrastructure on AWS (ECS, Fargate, Lambda) with Terraform, Docker, and CI/CD pipelines.',
+        'Delivered React Native, Flutter, and native iOS (Swift) applications with secure background data collection.',
       ],
       stack: [
-        'React Native',
-        'Flutter',
-        'iOS',
         'TypeScript',
-        'Swift',
         'NestJS',
+        'LLM',
+        'RAG',
         'PostgreSQL',
         'TimescaleDB',
+        'Redis',
+        'BullMQ',
         'AWS',
         'Terraform',
+        'Docker',
+        'React Native',
+        'Flutter',
+        'Swift',
       ],
     },
     {
@@ -68,10 +77,10 @@ export function useAboutData() {
       company: 'Intive',
       period: 'Nov 2021 - Jun 2023',
       summary:
-        'Worked across media and fintech initiatives for distributed product teams, balancing backend delivery with frontend execution.',
+        'Delivered backend services and web applications across media and fintech initiatives for distributed product teams.',
       highlights: [
-        'Built NestJS services for a live-streaming platform, connecting legacy scheduling workflows to a newer microservice architecture.',
-        'Contributed to a U.S. tech banking MVP by delivering React and TypeScript web interfaces.',
+        'Built NestJS microservices for a live-streaming platform, bridging legacy workflows with an event-driven architecture on GCP.',
+        'Delivered React and TypeScript web interfaces for a U.S. tech banking MVP.',
       ],
       stack: [
         'NestJS',
@@ -87,11 +96,10 @@ export function useAboutData() {
       company: 'Indie Campers',
       period: 'Mar 2021 - Oct 2021',
       summary:
-        'Worked deeply in the client area of a European camper-rental platform while helping shape the first marketplace capabilities that expanded the product beyond a purely B2C model.',
+        'Built frontend features for a high-traffic European camper-rental marketplace using Vue, Nuxt, and TypeScript.',
       highlights: [
-        'Delivered account-area features in Nuxt.js, Vue.js, and TypeScript, translating product and operational requirements into production-ready flows.',
-        'Improved day-to-day engineering workflow with stronger linting, pre-commit hooks, and faster local build and hot-reload feedback loops.',
-        'Contributed end-to-end to marketplace MVP implementation, handling frontend delivery alongside backend service, controller, and schema work needed to support new rental flows.',
+        'Delivered account-area features in Nuxt.js, Vue.js, and TypeScript, shipping production-ready flows.',
+        'Contributed end-to-end to the marketplace MVP, handling frontend alongside backend service and schema work.',
       ],
       stack: [
         'Vue.js',
@@ -106,10 +114,10 @@ export function useAboutData() {
       company: 'Kaffa Mobile',
       period: 'Mar 2020 - Mar 2021',
       summary:
-        'Worked across backend and frontend layers to establish secure access flows and API orchestration with Node.js, Express, and React.',
+        'Designed and implemented an API gateway and authentication systems using Node.js, Express, and JWT, establishing secure access flows and service orchestration across backend and frontend layers.',
       highlights: [
-        'Built an API gateway that centralized request handling and service access.',
-        'Implemented JWT-based authentication flows across the application and backend APIs.',
+        'Built an API gateway that centralized request handling, routing, and service access across backend APIs.',
+        'Implemented JWT-based authentication and authorization flows across the application and backend services.',
       ],
       stack: ['Node.js', 'Express', 'React', 'JWT', 'API Gateway'],
     },
@@ -118,10 +126,10 @@ export function useAboutData() {
       company: 'Bten US',
       period: 'May 2019 - Feb 2020',
       summary:
-        'Built customer-facing SaaS features while implementing Node.js and Express APIs backed by Sequelize and TypeScript.',
+        'Developed backend services and REST APIs for SaaS platforms using Node.js, Express, Sequelize, and TypeScript, while delivering customer-facing product features across the web stack.',
       highlights: [
-        'Delivered product features across customer experience flows and backend services.',
-        'Implemented API and data-access layers with Express, Sequelize, and TypeScript.',
+        'Implemented backend services and data-access layers with Express, Sequelize, and TypeScript.',
+        'Delivered product features across customer experience flows, integrating frontend interfaces with backend APIs.',
       ],
       stack: [
         'Node.js',
@@ -136,24 +144,24 @@ export function useAboutData() {
       company: 'CETEC Educacional',
       period: 'Jan 2013 - Dec 2017',
       summary:
-        'Built educational software and a teacher portal, working across web interfaces and application features used in academic workflows.',
+        'Built educational platforms and internal systems using C#, ASP.NET, and JavaScript, contributing to web interfaces and application features used across academic workflows.',
       highlights: [
-        'Developed education-focused product features in C#, JavaScript, HTML, and CSS.',
-        'Built a teacher portal with ASP.NET, contributing to the web layer used by instructors and administrators.',
+        'Developed education-focused product features across backend and frontend layers with C#, ASP.NET, JavaScript, HTML, and CSS.',
+        'Built a teacher portal used by instructors and administrators, delivering the web layer and supporting academic operations.',
       ],
-      stack: ['C#', 'JavaScript', 'ASP.NET', 'HTML', 'CSS'],
+      stack: ['C#', 'ASP.NET', 'JavaScript', 'HTML', 'CSS'],
     },
   ]
 
   const capabilities: Capability[] = [
     {
-      title: 'Backend Systems & APIs',
+      title: 'Backend Architecture & Distributed Systems',
       description:
-        'Most of my recent work centers on service design, API contracts, integration-heavy features, and asynchronous workflows that need to stay maintainable as products evolve.',
+        'Most of my recent work is in service design, API contracts, and asynchronous workflows that need to stay reliable and maintainable as products scale.',
       focus: [
-        'Node.js and NestJS services built for both product teams and platform-oriented environments.',
-        'REST and GraphQL APIs, queue-backed processing, exporter flows, and integration layers.',
-        'Relational and time-series data handled with PostgreSQL, Redis, Prisma, Sequelize, and TypeORM.',
+        'Node.js and NestJS services following clean architecture, dependency injection, and clear service boundaries.',
+        'REST and GraphQL APIs, queue-based processing with BullMQ and Redis, exporter flows, and integration layers.',
+        'Relational and time-series data with PostgreSQL, TimescaleDB, Redis, Prisma, Sequelize, and TypeORM.',
       ],
       tools: [
         'TypeScript',
@@ -161,28 +169,37 @@ export function useAboutData() {
         'NestJS',
         'GraphQL',
         'PostgreSQL',
+        'TimescaleDB',
         'Redis',
+        'BullMQ',
       ],
     },
     {
-      title: 'Web Product Engineering',
+      title: 'AI, LLMs & Data-Intensive Systems',
       description:
-        'A large part of my experience is in web products, especially React-centered applications that need to move from requirements and designs into reliable, maintainable interfaces.',
+        'I build AI-assisted features and data-driven systems grounded in real product context, connecting LLM-based components to structured data and production backends.',
       focus: [
-        'Production features and MVPs across React, Next.js, Vue, and Nuxt applications.',
-        'Close collaboration with founders, product stakeholders, designers, and testers.',
-        'Frontend architecture and implementation choices that keep web applications maintainable as they grow.',
+        'LLM integrations using locally hosted and hosted models, prompt engineering, and RAG-style retrieval over structured user data.',
+        'Ingestion and processing pipelines for high-throughput workloads, combining queue-based workers with time-series storage.',
+        'AI-assisted application design decisions that keep latency, cost, and data boundaries under control.',
       ],
-      tools: ['React', 'Next.js', 'Vue.js', 'Nuxt.js', 'TypeScript'],
+      tools: [
+        'LLM',
+        'RAG',
+        'Embeddings',
+        'PostgreSQL',
+        'TimescaleDB',
+        'BullMQ',
+      ],
     },
     {
-      title: 'Cloud & Delivery',
+      title: 'Cloud & DevOps',
       description:
-        'I like owning software beyond the feature itself, including how it is built, released, and kept dependable in real environments.',
+        'I own software beyond the feature itself, including how it is built, released, and kept dependable in real environments.',
       focus: [
-        'AWS and GCP environments spanning application delivery, supporting infrastructure, and release workflows.',
-        'CI/CD pipelines, containerized services, release automation, and production operations.',
-        'Cost-aware decisions that reuse existing systems when that leads to a better delivery path.',
+        'AWS (ECS, Fargate, Lambda, ECR, EC2) and GCP environments for application delivery and supporting infrastructure.',
+        'CI/CD pipelines with GitHub Actions and Bitbucket Pipelines, containerized services, release automation, and production operations.',
+        'Infrastructure as Code with Terraform and cost-aware decisions that reuse existing systems when it leads to a better delivery path.',
       ],
       tools: [
         'AWS',
@@ -194,15 +211,23 @@ export function useAboutData() {
       ],
     },
     {
-      title: 'Mobile & Native Integrations',
+      title: 'Web & Mobile Product Engineering',
       description:
-        'Mobile work is a smaller part of my experience, but it is an area I enjoy and can contribute to when a product needs platform-specific behavior or tighter iOS integration.',
+        'Extensive experience delivering React-centered web applications and selective mobile work, moving products from requirements and designs into reliable, maintainable interfaces.',
       focus: [
-        'Selected React Native and Flutter work for MVPs, product experiments, and mobile-facing features.',
+        'Production features and MVPs across React, Next.js, Vue, and Nuxt, in close collaboration with founders, product, and design.',
+        'React Native and Flutter applications for MVPs and mobile-facing features.',
         'Swift bridge layers for iOS-specific flows, background execution, and native integrations when framework-level solutions are not enough.',
-        'A useful complementary strength for web and backend-heavy products that also need Apple ecosystem support.',
       ],
-      tools: ['React Native', 'Flutter', 'Swift', 'iOS', 'Native Integrations'],
+      tools: [
+        'React',
+        'Next.js',
+        'Vue.js',
+        'Nuxt.js',
+        'React Native',
+        'Flutter',
+        'Swift',
+      ],
     },
   ]
 

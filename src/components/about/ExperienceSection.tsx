@@ -1,4 +1,3 @@
-import { Calendar } from 'lucide-react'
 import type { Experience } from '../../hooks/useAboutData'
 
 interface ExperienceSectionProps {
@@ -7,24 +6,7 @@ interface ExperienceSectionProps {
 
 export function ExperienceSection({ experiences }: ExperienceSectionProps) {
   return (
-    <section className='space-y-8'>
-      <div className='max-w-3xl'>
-        <p className='text-sm font-semibold uppercase tracking-[0.24em] text-primary/70 mb-3'>
-          Selected Work
-        </p>
-        <h2 className='text-3xl font-bold text-foreground mb-4 flex items-center gap-3'>
-          <Calendar className='text-primary' />
-          Building products, platforms, and delivery workflows
-        </h2>
-        <p className='text-lg text-foreground/75 leading-relaxed'>
-          The recent arc of my work has been backend-heavy, but rarely isolated
-          to backend alone. I usually work across services, APIs, delivery
-          pipelines, and product-facing applications to help teams ship software
-          that stays maintainable as it grows.
-        </p>
-      </div>
-
-      <div className='space-y-6'>
+    <section className='space-y-6'>
         {experiences.map((experience) => (
           <article
             key={`${experience.company}-${experience.period}`}
@@ -77,7 +59,6 @@ export function ExperienceSection({ experiences }: ExperienceSectionProps) {
             </div>
           </article>
         ))}
-      </div>
     </section>
   )
 }

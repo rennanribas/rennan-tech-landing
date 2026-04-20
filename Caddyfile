@@ -1,3 +1,7 @@
 rennan.me, www.rennan.me, rennan.online, www.rennan.online, rennan.site, www.rennan.site {
   reverse_proxy landing:5173
 }
+
+api.setpulse.app {
+  reverse_proxy nestjs:3000
+}

@@ -1,14 +1,15 @@
 export interface HeaderItem {
-  to: string
-  label: string
+  to: string;
+  label: string;
 }
 
 export const useHeader = (): { navItems: HeaderItem[] } => {
   const navItems: HeaderItem[] = [
-    { to: '/', label: 'Home' },
-    { to: '/about', label: 'About' },
-    { to: '/contact', label: 'Contact' },
-  ]
+    { to: "/", label: "Home" },
+    { to: "/about", label: "About" },
+    { to: "/contact", label: "Contact" },
+    { to: "/leetcode", label: "LeetCode" },
+  ];
 
-  return { navItems }
-}
+  return { navItems };
+};

@@ -9,6 +9,7 @@ import Home from "./pages/Home";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 import EventLoopVisualizerBase from "./pages/LeetCode";
+import Provinces from "./pages/Provinces";
 
 const routes: RouteObject[] = [
   {
@@ -19,6 +20,7 @@ const routes: RouteObject[] = [
       { path: "about", element: <About /> },
       { path: "contact", element: <Contact /> },
       { path: "leetcode", element: <EventLoopVisualizerBase /> },
+      { path: "provinces", element: <Provinces /> },
     ],
   },
 ];

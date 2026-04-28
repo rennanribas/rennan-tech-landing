@@ -15,6 +15,10 @@ export const useHeader = (): { navItems: HeaderItem[] } => {
       children: [
         { to: "/leetcode", label: "Overview" },
         { to: "/leetcode/provinces", label: "Number of Provinces" },
+        {
+          to: "/leetcode/smallest-missing-positive",
+          label: "Smallest Missing Positive",
+        },
       ],
     },
   ];

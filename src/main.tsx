@@ -8,6 +8,7 @@ import Contact from "./pages/Contact";
 import LeetCode from "./pages/LeetCode";
 import Provinces from "./pages/Provinces";
 import "./index.css";
+import SmallestMissingPositive from "./pages/SmallestMissingPositive";
 
 const rootElement = document.getElementById("root");
 if (!rootElement) throw new Error('Root element with id="root" not found.');
@@ -22,6 +23,10 @@ createRoot(rootElement).render(
           <Route path="contact" element={<Contact />} />
           <Route path="leetcode" element={<LeetCode />} />
           <Route path="leetcode/provinces" element={<Provinces />} />
+          <Route
+            path="leetcode/smallest-missing-positive"
+            element={<SmallestMissingPositive />}
+          />
         </Route>
       </Routes>
     </BrowserRouter>

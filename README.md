@@ -1,4 +1,4 @@
-# Rennan Tech
+# rennan.me
 
 Professional portfolio website built with React 19.1, Vite 6, React Router 7, and Tailwind 4 featuring Server-Side Rendering.
 
@@ -33,7 +33,7 @@ Professional portfolio website built with React 19.1, Vite 6, React Router 7, an
 
 Following official Vite 6 SSR patterns from `https://vite.dev/guide/ssr`:
 
-```
+```text
 src/
 ├── entry-client.tsx  # Client-side hydration
 ├── entry-server.tsx  # Server-side rendering
@@ -118,7 +118,7 @@ dist/
 NODE_ENV=production node server.js
 
 # Or with PM2
-pm2 start server.js --name "rennan-tech"
+pm2 start server.js --name "rennan-me"
 ```
 
 ## Key Features
@@ -146,7 +146,7 @@ pm2 start server.js --name "rennan-tech"
 
 ## Project Structure
 
-```
+```text
 src/
 ├── actions/           # React 19.1 Actions
 ├── components/        # UI components

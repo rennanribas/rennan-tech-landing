@@ -18,7 +18,7 @@ services:
 
   landing:
     image: ${ECR_REPOSITORY_URI}
-    container_name: rennan-tech-landing
+    container_name: rennan-me-landing
     restart: unless-stopped
     networks:
       - app-network

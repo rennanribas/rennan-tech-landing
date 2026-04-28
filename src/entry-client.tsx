@@ -5,9 +5,10 @@ import './index.css'
 function startApp(): void {
   const rootElement = document.getElementById('root')
   if (!rootElement) throw new Error('Root element with id="root" not found.')
-  try {
+  const hasSSRContent = rootElement.firstElementChild !== null
+  if (hasSSRContent) {
     hydrateRoot(rootElement, <Router />)
-  } catch {
+  } else {
     createRoot(rootElement).render(<Router />)
   }
 }

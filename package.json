@@ -9,8 +9,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "deploy:pull": "docker compose pull landing",
-    "deploy:up": "docker compose up -d --no-deps landing",
-    "deploy:refresh": "pnpm deploy:pull && pnpm deploy:up"
+    "deploy:up": "docker compose up -d --force-recreate landing"
   },
   "dependencies": {
     "lucide-react": "^0.522.0",

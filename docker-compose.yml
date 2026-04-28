@@ -18,7 +18,7 @@ services:
       - app-network
 
   landing:
-    image: ${ECR_REPOSITORY_URI}:${LANDING_IMAGE_TAG:-latest}
+    image: ${ECR_REPOSITORY_URI}
     container_name: rennan-tech-landing
     restart: unless-stopped
     pull_policy: always

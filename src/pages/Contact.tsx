@@ -1,18 +1,19 @@
-import { ContactHeader } from '../components/contact/ContactHeader'
-import { ContactDetails } from '../components/contact/ContactDetails'
-import { ContactForm } from '../components/contact/ContactForm'
+import { motion } from "motion/react";
+import { useContactData } from "../hooks/useContactData";
+import { ContactHeader } from "../components/contact/ContactHeader";
+import { ContactDetails } from "../components/contact/ContactDetails";
 
 export default function Contact() {
+  const { methods } = useContactData();
+
   return (
-    <div className='space-y-8 sm:space-y-12'>
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+    >
       <ContactHeader />
-      <div className='flex justify-center'>
-        <div className='w-full max-w-2xl'>
-          <ContactDetails />
-        </div>
-      </div>
-      {/* Contact form is temporarily disabled */}
-      <ContactForm />
-    </div>
-  )
+      <ContactDetails methods={methods} />
+    </motion.div>
+  );
 }

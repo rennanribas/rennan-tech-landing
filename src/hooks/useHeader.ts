@@ -1,6 +1,7 @@
 export interface HeaderItem {
   to: string;
   label: string;
+  children?: HeaderItem[];
 }
 
 export const useHeader = (): { navItems: HeaderItem[] } => {
@@ -8,7 +9,19 @@ export const useHeader = (): { navItems: HeaderItem[] } => {
     { to: "/", label: "Home" },
     { to: "/about", label: "About" },
     { to: "/contact", label: "Contact" },
-    { to: "/leetcode", label: "LeetCode" },
+    {
+      to: "/leetcode",
+      label: "LeetCode",
+      children: [
+        { to: "/leetcode", label: "Overview" },
+        { to: "/leetcode/sorting", label: "Sorting (Bubble vs Insertion)" },
+        { to: "/provinces", label: "Number of Provinces" },
+        {
+          to: "/smallest-missing-positive",
+          label: "Smallest Missing Positive",
+        },
+      ],
+    },
   ];
 
   return { navItems };

@@ -1,9 +1,127 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { NavLink } from 'react-router-dom'
-import { Menu, X } from 'lucide-react'
+import { Menu, X, ChevronDown } from 'lucide-react'
 import { motion, AnimatePresence } from 'motion/react'
 import { useHeader } from '../hooks/useHeader'
 import { ThemeToggle } from './ThemeToggle'
+
+type NavChild = { to: string; label: string }
+
+function DesktopNavItem({
+  to,
+  label,
+  children,
+  index,
+  linkClassName,
+}: {
+  to: string
+  label: string
+  children?: NavChild[]
+  index: number
+  linkClassName: ({ isActive }: { isActive: boolean }) => string
+}) {
+  const [open, setOpen] = useState(false)
+  const closeTimer = useRef<number | null>(null)
+
+  const cancelClose = () => {
+    if (closeTimer.current !== null) {
+      window.clearTimeout(closeTimer.current)
+      closeTimer.current = null
+    }
+  }
+
+  const scheduleClose = () => {
+    cancelClose()
+    closeTimer.current = window.setTimeout(() => setOpen(false), 120)
+  }
+
+  useEffect(() => () => cancelClose(), [])
+
+  return (
+    <motion.div
+      className='relative'
+      initial={{ opacity: 0, y: -20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: index * 0.1 + 0.3 }}
+      onMouseEnter={() => {
+        if (children) {
+          cancelClose()
+          setOpen(true)
+        }
+      }}
+      onMouseLeave={() => {
+        if (children) scheduleClose()
+      }}
+    >
+      <NavLink to={to} className={linkClassName}>
+        {({ isActive }) => (
+          <>
+            <span className='relative z-10 inline-flex items-center gap-1'>
+              {label}
+              {children && (
+                <ChevronDown
+                  size={14}
+                  className={`transition-transform duration-200 ${
+                    open ? 'rotate-180' : ''
+                  }`}
+                />
+              )}
+            </span>
+            {isActive && (
+              <motion.div
+                className='absolute inset-0 glass-highlight opacity-50 rounded-xl'
+                layoutId='activeTab'
+                transition={{
+                  type: 'spring',
+                  stiffness: 300,
+                  damping: 30,
+                }}
+              />
+            )}
+            <motion.div
+              className='absolute inset-0 glass-highlight opacity-0 group-hover:opacity-30 rounded-xl transition-opacity duration-300'
+              whileHover={{ opacity: 0.3 }}
+            />
+          </>
+        )}
+      </NavLink>
+
+      {children && (
+        <AnimatePresence>
+          {open && (
+            <motion.div
+              className='absolute left-1/2 top-full z-50 -translate-x-1/2 pt-2'
+              initial={{ opacity: 0, y: -6 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -6 }}
+              transition={{ duration: 0.15 }}
+            >
+              <div className='min-w-[260px] rounded-xl border border-border/30 bg-background/90 p-2 shadow-xl backdrop-blur-xl'>
+                {children.map((child) => (
+                  <NavLink
+                    key={child.to}
+                    to={child.to}
+                    end
+                    onClick={() => setOpen(false)}
+                    className={({ isActive }) =>
+                      `block rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
+                        isActive
+                          ? 'bg-primary/10 text-primary'
+                          : 'text-foreground/80 hover:bg-foreground/5 hover:text-foreground'
+                      }`
+                    }
+                  >
+                    {child.label}
+                  </NavLink>
+                ))}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      )}
+    </motion.div>
+  )
+}
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -58,36 +176,14 @@ export default function Header() {
           <div className='hidden lg:flex items-center space-x-8'>
             <div className='flex items-center space-x-1'>
               {navItems.map((item, index) => (
-                <motion.div
+                <DesktopNavItem
                   key={item.to}
-                  initial={{ opacity: 0, y: -20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.1 + 0.3 }}
-                >
-                  <NavLink to={item.to} className={linkClassName}>
-                    {({ isActive }) => (
-                      <>
-                        <span className='relative z-10'>{item.label}</span>
-                        {isActive && (
-                          <motion.div
-                            className='absolute inset-0 glass-highlight opacity-50 rounded-xl'
-                            layoutId='activeTab'
-                            transition={{
-                              type: 'spring',
-                              stiffness: 300,
-                              damping: 30,
-                            }}
-                          />
-                        )}
-                        {/* Subtle glass reflection on hover */}
-                        <motion.div
-                          className='absolute inset-0 glass-highlight opacity-0 group-hover:opacity-30 rounded-xl transition-opacity duration-300'
-                          whileHover={{ opacity: 0.3 }}
-                        />
-                      </>
-                    )}
-                  </NavLink>
-                </motion.div>
+                  to={item.to}
+                  label={item.label}
+                  children={item.children}
+                  index={index}
+                  linkClassName={linkClassName}
+                />
               ))}
             </div>
             <motion.div
@@ -158,6 +254,7 @@ export default function Header() {
                     >
                       <NavLink
                         to={item.to}
+                        end
                         onClick={() => setIsMenuOpen(false)}
                         className={mobileLinkClassName}
                       >
@@ -170,6 +267,27 @@ export default function Header() {
                           </>
                         )}
                       </NavLink>
+                      {item.children && (
+                        <div className='ml-3 mt-1 flex flex-col gap-1 border-l border-border/20 pl-3'>
+                          {item.children.map((child) => (
+                            <NavLink
+                              key={child.to}
+                              to={child.to}
+                              end
+                              onClick={() => setIsMenuOpen(false)}
+                              className={({ isActive }) =>
+                                `rounded-lg px-3 py-2 text-sm transition-colors ${
+                                  isActive
+                                    ? 'bg-primary/10 text-primary'
+                                    : 'text-foreground/70 hover:bg-foreground/5 hover:text-foreground'
+                                }`
+                              }
+                            >
+                              {child.label}
+                            </NavLink>
+                          ))}
+                        </div>
+                      )}
                     </motion.div>
                   ))}
                   <motion.div

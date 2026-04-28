@@ -1,7 +1,11 @@
 rennan.me, www.rennan.me, rennan.online, www.rennan.online, rennan.site, www.rennan.site {
-  reverse_proxy landing:5173
+  reverse_proxy landing:80
 }
 
 api.setpulse.app {
   reverse_proxy nestjs:3000
+}
+
+imaculada.site, www.imaculada.site {
+  reverse_proxy paroquia-jacarei:80
 }

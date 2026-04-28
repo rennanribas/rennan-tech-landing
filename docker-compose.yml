@@ -13,13 +13,15 @@ services:
     depends_on:
       - landing
       - nestjs
+      - paroquia-jacarei
     networks:
       - app-network
 
   landing:
-    image: ${ECR_REPOSITORY_URI}
-    container_name: rennan-me-landing
+    image: ${ECR_REPOSITORY_URI}:${LANDING_IMAGE_TAG:-latest}
+    container_name: rennan-tech-landing
     restart: unless-stopped
+    pull_policy: always
     networks:
       - app-network
 
@@ -45,6 +47,13 @@ services:
       DATABASE_URL: ${DATABASE_URL:-postgresql://trackset:trackset@postgres:5432/trackset?schema=public}
     depends_on:
       - postgres
+    networks:
+      - app-network
+
+  paroquia-jacarei:
+    image: paroquia-jacarei:local
+    container_name: paroquia-jacarei
+    restart: unless-stopped
     networks:
       - app-network
 

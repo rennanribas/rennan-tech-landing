@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import {
   Play,
   Pause,
@@ -49,7 +49,11 @@ function buildBubbleSortSnapshots(input: number[]): Snapshot[] {
   let comparisons = 0;
   let swaps = 0;
 
-  const makeStates = (sortedFrom: number, j?: number, mode?: CellState): CellState[] =>
+  const makeStates = (
+    sortedFrom: number,
+    j?: number,
+    mode?: CellState,
+  ): CellState[] =>
     arr.map((_, idx) => {
       if (idx >= sortedFrom) return "sorted";
       if (mode && (idx === j || idx === (j ?? -2) + 1)) return mode;
@@ -251,7 +255,10 @@ function buildInsertionSortSnapshots(input: number[]): Snapshot[] {
   return snapshots;
 }
 
-const CELL_PALETTE: Record<CellState, { bg: string; border: string; text: string }> = {
+const CELL_PALETTE: Record<
+  CellState,
+  { bg: string; border: string; text: string }
+> = {
   idle: {
     bg: "bg-slate-800/70",
     border: "border-white/10",

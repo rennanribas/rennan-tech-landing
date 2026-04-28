@@ -1,34 +1,18 @@
-# --- Base Stage --- 
-FROM node:22-alpine AS base
+FROM node:22-alpine AS builder
 WORKDIR /app
-# Install pnpm
-RUN npm install -g pnpm
+RUN corepack enable
+
 COPY package.json pnpm-lock.yaml ./
-
-# --- Development Stage ---
-FROM base AS development
-RUN pnpm install
-COPY . .
-EXPOSE 5173
-CMD ["pnpm", "run", "dev:ssr"]
-
-# --- Build Stage ---
-FROM base AS builder
 RUN pnpm install --frozen-lockfile
+
 COPY . .
 RUN pnpm run build
 
-# --- SSR Server Stage ---
-FROM node:22-alpine AS ssr
-WORKDIR /app
-RUN npm install -g pnpm
+FROM caddy:2.10.2-alpine AS runtime
+WORKDIR /srv
 
-COPY --from=builder /app/package.json /app/pnpm-lock.yaml ./
-COPY --from=builder /app/dist ./dist
-COPY --from=builder /app/server.ts ./
-RUN pnpm install --frozen-lockfile
+COPY Caddyfile.landing /etc/caddy/Caddyfile
+COPY --from=builder /app/dist /srv
 
-ENV NODE_ENV=production
-EXPOSE 5173
-CMD ["pnpm", "exec", "tsx", "server.ts"]
+EXPOSE 80
     

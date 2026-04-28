@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "motion/react";
 import {
   Play,
   Pause,
@@ -116,7 +116,9 @@ function buildSetSnapshots(input: number[]): SetSnapshot[] {
     if (found) {
       snapshots.push({
         array: [...arr],
-        cellStates: arr.map((_, idx) => (idx === matchIdx ? "checking" : "idle")),
+        cellStates: arr.map((_, idx) =>
+          idx === matchIdx ? "checking" : "idle",
+        ),
         setMembers: [...seen].sort((a, b) => a - b),
         probing: k,
         found: true,
@@ -239,7 +241,9 @@ function buildInPlaceSnapshots(input: number[]): InPlaceSnapshot[] {
 
   snapshots.push({
     array: [...arr],
-    cellStates: arr.map((v) => (v < 0 ? "marked" : v > n ? "out-of-range" : "idle")),
+    cellStates: arr.map((v) =>
+      v < 0 ? "marked" : v > n ? "out-of-range" : "idle",
+    ),
     pointer: null,
     targetIndex: null,
     answer: null,
@@ -302,7 +306,10 @@ function buildInPlaceSnapshots(input: number[]): InPlaceSnapshot[] {
   return snapshots;
 }
 
-const CELL_PALETTE: Record<CellState, { bg: string; border: string; text: string }> = {
+const CELL_PALETTE: Record<
+  CellState,
+  { bg: string; border: string; text: string }
+> = {
   idle: {
     bg: "bg-slate-800/70",
     border: "border-white/10",
@@ -447,7 +454,13 @@ function Controls({
   );
 }
 
-function SetView({ members, probing }: { members: number[]; probing: number | null }) {
+function SetView({
+  members,
+  probing,
+}: {
+  members: number[];
+  probing: number | null;
+}) {
   return (
     <div className="rounded-xl border border-white/10 bg-slate-950/40 p-3">
       <div className="mb-2 flex items-center justify-between">
@@ -568,7 +581,8 @@ function SetVisualizer({ snapshots }: { snapshots: SetSnapshot[] }) {
             Set lookup — O(n) time, O(n) space
           </h2>
           <p className="text-xs text-slate-400 sm:text-sm">
-            Dump everything into a Set, then probe 1, 2, 3 ... until one is missing.
+            Dump everything into a Set, then probe 1, 2, 3 ... until one is
+            missing.
           </p>
         </div>
         <Controls
@@ -592,9 +606,9 @@ function SetVisualizer({ snapshots }: { snapshots: SetSnapshot[] }) {
       </header>
 
       <p className="rounded-lg border border-white/5 bg-slate-950/40 px-3 py-2 text-xs leading-relaxed text-slate-300 sm:text-sm">
-        The answer is always in [1, n+1]. With a Set, &quot;does k exist?&quot; is O(1),
-        so we just walk k upward and stop at the first miss. Simple, but uses
-        O(n) extra memory.
+        The answer is always in [1, n+1]. With a Set, &quot;does k exist?&quot;
+        is O(1), so we just walk k upward and stop at the first miss. Simple,
+        but uses O(n) extra memory.
       </p>
 
       <div>
@@ -649,9 +663,7 @@ function SetVisualizer({ snapshots }: { snapshots: SetSnapshot[] }) {
         <div className="flex gap-3 font-mono text-[11px] text-slate-400">
           <span>
             answer:{" "}
-            <span className="text-emerald-300">
-              {current.answer ?? "—"}
-            </span>
+            <span className="text-emerald-300">{current.answer ?? "—"}</span>
           </span>
         </div>
       </div>
@@ -787,9 +799,7 @@ function InPlaceVisualizer({ snapshots }: { snapshots: InPlaceSnapshot[] }) {
         <div className="flex gap-3 font-mono text-[11px] text-slate-400">
           <span>
             answer:{" "}
-            <span className="text-emerald-300">
-              {current.answer ?? "—"}
-            </span>
+            <span className="text-emerald-300">{current.answer ?? "—"}</span>
           </span>
         </div>
       </div>
@@ -803,8 +813,9 @@ function clampValue(n: number): number {
 }
 
 function randomArray(size: number): number[] {
-  return Array.from({ length: size }, () =>
-    Math.floor(Math.random() * (MAX_VALUE - MIN_VALUE + 1)) + MIN_VALUE,
+  return Array.from(
+    { length: size },
+    () => Math.floor(Math.random() * (MAX_VALUE - MIN_VALUE + 1)) + MIN_VALUE,
   );
 }
 
@@ -819,8 +830,10 @@ function InputEditor({
     const clamped = Math.max(MIN_SIZE, Math.min(MAX_SIZE, size));
     if (clamped === input.length) return;
     if (clamped > input.length) {
-      const extra = Array.from({ length: clamped - input.length }, () =>
-        Math.floor(Math.random() * (MAX_VALUE - MIN_VALUE + 1)) + MIN_VALUE,
+      const extra = Array.from(
+        { length: clamped - input.length },
+        () =>
+          Math.floor(Math.random() * (MAX_VALUE - MIN_VALUE + 1)) + MIN_VALUE,
       );
       onChange([...input, ...extra]);
     } else {
@@ -882,24 +895,15 @@ function InputEditor({
             <Shuffle className="h-3.5 w-3.5" />
             Random
           </button>
-          <button
-            onClick={() => onChange([3, 4, -1, 1])}
-            className={btn}
-          >
+          <button onClick={() => onChange([3, 4, -1, 1])} className={btn}>
             <Hash className="h-3.5 w-3.5" />
             Example [3,4,-1,1]
           </button>
-          <button
-            onClick={() => onChange([1, 2, 0])}
-            className={btn}
-          >
+          <button onClick={() => onChange([1, 2, 0])} className={btn}>
             <Hash className="h-3.5 w-3.5" />
             [1,2,0]
           </button>
-          <button
-            onClick={() => onChange([7, 8, 9, 11, 12])}
-            className={btn}
-          >
+          <button onClick={() => onChange([7, 8, 9, 11, 12])} className={btn}>
             <Hash className="h-3.5 w-3.5" />
             All large
           </button>
@@ -908,7 +912,8 @@ function InputEditor({
 
       <div>
         <div className="mb-2 text-[11px] font-semibold uppercase tracking-wider text-slate-400">
-          Values ({MIN_VALUE} to {MAX_VALUE}) — negatives, zeros and duplicates allowed
+          Values ({MIN_VALUE} to {MAX_VALUE}) — negatives, zeros and duplicates
+          allowed
         </div>
         <div className="flex flex-wrap gap-2">
           {input.map((value, index) => (
@@ -938,10 +943,7 @@ function InputEditor({
 export default function SmallestMissingPositive() {
   const [input, setInput] = useState<number[]>(() => [3, 4, -1, 1]);
   const setSnapshots = useMemo(() => buildSetSnapshots(input), [input]);
-  const inPlaceSnapshots = useMemo(
-    () => buildInPlaceSnapshots(input),
-    [input],
-  );
+  const inPlaceSnapshots = useMemo(() => buildInPlaceSnapshots(input), [input]);
   const inputKey = input.join(",");
 
   return (
@@ -1004,12 +1006,12 @@ export default function SmallestMissingPositive() {
               Trade-off
             </div>
             <p className="text-xs leading-relaxed text-slate-300 sm:text-sm">
-              Both run in O(n) time. The Set version is{" "}
-              <strong>obvious</strong> and easy to debug, but allocates. The
-              in-place version meets the strict O(1) extra space constraint
-              from the problem statement, at the cost of mutating the input and
-              being trickier to read. In an interview, code the Set first, then
-              say &quot;and here&apos;s the O(1) space version.&quot;
+              Both run in O(n) time. The Set version is <strong>obvious</strong>{" "}
+              and easy to debug, but allocates. The in-place version meets the
+              strict O(1) extra space constraint from the problem statement, at
+              the cost of mutating the input and being trickier to read. In an
+              interview, code the Set first, then say &quot;and here&apos;s the
+              O(1) space version.&quot;
             </p>
           </div>
         </div>

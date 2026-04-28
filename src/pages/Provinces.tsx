@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "motion/react";
 import {
   Play,
   Pause,
@@ -42,12 +42,42 @@ type Snapshot = {
 };
 
 const PROVINCE_PALETTE = [
-  { bg: "bg-cyan-400/20", border: "border-cyan-300/80", text: "text-cyan-50", dot: "#22d3ee" },
-  { bg: "bg-fuchsia-400/20", border: "border-fuchsia-300/80", text: "text-fuchsia-50", dot: "#e879f9" },
-  { bg: "bg-emerald-400/20", border: "border-emerald-300/80", text: "text-emerald-50", dot: "#34d399" },
-  { bg: "bg-amber-400/20", border: "border-amber-300/80", text: "text-amber-50", dot: "#fbbf24" },
-  { bg: "bg-rose-400/20", border: "border-rose-300/80", text: "text-rose-50", dot: "#fb7185" },
-  { bg: "bg-violet-400/20", border: "border-violet-300/80", text: "text-violet-50", dot: "#a78bfa" },
+  {
+    bg: "bg-cyan-400/20",
+    border: "border-cyan-300/80",
+    text: "text-cyan-50",
+    dot: "#22d3ee",
+  },
+  {
+    bg: "bg-fuchsia-400/20",
+    border: "border-fuchsia-300/80",
+    text: "text-fuchsia-50",
+    dot: "#e879f9",
+  },
+  {
+    bg: "bg-emerald-400/20",
+    border: "border-emerald-300/80",
+    text: "text-emerald-50",
+    dot: "#34d399",
+  },
+  {
+    bg: "bg-amber-400/20",
+    border: "border-amber-300/80",
+    text: "text-amber-50",
+    dot: "#fbbf24",
+  },
+  {
+    bg: "bg-rose-400/20",
+    border: "border-rose-300/80",
+    text: "text-rose-50",
+    dot: "#fb7185",
+  },
+  {
+    bg: "bg-violet-400/20",
+    border: "border-violet-300/80",
+    text: "text-violet-50",
+    dot: "#a78bfa",
+  },
 ];
 
 function edgeKey(a: number, b: number) {
@@ -119,9 +149,7 @@ function buildSnapshots(matrix: number[][]): Snapshot[] {
     snapshots.push({
       visited: [...visited],
       stack: [i],
-      cityStates: cityStatesIdle().map((s, k) =>
-        k === i ? "start" : s,
-      ),
+      cityStates: cityStatesIdle().map((s, k) => (k === i ? "start" : s)),
       edgeStates: baseEdges(),
       province: [],
       provinceColors: [...provinceColors],
@@ -172,7 +200,8 @@ function buildSnapshots(matrix: number[][]): Snapshot[] {
         visited: [...visited],
         stack: [...stack],
         cityStates: cityStatesIdle().map((s, k) => {
-          if (provinceMembers.includes(k)) return k === city ? "current" : "visited";
+          if (provinceMembers.includes(k))
+            return k === city ? "current" : "visited";
           if (stack.includes(k)) return "stacked";
           return s;
         }),
@@ -203,7 +232,8 @@ function buildSnapshots(matrix: number[][]): Snapshot[] {
           visited: [...visited],
           stack: [...stack],
           cityStates: cityStatesIdle().map((s, kk) => {
-            if (provinceMembers.includes(kk)) return kk === city ? "current" : "visited";
+            if (provinceMembers.includes(kk))
+              return kk === city ? "current" : "visited";
             if (stack.includes(kk)) return "stacked";
             if (kk === j) return "neighbor-check";
             return s;
@@ -233,7 +263,8 @@ function buildSnapshots(matrix: number[][]): Snapshot[] {
             visited: [...visited],
             stack: [...stack],
             cityStates: cityStatesIdle().map((ss, kk) => {
-              if (provinceMembers.includes(kk)) return kk === city ? "current" : "visited";
+              if (provinceMembers.includes(kk))
+                return kk === city ? "current" : "visited";
               if (stack.includes(kk)) return "stacked";
               return ss;
             }),
@@ -305,9 +336,7 @@ function buildSnapshots(matrix: number[][]): Snapshot[] {
 }
 
 function randomMatrix(n: number, density = 0.35): number[][] {
-  const m: number[][] = Array.from({ length: n }, () =>
-    new Array(n).fill(0),
-  );
+  const m: number[][] = Array.from({ length: n }, () => new Array(n).fill(0));
   for (let i = 0; i < n; i++) m[i][i] = 1;
   for (let i = 0; i < n; i++) {
     for (let j = i + 1; j < n; j++) {
@@ -321,9 +350,7 @@ function randomMatrix(n: number, density = 0.35): number[][] {
 }
 
 function presetThreeProvinces(n: number): number[][] {
-  const m: number[][] = Array.from({ length: n }, () =>
-    new Array(n).fill(0),
-  );
+  const m: number[][] = Array.from({ length: n }, () => new Array(n).fill(0));
   for (let i = 0; i < n; i++) m[i][i] = 1;
   if (n >= 2) {
     m[0][1] = 1;
@@ -426,10 +453,7 @@ function GraphView({ snapshot, n }: { snapshot: Snapshot; n: number }) {
   }, [n, center, radius]);
 
   return (
-    <svg
-      viewBox={`0 0 ${size} ${size}`}
-      className="aspect-square w-full"
-    >
+    <svg viewBox={`0 0 ${size} ${size}`} className="aspect-square w-full">
       {Object.entries(snapshot.edgeStates).map(([key, state]) => {
         const [aStr, bStr] = key.split("-");
         const a = Number(aStr);
@@ -504,7 +528,9 @@ function MatrixView({
               <th
                 key={j}
                 className={`w-8 text-center font-mono text-[10px] ${
-                  snapshot.scanningJ === j ? "text-fuchsia-300" : "text-slate-500"
+                  snapshot.scanningJ === j
+                    ? "text-fuchsia-300"
+                    : "text-slate-500"
                 }`}
               >
                 {j}
@@ -517,7 +543,9 @@ function MatrixView({
             <tr key={i}>
               <td
                 className={`w-7 text-right font-mono text-[10px] ${
-                  snapshot.currentCity === i ? "text-cyan-300" : "text-slate-500"
+                  snapshot.currentCity === i
+                    ? "text-cyan-300"
+                    : "text-slate-500"
                 }`}
               >
                 {i}
@@ -543,7 +571,8 @@ function MatrixView({
                 } else if (isRowActive && v === 1) {
                   cls += "bg-cyan-400/15 border-cyan-300/60 text-cyan-50";
                 } else if (sameProvince) {
-                  const c = PROVINCE_PALETTE[colorIdx % PROVINCE_PALETTE.length];
+                  const c =
+                    PROVINCE_PALETTE[colorIdx % PROVINCE_PALETTE.length];
                   cls += `${c.bg} ${c.border} ${c.text}`;
                 } else if (isDiag) {
                   cls += "bg-slate-800 border-white/10 text-slate-500";
@@ -649,9 +678,7 @@ function VisitedView({
           return (
             <div key={i} className={cls}>
               <span className="text-slate-400 text-[9px]">[{i}]</span>
-              <span className="font-bold text-sm">
-                {v ? "T" : "F"}
-              </span>
+              <span className="font-bold text-sm">{v ? "T" : "F"}</span>
             </div>
           );
         })}
@@ -857,7 +884,8 @@ function MatrixEditor({
                     let cls =
                       "h-8 w-8 rounded-md border font-mono text-xs flex items-center justify-center transition ";
                     if (isDiag) {
-                      cls += "bg-slate-800 border-white/10 text-slate-500 cursor-not-allowed";
+                      cls +=
+                        "bg-slate-800 border-white/10 text-slate-500 cursor-not-allowed";
                     } else if (v === 1) {
                       cls +=
                         "bg-cyan-400/20 border-cyan-300/60 text-cyan-50 cursor-pointer hover:bg-cyan-400/30";
@@ -949,8 +977,8 @@ export default function Provinces() {
                 Como o algoritmo caminha
               </h2>
               <p className="text-xs text-slate-400 sm:text-sm">
-                O laço externo procura uma cidade nova. A pilha explora tudo
-                que está conectado a ela. Quando esvazia, fechou uma província.
+                O laço externo procura uma cidade nova. A pilha explora tudo que
+                está conectado a ela. Quando esvazia, fechou uma província.
               </p>
             </div>
             <Controls
@@ -1067,8 +1095,8 @@ export default function Provinces() {
             <p className="text-xs leading-relaxed text-slate-300 sm:text-sm">
               O <span className="font-mono text-cyan-200">for (i)</span> passa
               por cada cidade tentando achar uma que ainda não foi visitada. Se
-              já estiver marcada, pula — ela é parte de uma província que
-              alguém já contou. Se não, é uma <strong>nova</strong> província:
+              já estiver marcada, pula — ela é parte de uma província que alguém
+              já contou. Se não, é uma <strong>nova</strong> província:
               incrementa o contador e parte para explorar.
             </p>
           </div>
@@ -1089,11 +1117,11 @@ export default function Provinces() {
               Fase 3 — fechar e voltar
             </div>
             <p className="text-xs leading-relaxed text-slate-300 sm:text-sm">
-              Quando a pilha esvazia, todo o componente conexo da cidade
-              inicial está marcado. Voltamos ao laço externo, que vai pular
-              todas as cidades já visitadas até achar a próxima ilha. No fim,
-              o contador <span className="font-mono text-cyan-200">provinces</span>{" "}
-              tem a resposta.
+              Quando a pilha esvazia, todo o componente conexo da cidade inicial
+              está marcado. Voltamos ao laço externo, que vai pular todas as
+              cidades já visitadas até achar a próxima ilha. No fim, o contador{" "}
+              <span className="font-mono text-cyan-200">provinces</span> tem a
+              resposta.
             </p>
           </div>
         </div>

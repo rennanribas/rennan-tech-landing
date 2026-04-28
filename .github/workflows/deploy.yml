@@ -20,7 +20,7 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/github-actions-role
-          aws-region: us-east-1
+          aws-region: ${{ secrets.AWS_ECR_REGION }}
           role-skip-session-tagging: true
 
       - name: Login to Amazon ECR Public
@@ -34,7 +34,7 @@ jobs:
           ECR_REPOSITORY_URI: ${{ secrets.ECR_REPOSITORY_URI }}
         run: |
           IMAGE_TAG=${{ github.sha }}
-          docker build --target ssr -t $ECR_REPOSITORY_URI:$IMAGE_TAG .
+          docker build -t $ECR_REPOSITORY_URI:$IMAGE_TAG .
           docker push $ECR_REPOSITORY_URI:$IMAGE_TAG
           docker tag $ECR_REPOSITORY_URI:$IMAGE_TAG $ECR_REPOSITORY_URI:latest
           docker push $ECR_REPOSITORY_URI:latest

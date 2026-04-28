@@ -116,9 +116,9 @@ function buildSnapshots(matrix: number[][]): Snapshot[] {
     scanningJ: null,
     provincesCount: 0,
     phase: "init",
-    note: "Início — nenhuma cidade visitada.",
+    note: "Start — no city visited.",
     explanation:
-      "Temos um mapa de cidades e uma matriz que diz quem tem estrada direta com quem. O objetivo é contar quantos grupos isolados (províncias) existem.",
+      "We have a map of cities and a matrix that says who has a direct road to whom. The goal is to count how many isolated groups (provinces) there are.",
   });
 
   for (let i = 0; i < n; i++) {
@@ -137,8 +137,8 @@ function buildSnapshots(matrix: number[][]): Snapshot[] {
         scanningJ: null,
         provincesCount: provinces,
         phase: "outer",
-        note: `Cidade ${i} já foi visitada — pula.`,
-        explanation: `O laço externo passa pela cidade ${i}, mas ela já foi alcançada por uma busca anterior, então faz parte de uma província já contada.`,
+        note: `City ${i} already visited — skip.`,
+        explanation: `The outer loop reaches city ${i}, but it was already reached by a previous search, so it belongs to an already-counted province.`,
       });
       continue;
     }
@@ -158,8 +158,8 @@ function buildSnapshots(matrix: number[][]): Snapshot[] {
       scanningJ: null,
       provincesCount: provinces,
       phase: "outer",
-      note: `Nova província #${provinces}! Começa em ${i}.`,
-      explanation: `Cidade ${i} ainda não foi visitada — encontramos um novo grupo. Empilhamos ${i} para começar a explorar tudo que está conectado a ela.`,
+      note: `New province #${provinces}! Starting at ${i}.`,
+      explanation: `City ${i} has not been visited yet — we found a new group. We push ${i} to start exploring everything connected to it.`,
     });
 
     const stack = [i];
@@ -186,8 +186,8 @@ function buildSnapshots(matrix: number[][]): Snapshot[] {
           scanningJ: null,
           provincesCount: provinces,
           phase: "pop",
-          note: `Tirou ${city} da pilha — já estava visitada, ignora.`,
-          explanation: `${city} foi empilhada por mais de um vizinho. Quando saiu da pilha, já tinha sido processada, então pulamos.`,
+          note: `Popped ${city} from stack — already visited, skip.`,
+          explanation: `${city} was pushed by more than one neighbor. When it came off the stack, it had already been processed, so we skip.`,
         });
         continue;
       }
@@ -213,8 +213,8 @@ function buildSnapshots(matrix: number[][]): Snapshot[] {
         scanningJ: null,
         provincesCount: provinces,
         phase: "pop",
-        note: `Visita cidade ${city}.`,
-        explanation: `Tirou ${city} do topo da pilha. Marca como visitada e adiciona à província #${provinces}. Agora vamos olhar a linha ${city} da matriz para achar vizinhos diretos.`,
+        note: `Visit city ${city}.`,
+        explanation: `Popped ${city} from the stack top. Mark as visited and add to province #${provinces}. Now we look at row ${city} of the matrix to find direct neighbors.`,
       });
 
       const row = matrix[city]!;
@@ -246,12 +246,12 @@ function buildSnapshots(matrix: number[][]): Snapshot[] {
           scanningJ: j,
           provincesCount: provinces,
           phase: "scan",
-          note: `Olhar matriz[${city}][${j}] = ${row[j]}.`,
+          note: `Check matrix[${city}][${j}] = ${row[j]}.`,
           explanation: hasEdge
             ? visited[j]
-              ? `Há estrada ${city}↔${j}, mas ${j} já foi visitada — não empilha de novo.`
-              : `Há estrada ${city}↔${j} e ${j} ainda não foi visitada — empilha ${j} para visitar depois.`
-            : `Sem estrada direta entre ${city} e ${j} — segue.`,
+              ? `There is a road ${city}↔${j}, but ${j} was already visited — don't push again.`
+              : `There is a road ${city}↔${j} and ${j} has not been visited yet — push ${j} to visit later.`
+            : `No direct road between ${city} and ${j} — continue.`,
         });
 
         if (hasEdge && !visited[j]) {
@@ -276,8 +276,8 @@ function buildSnapshots(matrix: number[][]): Snapshot[] {
             scanningJ: j,
             provincesCount: provinces,
             phase: "scan",
-            note: `Empilha ${j}.`,
-            explanation: `${j} entra no topo da pilha. Vamos visitá-la quando voltarmos ao while.`,
+            note: `Push ${j}.`,
+            explanation: `${j} goes to the top of the stack. We will visit it when we return to the while loop.`,
           });
         }
       }
@@ -304,8 +304,8 @@ function buildSnapshots(matrix: number[][]): Snapshot[] {
       scanningJ: null,
       provincesCount: provinces,
       phase: "done-province",
-      note: `Província #${provinces} fechada: {${provinceMembers.sort((a, b) => a - b).join(", ")}}.`,
-      explanation: `A pilha esvaziou — toda cidade alcançável a partir de ${i} foi marcada. Voltamos ao laço externo para procurar a próxima cidade ainda não visitada.`,
+      note: `Province #${provinces} closed: {${provinceMembers.sort((a, b) => a - b).join(", ")}}.`,
+      explanation: `The stack is empty — every city reachable from ${i} has been marked. We return to the outer loop to find the next unvisited city.`,
     });
   }
 
@@ -328,8 +328,8 @@ function buildSnapshots(matrix: number[][]): Snapshot[] {
     scanningJ: null,
     provincesCount: provinces,
     phase: "done",
-    note: `Fim — ${provinces} província${provinces === 1 ? "" : "s"}.`,
-    explanation: `O laço externo terminou. Cada componente conexo foi descoberto exatamente uma vez, então a resposta é ${provinces}.`,
+    note: `Done — ${provinces} province${provinces === 1 ? "" : "s"}.`,
+    explanation: `The outer loop is done. Each connected component was discovered exactly once, so the answer is ${provinces}.`,
   });
 
   return snapshots;
@@ -603,10 +603,10 @@ function StackView({ stack }: { stack: number[] }) {
     <div className="rounded-xl border border-white/10 bg-slate-950/40 p-3">
       <div className="mb-2 flex items-center justify-between">
         <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-400">
-          Pilha (topo →)
+          Stack (top →)
         </span>
         <span className="font-mono text-[10px] text-slate-500">
-          tamanho {stack.length}
+          size {stack.length}
         </span>
       </div>
       <div className="flex min-h-[40px] flex-wrap items-center gap-1.5">
@@ -619,7 +619,7 @@ function StackView({ stack }: { stack: number[] }) {
               exit={{ opacity: 0 }}
               className="font-mono text-xs text-slate-500"
             >
-              vazia
+              empty
             </motion.span>
           ) : (
             stack.map((city, idx) => (
@@ -783,7 +783,7 @@ function MatrixEditor({
       <div className="flex flex-wrap items-center gap-3">
         <div className="flex items-center gap-2">
           <span className="text-xs font-semibold uppercase tracking-wider text-slate-400">
-            Cidades
+            Cities
           </span>
           <button
             onClick={() => setSize(n - 1)}
@@ -818,14 +818,14 @@ function MatrixEditor({
         <div className="flex flex-wrap items-center gap-2 sm:ml-auto">
           <button onClick={() => onChange(randomMatrix(n))} className={btn}>
             <Shuffle className="h-3.5 w-3.5" />
-            Aleatório
+            Random
           </button>
           <button
             onClick={() => onChange(presetThreeProvinces(n))}
             className={btn}
           >
             <Network className="h-3.5 w-3.5" />
-            Pares isolados
+            Isolated pairs
           </button>
           <button
             onClick={() =>
@@ -837,7 +837,7 @@ function MatrixEditor({
             }
             className={btn}
           >
-            Todos conectados
+            All connected
           </button>
           <button
             onClick={() =>
@@ -849,14 +849,14 @@ function MatrixEditor({
             }
             className={btn}
           >
-            Nenhum conectado
+            None connected
           </button>
         </div>
       </div>
 
       <div>
         <div className="mb-2 text-[11px] font-semibold uppercase tracking-wider text-slate-400">
-          Clique nas células para alternar estradas (a matriz é simétrica)
+          Click cells to toggle roads (the matrix is symmetric)
         </div>
         <div className="overflow-x-auto">
           <table className="border-separate border-spacing-1">
@@ -916,12 +916,12 @@ function MatrixEditor({
 }
 
 const PHASE_LABEL: Record<Snapshot["phase"], string> = {
-  init: "Início",
+  init: "Start",
   outer: "for (i)",
   pop: "stack.pop()",
-  scan: "varrer linha",
-  "done-province": "província fechada",
-  done: "fim",
+  scan: "scan row",
+  "done-province": "province closed",
+  done: "done",
 };
 
 export default function Provinces() {
@@ -957,12 +957,12 @@ export default function Provinces() {
       <div className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 sm:py-12">
         <header className="mb-6 sm:mb-8">
           <h1 className="text-2xl font-semibold tracking-tight text-slate-50 sm:text-3xl">
-            Number of Provinces — DFS iterativa com pilha
+            Number of Provinces — Iterative DFS with Stack
           </h1>
           <p className="mt-1 text-sm text-slate-400">
-            Cada cidade é um ponto, cada 1 na matriz é uma estrada. Conte
-            quantos grupos de cidades estão isolados — esses grupos são as
-            províncias.
+            Each city is a node, each 1 in the matrix is a road. Count how many
+            isolated groups of cities there are — those groups are the
+            provinces.
           </p>
         </header>
 
@@ -974,11 +974,12 @@ export default function Provinces() {
           <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
             <div className="min-w-0">
               <h2 className="text-lg font-semibold text-slate-50 sm:text-xl">
-                Como o algoritmo caminha
+                How the algorithm works
               </h2>
               <p className="text-xs text-slate-400 sm:text-sm">
-                O laço externo procura uma cidade nova. A pilha explora tudo que
-                está conectado a ela. Quando esvazia, fechou uma província.
+                The outer loop looks for a new city. The stack explores
+                everything connected to it. When it empties, a province is
+                closed.
               </p>
             </div>
             <Controls
@@ -1005,7 +1006,7 @@ export default function Provinces() {
             <div className="flex flex-col gap-3 rounded-xl border border-white/10 bg-slate-950/30 p-3">
               <div className="flex items-center justify-between">
                 <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-400">
-                  Mapa das cidades
+                  City map
                 </span>
                 <span className="rounded-md border border-cyan-400/30 bg-cyan-400/10 px-2 py-0.5 font-mono text-[10px] text-cyan-200">
                   {PHASE_LABEL[current.phase]}
@@ -1029,7 +1030,7 @@ export default function Provinces() {
 
           <div className="rounded-xl border border-cyan-400/20 bg-cyan-400/5 p-3">
             <div className="mb-1 flex items-center gap-2 text-[11px] font-semibold uppercase tracking-wider text-cyan-300">
-              <span>O que está acontecendo</span>
+              <span>What's happening</span>
               {current.outerI !== null && (
                 <span className="rounded-md border border-white/10 bg-slate-900/60 px-1.5 py-0.5 font-mono text-[10px] text-slate-300">
                   i = {current.outerI}
@@ -1057,28 +1058,28 @@ export default function Provinces() {
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div className="flex flex-wrap gap-2 text-[11px]">
               <span className="inline-flex items-center gap-1.5 rounded-md border border-cyan-300/60 bg-cyan-400/15 px-2 py-0.5 text-cyan-50">
-                <span className="font-mono">cidade atual</span>
+                <span className="font-mono">current city</span>
               </span>
               <span className="inline-flex items-center gap-1.5 rounded-md border border-amber-300/60 bg-amber-400/15 px-2 py-0.5 text-amber-50">
-                <span className="font-mono">na pilha</span>
+                <span className="font-mono">on stack</span>
               </span>
               <span className="inline-flex items-center gap-1.5 rounded-md border border-fuchsia-300/60 bg-fuchsia-400/15 px-2 py-0.5 text-fuchsia-50">
-                <span className="font-mono">olhando vizinho</span>
+                <span className="font-mono">checking neighbor</span>
               </span>
               <span className="inline-flex items-center gap-1.5 rounded-md border border-white/10 bg-slate-800/70 px-2 py-0.5 text-slate-300">
-                <span className="font-mono">não visitada</span>
+                <span className="font-mono">not visited</span>
               </span>
               <span className="inline-flex items-center gap-1.5 rounded-md border border-emerald-400/60 bg-emerald-400/15 px-2 py-0.5 text-emerald-50">
-                <span className="font-mono">visitada (cor = província)</span>
+                <span className="font-mono">visited (color = province)</span>
               </span>
             </div>
             <div className="flex gap-3 font-mono text-[11px] text-slate-400">
               <span>
-                províncias:{" "}
+                provinces:{" "}
                 <span className="text-cyan-300">{current.provincesCount}</span>
               </span>
               <span>
-                visitadas:{" "}
+                visited:{" "}
                 <span className="text-emerald-300">
                   {current.visited.filter(Boolean).length}/{matrix.length}
                 </span>
@@ -1090,38 +1091,39 @@ export default function Provinces() {
         <div className="mt-5 grid grid-cols-1 gap-4 lg:grid-cols-3">
           <div className="rounded-2xl border border-white/10 bg-slate-900/40 p-4">
             <div className="mb-1 text-[11px] font-semibold uppercase tracking-wider text-cyan-300">
-              Fase 1 — varredura externa
+              Phase 1 — outer scan
             </div>
             <p className="text-xs leading-relaxed text-slate-300 sm:text-sm">
-              O <span className="font-mono text-cyan-200">for (i)</span> passa
-              por cada cidade tentando achar uma que ainda não foi visitada. Se
-              já estiver marcada, pula — ela é parte de uma província que alguém
-              já contou. Se não, é uma <strong>nova</strong> província:
-              incrementa o contador e parte para explorar.
+              The <span className="font-mono text-cyan-200">for (i)</span>{" "}
+              iterates over each city looking for one that hasn't been visited
+              yet. If already marked, skip — it belongs to a province already
+              counted. Otherwise, it's a <strong>new</strong> province:
+              increment the counter and start exploring.
             </p>
           </div>
           <div className="rounded-2xl border border-white/10 bg-slate-900/40 p-4">
             <div className="mb-1 text-[11px] font-semibold uppercase tracking-wider text-amber-300">
-              Fase 2 — explorar com a pilha
+              Phase 2 — explore with the stack
             </div>
             <p className="text-xs leading-relaxed text-slate-300 sm:text-sm">
-              Empilha a cidade inicial. Enquanto a pilha tiver gente, tira o
-              topo, marca como visitada e olha a linha dela na matriz. Cada{" "}
-              <span className="font-mono text-fuchsia-200">1</span> que aparece
-              é uma estrada — se o vizinho ainda não foi visitado, empilha. A
-              pilha funciona como um caderno de "visitar depois".
+              Push the starting city. While the stack is not empty, pop the top,
+              mark as visited and look at its row in the matrix. Each{" "}
+              <span className="font-mono text-fuchsia-200">1</span> found is a
+              road — if the neighbor hasn't been visited yet, push it. The stack
+              acts as a "visit later" notebook.
             </p>
           </div>
           <div className="rounded-2xl border border-white/10 bg-slate-900/40 p-4">
             <div className="mb-1 text-[11px] font-semibold uppercase tracking-wider text-emerald-300">
-              Fase 3 — fechar e voltar
+              Phase 3 — close and return
             </div>
             <p className="text-xs leading-relaxed text-slate-300 sm:text-sm">
-              Quando a pilha esvazia, todo o componente conexo da cidade inicial
-              está marcado. Voltamos ao laço externo, que vai pular todas as
-              cidades já visitadas até achar a próxima ilha. No fim, o contador{" "}
-              <span className="font-mono text-cyan-200">provinces</span> tem a
-              resposta.
+              When the stack empties, every node in the connected component of
+              the starting city is marked. We return to the outer loop, which
+              skips all already-visited cities until it finds the next island.
+              In the end, the counter{" "}
+              <span className="font-mono text-cyan-200">provinces</span> holds
+              the answer.
             </p>
           </div>
         </div>

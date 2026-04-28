@@ -8,7 +8,6 @@ import {
   Lightbulb,
   Network,
   Sparkles,
-  Timer,
   type LucideIcon,
 } from "lucide-react";
 

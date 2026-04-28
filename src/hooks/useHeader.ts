@@ -14,12 +14,7 @@ export const useHeader = (): { navItems: HeaderItem[] } => {
       label: "LeetCode",
       children: [
         { to: "/leetcode", label: "Overview" },
-        { to: "/leetcode/sorting", label: "Sorting (Bubble vs Insertion)" },
-        { to: "/provinces", label: "Number of Provinces" },
-        {
-          to: "/smallest-missing-positive",
-          label: "Smallest Missing Positive",
-        },
+        { to: "/leetcode/provinces", label: "Number of Provinces" },
       ],
     },
   ];

@@ -1,11 +1,11 @@
-import { motion } from 'motion/react'
-import { useAboutData } from '../hooks/useAboutData'
-import { PageTitle } from '../components/about/PageTitle'
-import { ExperienceSection } from '../components/about/ExperienceSection'
-import { SkillsSection } from '../components/about/SkillsSection'
+import { motion } from "motion/react";
+import { useAboutData } from "../hooks/useAboutData";
+import { PageTitle } from "../components/about/PageTitle";
+import { ExperienceSection } from "../components/about/ExperienceSection";
+import { SkillsSection } from "../components/about/SkillsSection";
 
 export default function About() {
-  const { experiences, capabilities } = useAboutData()
+  const { experiences, capabilities } = useAboutData();
 
   return (
     <motion.div
@@ -17,5 +17,5 @@ export default function About() {
       <ExperienceSection experiences={experiences} />
       <SkillsSection capabilities={capabilities} />
     </motion.div>
-  )
+  );
 }

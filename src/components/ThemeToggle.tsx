@@ -1,33 +1,33 @@
-import { Sun, Moon, Laptop } from 'lucide-react'
-import { motion, AnimatePresence } from 'motion/react'
-import { useTheme } from '../hooks/useTheme'
+import { Sun, Moon, Laptop } from "lucide-react";
+import { motion, AnimatePresence } from "motion/react";
+import { useTheme } from "../hooks/useTheme";
 
 export function ThemeToggle() {
-  const { theme, setTheme } = useTheme()
+  const { theme, setTheme } = useTheme();
 
   const themes = [
     {
-      value: 'light' as const,
+      value: "light" as const,
       icon: Sun,
-      label: 'Light mode',
+      label: "Light mode",
     },
     {
-      value: 'dark' as const,
+      value: "dark" as const,
       icon: Moon,
-      label: 'Dark mode',
+      label: "Dark mode",
     },
     {
-      value: 'system' as const,
+      value: "system" as const,
       icon: Laptop,
-      label: 'System preference',
+      label: "System preference",
     },
-  ]
+  ];
 
   return (
-    <div className='relative flex items-center bg-muted/20 rounded-2xl p-1 border border-border/20 backdrop-blur-sm'>
+    <div className="relative flex items-center bg-muted/20 rounded-2xl p-1 border border-border/20 backdrop-blur-sm">
       {themes.map((themeOption) => {
-        const Icon = themeOption.icon
-        const isActive = theme === themeOption.value
+        const Icon = themeOption.icon;
+        const isActive = theme === themeOption.value;
 
         return (
           <motion.button
@@ -39,8 +39,8 @@ export function ThemeToggle() {
               focus:outline-none focus:ring-2 focus:ring-primary/30 focus:ring-offset-2 focus:ring-offset-background
               ${
                 isActive
-                  ? 'text-primary'
-                  : 'text-muted-foreground hover:text-foreground'
+                  ? "text-primary"
+                  : "text-muted-foreground hover:text-foreground"
               }
             `}
             title={themeOption.label}
@@ -49,7 +49,7 @@ export function ThemeToggle() {
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.95 }}
           >
-            <AnimatePresence mode='wait'>
+            <AnimatePresence mode="wait">
               <motion.div
                 key={themeOption.value}
                 initial={{ scale: 0.8, opacity: 0 }}
@@ -57,24 +57,24 @@ export function ThemeToggle() {
                 exit={{ scale: 0.8, opacity: 0 }}
                 transition={{ duration: 0.2 }}
               >
-                <Icon className='h-4 w-4' />
+                <Icon className="h-4 w-4" />
               </motion.div>
             </AnimatePresence>
 
             {isActive && (
               <motion.div
-                className='absolute inset-0 bg-primary/10 rounded-xl border border-primary/20'
-                layoutId='activeTheme'
+                className="absolute inset-0 bg-primary/10 rounded-xl border border-primary/20"
+                layoutId="activeTheme"
                 transition={{
-                  type: 'spring',
+                  type: "spring",
                   stiffness: 300,
                   damping: 30,
                 }}
               />
             )}
           </motion.button>
-        )
+        );
       })}
     </div>
-  )
+  );
 }

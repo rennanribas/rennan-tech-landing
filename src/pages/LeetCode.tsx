@@ -24,15 +24,6 @@ interface Lesson {
 
 const lessons: Lesson[] = [
   {
-    to: "/leetcode/sorting",
-    title: "Sorting side-by-side",
-    blurb:
-      "Bubble sort and insertion sort animated on the same array, step by step. See where each one wastes work and where each one shines.",
-    topics: ["arrays", "O(n²) sorting", "invariants"],
-    icon: ArrowUpDown,
-    status: "live",
-  },
-  {
     to: "/provinces",
     title: "Number of Provinces",
     blurb:
@@ -42,13 +33,22 @@ const lessons: Lesson[] = [
     status: "live",
   },
   {
-    to: "/smallest-missing-positive",
+    to: "#",
+    title: "Sorting side-by-side",
+    blurb:
+      "Bubble sort and insertion sort animated on the same array, step by step. See where each one wastes work and where each one shines.",
+    topics: ["arrays", "O(n²) sorting", "invariants"],
+    icon: ArrowUpDown,
+    status: "planned",
+  },
+  {
+    to: "#",
     title: "Smallest Missing Positive",
     blurb:
       "Two solutions for the same problem: the obvious Set lookup vs. the in-place sign-marking trick that hits O(1) extra space.",
     topics: ["arrays", "space complexity", "in-place tricks"],
     icon: Hash,
-    status: "live",
+    status: "planned",
   },
   {
     to: "#",

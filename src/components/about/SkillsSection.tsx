@@ -5,6 +5,7 @@ import {
   Layers3,
   Smartphone,
 } from 'lucide-react'
+import { useI18n } from '@/i18n'
 import type { Capability } from '../../hooks/useAboutData'
 
 interface SkillsSectionProps {
@@ -14,21 +15,21 @@ interface SkillsSectionProps {
 const capabilityIcons = [Blocks, Layers3, Smartphone, Cloud]
 
 export function SkillsSection({ capabilities }: SkillsSectionProps) {
+  const { messages } = useI18n()
+  const { capabilitiesSection } = messages.about
+
   return (
     <section className='space-y-8 py-4'>
       <div className='max-w-3xl'>
         <p className='text-sm font-semibold uppercase tracking-[0.24em] text-primary/70 mb-3'>
-          Core Capabilities
+          {capabilitiesSection.eyebrow}
         </p>
         <h2 className='text-3xl font-bold text-foreground mb-4 flex items-center gap-3'>
           <Award className='text-primary' />
-          The work I am usually brought in to do
+          {capabilitiesSection.title}
         </h2>
         <p className='text-lg text-foreground/75 leading-relaxed'>
-          I prefer showing capabilities over listing every tool I have touched.
-          The recurring pattern in my career is helping teams design
-          maintainable systems, ship product deliberately, and stay close to
-          delivery from implementation through release.
+          {capabilitiesSection.description}
         </p>
       </div>
 
@@ -83,10 +84,7 @@ export function SkillsSection({ capabilities }: SkillsSectionProps) {
 
       <div className='rounded-2xl border border-border/70 bg-muted/40 p-6 sm:p-7'>
         <p className='text-foreground/75 leading-relaxed'>
-          The exact stack changes by product, team, and stage. What stays
-          consistent is the kind of work: clarifying architecture, closing the
-          gap between product and implementation, and taking responsibility for
-          how software behaves once it is actually in use.
+          {capabilitiesSection.closing}
         </p>
       </div>
     </section>

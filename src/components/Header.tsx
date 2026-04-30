@@ -126,7 +126,7 @@ function DesktopNavItem({
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const { navItems } = useHeader();
+  const { navItems, menuToggleLabel } = useHeader();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -200,7 +200,7 @@ export default function Header() {
           <motion.button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             className="lg:hidden p-3 text-foreground/60 hover:text-foreground transition-all duration-300 rounded-xl hover:glass-subtle hover:shadow-soft relative overflow-hidden"
-            aria-label="Toggle menu"
+            aria-label={menuToggleLabel}
             whileTap={{ scale: 0.95 }}
             whileHover={{ scale: 1.05 }}
           >

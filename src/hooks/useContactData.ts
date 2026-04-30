@@ -1,6 +1,7 @@
 import type { ComponentType } from "react";
 import { MdEmail } from "react-icons/md";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
+import { useI18n } from "@/i18n";
 
 export interface ContactMethod {
   title: string;
@@ -12,30 +13,30 @@ export interface ContactMethod {
 }
 
 export function useContactData(): { methods: ContactMethod[] } {
+  const { messages } = useI18n();
+  const { methods: methodMessages } = messages.contact;
+
   const methods: ContactMethod[] = [
     {
-      title: "Email",
+      title: methodMessages.email.title,
       value: "rennanrr@gmail.com",
       href: "mailto:rennanrr@gmail.com",
-      description:
-        "Best place for project inquiries, consulting, or anything that needs more than a few lines.",
+      description: methodMessages.email.description,
       icon: MdEmail,
     },
     {
-      title: "GitHub",
+      title: methodMessages.github.title,
       value: "github.com/rennanribas",
       href: "https://github.com/rennanribas",
-      description:
-        "Where I keep open-source work, experiments, and the source for this site itself.",
+      description: methodMessages.github.description,
       icon: FaGithub,
       external: true,
     },
     {
-      title: "LinkedIn",
+      title: methodMessages.linkedin.title,
       value: "linkedin.com/in/rennan-ribas",
       href: "https://linkedin.com/in/rennan-ribas",
-      description:
-        "Professional network, role history, and the easiest place to start a conversation about work.",
+      description: methodMessages.linkedin.description,
       icon: FaLinkedin,
       external: true,
     },

@@ -1,27 +1,35 @@
+import { useI18n } from "@/i18n";
+
 export interface HeaderItem {
   to: string;
   label: string;
   children?: HeaderItem[];
 }
 
-export const useHeader = (): { navItems: HeaderItem[] } => {
+export const useHeader = (): {
+  navItems: HeaderItem[];
+  menuToggleLabel: string;
+} => {
+  const { messages } = useI18n();
+  const navigation = messages.navigation;
+
   const navItems: HeaderItem[] = [
-    { to: "/", label: "Home" },
-    { to: "/about", label: "About" },
-    { to: "/contact", label: "Contact" },
+    { to: "/", label: navigation.home },
+    { to: "/about", label: navigation.about },
+    { to: "/contact", label: navigation.contact },
     {
       to: "/leetcode",
-      label: "LeetCode",
+      label: navigation.leetcode,
       children: [
-        { to: "/leetcode", label: "Overview" },
-        { to: "/leetcode/provinces", label: "Number of Provinces" },
+        { to: "/leetcode", label: navigation.leetcodeOverview },
+        { to: "/leetcode/provinces", label: navigation.leetcodeProvinces },
         {
           to: "/leetcode/smallest-missing-positive",
-          label: "Smallest Missing Positive",
+          label: navigation.leetcodeSmallestMissingPositive,
         },
       ],
     },
   ];
 
-  return { navItems };
+  return { navItems, menuToggleLabel: navigation.menuToggle };
 };

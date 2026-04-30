@@ -1,4 +1,5 @@
 import { MessageSquare } from 'lucide-react'
+import { useI18n } from '@/i18n'
 import type { ContactMethod } from '../../hooks/useContactData'
 
 interface ContactDetailsProps {
@@ -6,20 +7,21 @@ interface ContactDetailsProps {
 }
 
 export function ContactDetails({ methods }: ContactDetailsProps) {
+  const { messages } = useI18n()
+  const { details } = messages.contact
+
   return (
     <section className='space-y-8 py-4'>
       <div className='max-w-3xl'>
         <p className='text-sm font-semibold uppercase tracking-[0.24em] text-primary/70 mb-3'>
-          Channels
+          {details.eyebrow}
         </p>
         <h2 className='text-3xl font-bold text-foreground mb-4 flex items-center gap-3'>
           <MessageSquare className='text-primary' />
-          Where to find me
+          {details.title}
         </h2>
         <p className='text-lg text-foreground/75 leading-relaxed'>
-          Pick whichever channel fits the conversation. Email is the most
-          reliable for anything substantive; the others are great for
-          short-form context or to see what I&apos;ve been building.
+          {details.description}
         </p>
       </div>
 

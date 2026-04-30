@@ -8,8 +8,9 @@ const localeLabels: Record<Locale, string> = {
 };
 
 export default function Footer() {
-  const { locale, setLocale } = useI18n();
+  const { locale, messages, setLocale } = useI18n();
   const currentYear = new Date().getFullYear();
+  const { footer } = messages;
 
   const socialLinks = [
     {
@@ -53,9 +54,9 @@ export default function Footer() {
               <span>© {currentYear}</span>
               <span className="hidden sm:inline">•</span>
               <span className="flex items-center gap-1">
-                Made with{" "}
-                <Heart className="w-3 h-3 text-red-500 fill-current" /> in
-                Brazil
+                {footer.madeWith}
+                <Heart className="w-3 h-3 text-red-500 fill-current" />
+                {footer.location}
               </span>
             </div>
           </div>
@@ -95,7 +96,7 @@ export default function Footer() {
               <select
                 value={locale}
                 onChange={(event) => setLocale(event.target.value as Locale)}
-                aria-label="Change language"
+                aria-label={footer.languageLabel}
                 className="h-9 appearance-none rounded-xl bg-muted/40 py-0 pl-9 text-xs font-semibold text-muted-foreground shadow-soft"
               >
                 {Object.entries(localeLabels).map(([value, label]) => (

@@ -2,13 +2,306 @@
   "home": {
     "hero": {
       "name": "Rennan Ribas",
-      "role": "Engenheiro de Software S\u00eanior",
-      "description": "Projeto solu\u00e7\u00f5es corporativas com mais de 10 anos de experi\u00eancia em TypeScript, React e tecnologias nativas de nuvem. Entrego sistemas escal\u00e1veis que impulsionam o crescimento do neg\u00f3cio.",
+      "role": "Engenheiro de Software Sênior",
+      "description": "Projeto soluções corporativas com mais de 10 anos de experiência em TypeScript, React e tecnologias nativas de nuvem. Entrego sistemas escaláveis que impulsionam o crescimento do negócio.",
       "social": {
         "email": "Email",
         "github": "GitHub",
         "linkedin": "LinkedIn"
       }
     }
+  },
+  "navigation": {
+    "home": "Início",
+    "about": "Sobre",
+    "contact": "Contato",
+    "leetcode": "LeetCode",
+    "leetcodeOverview": "Visão geral",
+    "leetcodeProvinces": "Número de Províncias",
+    "leetcodeSmallestMissingPositive": "Menor Positivo Ausente",
+    "menuToggle": "Alternar menu"
+  },
+  "contact": {
+    "header": {
+      "eyebrow": "Contato",
+      "title": "Vamos conversar.",
+      "description": "Entre em contato sobre um projeto, uma vaga ou qualquer coisa para a qual você ache que eu possa ser a pessoa certa. Leio todas as mensagens e respondo em poucos dias."
+    },
+    "details": {
+      "eyebrow": "Canais",
+      "title": "Onde me encontrar",
+      "description": "Escolha o canal que fizer mais sentido para a conversa. Email é o mais confiável para assuntos mais substanciais; os outros são ótimos para contexto rápido ou para ver o que tenho construído."
+    },
+    "methods": {
+      "email": {
+        "title": "Email",
+        "description": "Melhor lugar para propostas de projeto, consultoria ou qualquer assunto que precise de mais do que algumas linhas."
+      },
+      "github": {
+        "title": "GitHub",
+        "description": "Onde mantenho trabalhos open source, experimentos e o código-fonte deste próprio site."
+      },
+      "linkedin": {
+        "title": "LinkedIn",
+        "description": "Rede profissional, histórico de atuação e o caminho mais fácil para iniciar uma conversa sobre trabalho."
+      }
+    }
+  },
+  "about": {
+    "header": {
+      "eyebrow": "Sobre",
+      "title": "Engenheiro de Software Sênior.",
+      "description": "Mais de 10 anos entregando produtos ponta a ponta em backend, web e mobile, da arquitetura à entrega."
+    },
+    "experiences": [
+      {
+        "title": "Engenheiro de Software Sênior",
+        "company": "Trio",
+        "period": "Out 2024 - Presente",
+        "summary": "Atuo em múltiplas plataformas de produção como engenheiro full-stack, com forte profundidade em frontend e backend, participando de decisões arquiteturais, liderando a entrega técnica em um dos produtos e assumindo trabalhos críticos de backend e infraestrutura nos demais.",
+        "highlights": [
+          "Liderei a entrega técnica de uma aplicação React e Next.js integrada a um BFF NestJS via GraphQL e Apollo, definindo a arquitetura, o modelo de componentes e a camada de dados desde o greenfield até produção.",
+          "Conduzi decisões de arquitetura em uma plataforma de API NestJS junto ao tech lead, desenhando a camada de conectores e adapters e um sistema de mapeamento dinâmico type-safe em TypeScript que mantém claros os limites de domínio e integração.",
+          "Migrei uma grande base NestJS de Prisma para Sequelize, coordenando mudanças de schema, repositórios e camada de queries sem interromper os fluxos de produção.",
+          "Construí um sistema assíncrono de exportação com NestJS, BullMQ e Redis para operações intensivas em dados, da orquestração dos jobs à entrega dos artefatos gerados.",
+          "Reforcei a segurança e a entrega da plataforma, configurando proxy reverso Nginx, serviços Docker e integração com Redis de ponta a ponta para ambientes de produção.",
+          "Entrego funcionalidades de frontend como engenheiro full-stack em um produto de saúde, trabalhando em uma base React e NestJS com contratos orientados por Swagger, tooling TanStack e fluxos de UI de produção."
+        ],
+        "stack": [
+          "TypeScript",
+          "NestJS",
+          "GraphQL",
+          "Apollo",
+          "React",
+          "Next.js",
+          "TanStack Query",
+          "Prisma",
+          "Sequelize",
+          "PostgreSQL",
+          "Redis",
+          "BullMQ",
+          "Docker",
+          "Nginx",
+          "AWS"
+        ]
+      },
+      {
+        "title": "Consultor de Engenharia de Produto",
+        "company": "Consultorias Independentes",
+        "period": "Ago 2023 - Set 2024",
+        "summary": "Atuei como o time principal de engenharia de um produto de saúde em estágio inicial, assumindo arquitetura, entrega e operação de ponta a ponta em backend, web, mobile, dados e cloud, trabalhando diretamente com os fundadores na direção do produto e na evolução técnica.",
+        "highlights": [
+          "Construí e mantive uma aplicação web React com TypeScript e Redux, entregando funcionalidades do design à produção junto ao backend NestJS.",
+          "Desenhei serviços backend em NestJS e AWS Lambda com PostgreSQL e TimescaleDB, e arquitetei pipelines de ingestão com workers baseados em filas (BullMQ, Redis) para dados de saúde de alto volume.",
+          "Desenvolvi aplicações Flutter e iOS nativas (Swift) com integração profunda ao HealthKit, lidando com background refresh, sincronização delta com anchors, streaming, compressão, atualização assíncrona baseada em filas e updates acionados por push notification.",
+          "Modelei a camada de dados com Protocol Buffers, armazenamento em data lake e serialização eficiente para mover telemetria de saúde com confiabilidade entre dispositivos móveis e serviços backend.",
+          "Construí um assistente baseado em LLM usando modelos hospedados localmente para entregar insights contextuais ancorados em dados estruturados do usuário.",
+          "Assumi infraestrutura em cloud na AWS (ECS, Fargate, Lambda, ECR, EC2) com Terraform, Docker e pipelines de CI/CD, e apoiei os fundadores em contratação técnica e iterações para investidores."
+        ],
+        "stack": [
+          "TypeScript",
+          "React",
+          "Redux",
+          "NestJS",
+          "AWS Lambda",
+          "PostgreSQL",
+          "TimescaleDB",
+          "Redis",
+          "BullMQ",
+          "Flutter",
+          "Swift",
+          "HealthKit",
+          "Protocol Buffers",
+          "Terraform",
+          "LLM"
+        ]
+      },
+      {
+        "title": "Engenheiro Full-Stack Sênior",
+        "company": "Intive",
+        "period": "Nov 2021 - Jun 2023",
+        "summary": "Entreguei serviços backend e aplicações web em iniciativas de mídia e fintech para times de produto distribuídos, contribuindo para decisões de design de sistemas e trabalhando perto de produto tanto no servidor quanto no cliente.",
+        "highlights": [
+          "Construí microsserviços NestJS na GCP para uma plataforma de live streaming, conectando fluxos legados de programação a uma arquitetura orientada a eventos baseada em Cloud Functions e integrações por mensagens.",
+          "Desenhei limites de serviço e contratos de API para substituir lógicas monolíticas de programação, mantendo consumidores legados funcionando enquanto a nova arquitetura evoluía ao redor deles.",
+          "Entreguei interfaces web em React e TypeScript para um MVP de banco tech dos EUA que evoluiu para produto em produção, trabalhando de perto com stakeholders de produto e design.",
+          "Participei de discussões de arquitetura e code reviews em times distribuídos, cobrindo tanto design de serviços backend quanto padrões de implementação frontend."
+        ],
+        "stack": [
+          "NestJS",
+          "TypeScript",
+          "React",
+          "Microservices",
+          "GCP",
+          "Cloud Functions",
+          "Event-Driven"
+        ]
+      },
+      {
+        "title": "Engenheiro Full-Stack Sênior",
+        "company": "Indie Campers",
+        "period": "Mar 2021 - Out 2021",
+        "summary": "Entreguei funcionalidades em produção para uma plataforma europeia de aluguel de campers de alto tráfego, atuando de ponta a ponta em frontend e backend enquanto o produto expandia de um modelo puramente B2C para suas primeiras capacidades de marketplace.",
+        "highlights": [
+          "Enviei funcionalidades para produção na área do cliente usando Nuxt.js, Vue.js e TypeScript, traduzindo requisitos de produto e operação em fluxos reais de usuário.",
+          "Contribuí de ponta a ponta para a capacidade de marketplace, começando com provas de conceito iniciais e acompanhando até o produto exposto em produção, cuidando da entrega frontend junto a serviços backend, controllers e mudanças de schema.",
+          "Trabalhei com ambientes efêmeros de review, fluxos conteinerizados e pipelines de CI/CD para manter branches entregáveis e reduzir atrito entre iterações de produto.",
+          "Melhorei a experiência de desenvolvimento com linting mais forte, hooks de pre-commit e ciclos locais mais rápidos de build e hot reload."
+        ],
+        "stack": [
+          "Vue.js",
+          "Nuxt.js",
+          "TypeScript",
+          "Node.js",
+          "CI/CD",
+          "Ephemeral Environments"
+        ]
+      },
+      {
+        "title": "Engenheiro Full-Stack Sênior",
+        "company": "Kaffa Mobile",
+        "period": "Mar 2020 - Mar 2021",
+        "summary": "Atuei em microsserviços backend, um cliente web React e um cliente mobile Kotlin para um produto baseado em localização, com foco em dados geoespaciais e sincronização eficiente de conteúdo de mapa entre servidor e clientes.",
+        "highlights": [
+          "Desenhei e implementei microsserviços NestJS com PostGIS, tratando consultas espaciais e dados geográficos para funcionalidades de mapa.",
+          "Construí sincronização delta baseada em hash no backend para detectar, comparar e enviar apenas as regiões de mapa alteradas, mantendo o app web React e o cliente Android em Kotlin atualizados com uso mínimo de banda.",
+          "Implementei um API gateway e uma camada de autenticação baseada em JWT, centralizando controle de acesso e roteamento de serviços entre APIs backend e clientes.",
+          "Contribuí para a aplicação web React, integrando renderização de mapas e fluxos de sincronização com os serviços backend."
+        ],
+        "stack": [
+          "NestJS",
+          "Node.js",
+          "TypeScript",
+          "PostGIS",
+          "PostgreSQL",
+          "React",
+          "Kotlin",
+          "Microservices",
+          "JWT"
+        ]
+      },
+      {
+        "title": "Engenheiro Full-Stack",
+        "company": "Bten US",
+        "period": "Mai 2019 - Fev 2020",
+        "summary": "Entreguei funcionalidades de produto de ponta a ponta para uma plataforma SaaS, atuando em um frontend Angular com TypeScript e serviços backend em Node.js, Express e Sequelize.",
+        "highlights": [
+          "Construí e mantive funcionalidades em uma aplicação Angular (v8/9) com TypeScript, enviando fluxos voltados ao cliente para produção.",
+          "Implementei serviços backend, APIs REST e camadas de acesso a dados com Express, Sequelize e TypeScript sobre um banco relacional.",
+          "Integrei componentes frontend com APIs backend, conduzindo funcionalidades do design à implementação e release."
+        ],
+        "stack": [
+          "Angular",
+          "TypeScript",
+          "Node.js",
+          "Express",
+          "Sequelize",
+          "REST APIs"
+        ]
+      },
+      {
+        "title": "Desenvolvedor de Software",
+        "company": "CETEC Educacional",
+        "period": "Jan 2013 - Dez 2017",
+        "summary": "Construí plataformas educacionais e sistemas internos usando C#, ASP.NET e JavaScript, contribuindo para interfaces web e funcionalidades de aplicação usadas em fluxos acadêmicos.",
+        "highlights": [
+          "Desenvolvi funcionalidades para produtos educacionais em camadas backend e frontend com C#, ASP.NET, JavaScript, HTML e CSS.",
+          "Construí um portal de professores usado por instrutores e administradores, entregando a camada web e apoiando operações acadêmicas."
+        ],
+        "stack": [
+          "C#",
+          "ASP.NET",
+          "JavaScript",
+          "HTML",
+          "CSS"
+        ]
+      }
+    ],
+    "capabilitiesSection": {
+      "eyebrow": "Competências Centrais",
+      "title": "O trabalho para o qual normalmente sou chamado",
+      "description": "Prefiro mostrar competências em vez de listar todas as ferramentas em que já toquei. O padrão recorrente na minha carreira é ajudar times a desenhar sistemas manuteníveis, entregar produto com intenção e ficar perto da entrega da implementação ao release.",
+      "closing": "A stack exata muda conforme produto, time e estágio. O que permanece consistente é o tipo de trabalho: clarificar arquitetura, aproximar produto e implementação e assumir responsabilidade por como o software se comporta quando está realmente em uso."
+    },
+    "capabilities": [
+      {
+        "title": "Arquitetura Backend e Sistemas Distribuídos",
+        "description": "A maior parte do meu trabalho recente está em design de serviços, contratos de API e fluxos assíncronos que precisam permanecer confiáveis e manuteníveis conforme produtos escalam.",
+        "focus": [
+          "Serviços Node.js e NestJS seguindo clean architecture, injeção de dependência e limites claros de serviço.",
+          "APIs REST e GraphQL, processamento baseado em filas com BullMQ e Redis, fluxos de exportação e camadas de integração.",
+          "Dados relacionais e time-series com PostgreSQL, TimescaleDB, Redis, Prisma, Sequelize e TypeORM."
+        ],
+        "tools": [
+          "TypeScript",
+          "Node.js",
+          "NestJS",
+          "GraphQL",
+          "PostgreSQL",
+          "TimescaleDB",
+          "Redis",
+          "BullMQ"
+        ]
+      },
+      {
+        "title": "IA, LLMs e Sistemas Intensivos em Dados",
+        "description": "Construo funcionalidades assistidas por IA e sistemas orientados por dados ancorados em contexto real de produto, conectando componentes baseados em LLM a dados estruturados e backends de produção.",
+        "focus": [
+          "Integrações com LLMs usando modelos hospedados localmente e em provedores, engenharia de prompts e recuperação em estilo RAG sobre dados estruturados de usuários.",
+          "Pipelines de ingestão e processamento para cargas de alto volume, combinando workers baseados em filas com armazenamento time-series.",
+          "Decisões de design de aplicação assistidas por IA que mantêm latência, custo e fronteiras de dados sob controle."
+        ],
+        "tools": [
+          "LLM",
+          "RAG",
+          "Embeddings",
+          "PostgreSQL",
+          "TimescaleDB",
+          "BullMQ"
+        ]
+      },
+      {
+        "title": "Cloud e DevOps",
+        "description": "Assumo o software além da funcionalidade em si, incluindo como ele é construído, lançado e mantido confiável em ambientes reais.",
+        "focus": [
+          "Ambientes AWS (ECS, Fargate, Lambda, ECR, EC2) e GCP para entrega de aplicações e infraestrutura de suporte.",
+          "Pipelines de CI/CD com GitHub Actions e Bitbucket Pipelines, serviços conteinerizados, automação de releases e operações em produção.",
+          "Infraestrutura como código com Terraform e decisões conscientes de custo que reaproveitam sistemas existentes quando isso leva a um caminho de entrega melhor."
+        ],
+        "tools": [
+          "AWS",
+          "GCP",
+          "Docker",
+          "Terraform",
+          "GitHub Actions",
+          "Bitbucket Pipelines"
+        ]
+      },
+      {
+        "title": "Engenharia de Produto Web e Mobile",
+        "description": "Me importo com o produto tanto quanto com a arquitetura por trás dele. Entreguei funcionalidades de produção de ponta a ponta em web e mobile, assumindo responsabilidade por como algo se sente diante do usuário, não apenas por como roda no servidor.",
+        "focus": [
+          "Aplicações web de produção em React (incluindo React 19 com TanStack Query, TanStack Router e Zod), Next.js, Vue, Nuxt e Angular.",
+          "Desenvolvimento Flutter e iOS nativo (Swift), incluindo integrações HealthKit, background refresh e sincronização delta com serviços backend.",
+          "Colaboração próxima com fundadores, produto e design para entregar funcionalidades que permanecem manuteníveis e refletem necessidades reais dos usuários."
+        ],
+        "tools": [
+          "React",
+          "Next.js",
+          "TanStack Query",
+          "Vue.js",
+          "Nuxt.js",
+          "Angular",
+          "Flutter",
+          "Swift",
+          "HealthKit"
+        ]
+      }
+    ]
+  },
+  "footer": {
+    "madeWith": "Feito com",
+    "location": "no Brasil",
+    "languageLabel": "Alterar idioma"
   }
 }

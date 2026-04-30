@@ -1,13 +1,15 @@
 import { motion } from "motion/react";
-import { Github, Linkedin, Mail, Heart, Languages } from "lucide-react";
+import {
+  ChevronDown,
+  Github,
+  Globe2,
+  Heart,
+  Linkedin,
+  Mail,
+} from "lucide-react";
 import { useI18n, type Locale } from "@/i18n";
 
 const localeLabels: Record<Locale, string> = {
-  en: "EN",
-  "pt-BR": "PT-BR",
-};
-
-const localeNames: Record<Locale, string> = {
   en: "English",
   "pt-BR": "Portugu\u00eas",
 };
@@ -15,7 +17,6 @@ const localeNames: Record<Locale, string> = {
 export default function Footer() {
   const { locale, setLocale } = useI18n();
   const currentYear = new Date().getFullYear();
-  const nextLocale: Locale = locale === "en" ? "pt-BR" : "en";
 
   const socialLinks = [
     {
@@ -66,43 +67,52 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Social Links */}
-          <div className="flex items-center gap-4">
-            <motion.button
-              type="button"
-              onClick={() => setLocale(nextLocale)}
-              aria-label={`Change language to ${localeNames[nextLocale]}`}
+          <div className="flex items-center gap-5">
+            {/* Social Links */}
+            <div className="flex items-center gap-4">
+              {socialLinks.map((link, index) => {
+                const IconComponent = link.icon;
+                return (
+                  <motion.a
+                    key={link.label}
+                    href={link.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={link.label}
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.3, delay: 0.4 + index * 0.1 }}
+                    whileHover={{ scale: 1.1, y: -2 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="p-2 rounded-xl bg-muted/50 hover:bg-muted transition-all duration-300 group"
+                  >
+                    <IconComponent className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors" />
+                  </motion.a>
+                );
+              })}
+            </div>
+
+            <motion.div
+              className="relative"
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.3, delay: 0.3 }}
-              whileHover={{ scale: 1.05, y: -2 }}
-              whileTap={{ scale: 0.95 }}
-              className="inline-flex h-9 items-center gap-2 rounded-xl bg-muted/50 px-3 text-xs font-semibold text-muted-foreground transition-all duration-300 hover:bg-muted hover:text-primary"
+              transition={{ duration: 0.3, delay: 0.7 }}
             >
-              <Languages className="h-4 w-4" />
-              {localeLabels[nextLocale]}
-            </motion.button>
-
-            {socialLinks.map((link, index) => {
-              const IconComponent = link.icon;
-              return (
-                <motion.a
-                  key={link.label}
-                  href={link.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={link.label}
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.3, delay: 0.4 + index * 0.1 }}
-                  whileHover={{ scale: 1.1, y: -2 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="p-2 rounded-xl bg-muted/50 hover:bg-muted transition-all duration-300 group"
-                >
-                  <IconComponent className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors" />
-                </motion.a>
-              );
-            })}
+              <Globe2 className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+              <select
+                value={locale}
+                onChange={(event) => setLocale(event.target.value as Locale)}
+                aria-label="Change language"
+                className="h-9 w-36 appearance-none rounded-xl border border-border/40 bg-muted/40 py-0 pl-9 pr-8 text-xs font-semibold text-muted-foreground shadow-soft transition-all duration-300 hover:border-primary/30 hover:bg-muted hover:text-primary"
+              >
+                {Object.entries(localeLabels).map(([value, label]) => (
+                  <option key={value} value={value}>
+                    {label}
+                  </option>
+                ))}
+              </select>
+              <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-muted-foreground" />
+            </motion.div>
           </div>
         </div>
       </div>

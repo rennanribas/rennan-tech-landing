@@ -98,12 +98,12 @@ export default function Footer() {
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.3, delay: 0.7 }}
             >
-              <Globe2 className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+              <Globe2 className="pointer-events-none absolute left-3 top-1/2 h-4 -translate-y-1/2 text-muted-foreground" />
               <select
                 value={locale}
                 onChange={(event) => setLocale(event.target.value as Locale)}
                 aria-label="Change language"
-                className="h-9 w-36 appearance-none rounded-xl border border-border/40 bg-muted/40 py-0 pl-9 pr-8 text-xs font-semibold text-muted-foreground shadow-soft transition-all duration-300 hover:border-primary/30 hover:bg-muted hover:text-primary"
+                className="h-9 appearance-none rounded-xl bg-muted/40 py-0 pl-9 text-xs font-semibold text-muted-foreground shadow-soft"
               >
                 {Object.entries(localeLabels).map(([value, label]) => (
                   <option key={value} value={value}>
@@ -111,7 +111,6 @@ export default function Footer() {
                   </option>
                 ))}
               </select>
-              <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-muted-foreground" />
             </motion.div>
           </div>
         </div>

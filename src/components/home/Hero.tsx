@@ -1,8 +1,11 @@
 import { MdEmail } from "react-icons/md";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 import { motion, useScroll, useTransform } from "motion/react";
+import { useI18n } from "@/i18n";
 
 export function Hero() {
+  const { messages } = useI18n();
+  const { hero } = messages.home;
   const { scrollY } = useScroll();
   const y = useTransform(scrollY, [0, 300], [0, -50]);
   const opacity = useTransform(scrollY, [0, 300], [1, 0.8]);
@@ -37,7 +40,7 @@ export function Hero() {
             }}
           >
             <span className="bg-gradient-to-r from-foreground via-foreground to-foreground/80 bg-clip-text text-transparent">
-              Rennan Ribas
+              {hero.name}
             </span>
           </motion.h1>
 
@@ -47,7 +50,7 @@ export function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4, duration: 0.6 }}
           >
-            Senior Software Engineer
+            {hero.role}
           </motion.p>
 
           <motion.p
@@ -56,9 +59,7 @@ export function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6, duration: 0.6 }}
           >
-            Architecting enterprise-grade solutions with 10+ years of expertise
-            in TypeScript, React, and cloud-native technologies. Delivering
-            scalable systems that drive business growth.
+            {hero.description}
           </motion.p>
 
           <motion.div
@@ -71,18 +72,18 @@ export function Hero() {
               {
                 href: "mailto:rennanrr@gmail.com",
                 icon: MdEmail,
-                label: "Email",
+                label: hero.social.email,
               },
               {
                 href: "https://github.com/rennanribas",
                 icon: FaGithub,
-                label: "GitHub",
+                label: hero.social.github,
                 external: true,
               },
               {
                 href: "https://linkedin.com/in/rennan-ribas",
                 icon: FaLinkedin,
-                label: "LinkedIn",
+                label: hero.social.linkedin,
                 external: true,
               },
             ].map((social, index) => {

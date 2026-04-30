@@ -1,8 +1,21 @@
 import { motion } from "motion/react";
-import { Github, Linkedin, Mail, Heart } from "lucide-react";
+import { Github, Linkedin, Mail, Heart, Languages } from "lucide-react";
+import { useI18n, type Locale } from "@/i18n";
+
+const localeLabels: Record<Locale, string> = {
+  en: "EN",
+  "pt-BR": "PT-BR",
+};
+
+const localeNames: Record<Locale, string> = {
+  en: "English",
+  "pt-BR": "Portugu\u00eas",
+};
 
 export default function Footer() {
+  const { locale, setLocale } = useI18n();
   const currentYear = new Date().getFullYear();
+  const nextLocale: Locale = locale === "en" ? "pt-BR" : "en";
 
   const socialLinks = [
     {
@@ -55,6 +68,21 @@ export default function Footer() {
 
           {/* Social Links */}
           <div className="flex items-center gap-4">
+            <motion.button
+              type="button"
+              onClick={() => setLocale(nextLocale)}
+              aria-label={`Change language to ${localeNames[nextLocale]}`}
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.3, delay: 0.3 }}
+              whileHover={{ scale: 1.05, y: -2 }}
+              whileTap={{ scale: 0.95 }}
+              className="inline-flex h-9 items-center gap-2 rounded-xl bg-muted/50 px-3 text-xs font-semibold text-muted-foreground transition-all duration-300 hover:bg-muted hover:text-primary"
+            >
+              <Languages className="h-4 w-4" />
+              {localeLabels[nextLocale]}
+            </motion.button>
+
             {socialLinks.map((link, index) => {
               const IconComponent = link.icon;
               return (

@@ -7,6 +7,7 @@ import About from "./pages/About";
 import Contact from "./pages/Contact";
 import LeetCode from "./pages/LeetCode";
 import Provinces from "./pages/Provinces";
+import { I18nProvider } from "./i18n";
 import "./index.css";
 import SmallestMissingPositive from "./pages/SmallestMissingPositive";
 
@@ -15,20 +16,22 @@ if (!rootElement) throw new Error('Root element with id="root" not found.');
 
 createRoot(rootElement).render(
   <StrictMode>
-    <BrowserRouter>
-      <Routes>
-        <Route element={<PageLayout />}>
-          <Route index element={<Home />} />
-          <Route path="about" element={<About />} />
-          <Route path="contact" element={<Contact />} />
-          <Route path="leetcode" element={<LeetCode />} />
-          <Route path="leetcode/provinces" element={<Provinces />} />
-          <Route
-            path="leetcode/smallest-missing-positive"
-            element={<SmallestMissingPositive />}
-          />
-        </Route>
-      </Routes>
-    </BrowserRouter>
+    <I18nProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route element={<PageLayout />}>
+            <Route index element={<Home />} />
+            <Route path="about" element={<About />} />
+            <Route path="contact" element={<Contact />} />
+            <Route path="leetcode" element={<LeetCode />} />
+            <Route path="leetcode/provinces" element={<Provinces />} />
+            <Route
+              path="leetcode/smallest-missing-positive"
+              element={<SmallestMissingPositive />}
+            />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </I18nProvider>
   </StrictMode>,
 );

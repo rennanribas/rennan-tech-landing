@@ -1,12 +1,5 @@
 import { motion } from "motion/react";
-import {
-  ChevronDown,
-  Github,
-  Globe2,
-  Heart,
-  Linkedin,
-  Mail,
-} from "lucide-react";
+import { Github, Globe2, Heart, Linkedin, Mail } from "lucide-react";
 import { useI18n, type Locale } from "@/i18n";
 
 const localeLabels: Record<Locale, string> = {

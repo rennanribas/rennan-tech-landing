@@ -24,12 +24,21 @@ interface Lesson {
 
 const lessons: Lesson[] = [
   {
-    to: "/provinces",
+    to: "/leetcode/provinces",
     title: "Number of Provinces",
     blurb:
       "Iterative DFS over an adjacency matrix. Watch the stack fill, the visited set grow, and provinces light up one by one.",
     topics: ["graphs", "DFS", "connected components"],
     icon: Network,
+    status: "live",
+  },
+  {
+    to: "/leetcode/smallest-missing-positive",
+    title: "Smallest Missing Positive",
+    blurb:
+      "Two solutions for the same problem: the obvious Set lookup vs. the in-place sign-marking trick that hits O(1) extra space.",
+    topics: ["arrays", "space complexity", "in-place tricks"],
+    icon: Hash,
     status: "live",
   },
   {
@@ -39,15 +48,6 @@ const lessons: Lesson[] = [
       "Bubble sort and insertion sort animated on the same array, step by step. See where each one wastes work and where each one shines.",
     topics: ["arrays", "O(n²) sorting", "invariants"],
     icon: ArrowUpDown,
-    status: "planned",
-  },
-  {
-    to: "#",
-    title: "Smallest Missing Positive",
-    blurb:
-      "Two solutions for the same problem: the obvious Set lookup vs. the in-place sign-marking trick that hits O(1) extra space.",
-    topics: ["arrays", "space complexity", "in-place tricks"],
-    icon: Hash,
     status: "planned",
   },
   {

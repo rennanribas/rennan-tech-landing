@@ -1,0 +1,14 @@
+{
+  "home": {
+    "hero": {
+      "name": "Rennan Ribas",
+      "role": "Engenheiro de Software S\u00eanior",
+      "description": "Projeto solu\u00e7\u00f5es corporativas com mais de 10 anos de experi\u00eancia em TypeScript, React e tecnologias nativas de nuvem. Entrego sistemas escal\u00e1veis que impulsionam o crescimento do neg\u00f3cio.",
+      "social": {
+        "email": "Email",
+        "github": "GitHub",
+        "linkedin": "LinkedIn"
+      }
+    }
+  }
+}

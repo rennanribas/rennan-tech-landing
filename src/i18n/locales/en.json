@@ -1,0 +1,14 @@
+{
+  "home": {
+    "hero": {
+      "name": "Rennan Ribas",
+      "role": "Senior Software Engineer",
+      "description": "Architecting enterprise-grade solutions with 10+ years of expertise in TypeScript, React, and cloud-native technologies. Delivering scalable systems that drive business growth.",
+      "social": {
+        "email": "Email",
+        "github": "GitHub",
+        "linkedin": "LinkedIn"
+      }
+    }
+  }
+}

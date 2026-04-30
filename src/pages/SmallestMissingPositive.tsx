@@ -55,16 +55,6 @@ type Snapshot = {
   subtitle: string;
 };
 
-const EXAMPLES: number[][] = [
-  [3, 4, -1, 1],
-  [1, 2, 0],
-  [7, 8, 9, 11, 12],
-  [1, 1],
-  [2, 1],
-  [2, 3, 4],
-  [1, 2, 3, 4],
-];
-
 const PHASE_LABEL: Record<Phase, string> = {
   start: "Start",
   look: "Look",
@@ -533,18 +523,6 @@ function ArrayPanel({
             Reset
           </button>
         </div>
-      </div>
-
-      <div className="mb-4 flex flex-wrap gap-2">
-        {EXAMPLES.map((example, index) => (
-          <button
-            key={index}
-            onClick={() => onChangeArray(example)}
-            className="rounded-lg border border-white/10 bg-slate-950/30 px-2.5 py-1.5 text-xs text-slate-300 transition hover:bg-white/10"
-          >
-            Ex {index + 1}
-          </button>
-        ))}
       </div>
 
       <div className="overflow-x-auto rounded-xl border border-white/10 bg-slate-950/30 p-4">

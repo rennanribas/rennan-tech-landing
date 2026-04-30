@@ -267,27 +267,6 @@ export default function Header() {
                           </>
                         )}
                       </NavLink>
-                      {item.children && (
-                        <div className="ml-3 mt-1 flex flex-col gap-1 border-l border-border/20 pl-3">
-                          {item.children.map((child) => (
-                            <NavLink
-                              key={child.to}
-                              to={child.to}
-                              end
-                              onClick={() => setIsMenuOpen(false)}
-                              className={({ isActive }) =>
-                                `rounded-lg px-3 py-2 text-sm transition-colors ${
-                                  isActive
-                                    ? "bg-primary/10 text-primary"
-                                    : "text-foreground/70 hover:bg-foreground/5 hover:text-foreground"
-                                }`
-                              }
-                            >
-                              {child.label}
-                            </NavLink>
-                          ))}
-                        </div>
-                      )}
                     </motion.div>
                   ))}
                   <motion.div

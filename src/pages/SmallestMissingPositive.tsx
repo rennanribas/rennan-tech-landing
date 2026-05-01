@@ -12,6 +12,7 @@ import {
   ArrowRightLeft,
   CheckCircle2,
 } from "lucide-react";
+import { useI18n, type Messages } from "@/i18n";
 
 const MIN_LENGTH = 1;
 const MAX_LENGTH = 10;
@@ -55,22 +56,19 @@ type Snapshot = {
   subtitle: string;
 };
 
-const PHASE_LABEL: Record<Phase, string> = {
-  start: "Start",
-  look: "Look",
-  ignore: "Skip",
-  home: "Home",
-  duplicate: "Duplicate",
-  swap: "Swap",
-  scan: "Scan",
-  found: "Found",
-  done: "Done",
-};
+type SmpMessages = Messages["smallestMissingPositive"];
+type SnapshotMessages = SmpMessages["snapshots"];
 
-const STAGE_LABEL: Record<Stage, string> = {
-  organize: "Organize array",
-  review: "Review homes",
-};
+function format(
+  template: string,
+  vars: Record<string, string | number>,
+): string {
+  return template.replace(/\{(\w+)\}/g, (match, key) =>
+    Object.prototype.hasOwnProperty.call(vars, key)
+      ? String(vars[key])
+      : match,
+  );
+}
 
 function clamp(value: number, min: number, max: number): number {
   return Math.max(min, Math.min(max, value));
@@ -86,7 +84,7 @@ function idleStates(length: number): CellState[] {
   return Array.from({ length }, () => "idle");
 }
 
-function buildSnapshots(input: number[]): Snapshot[] {
+function buildSnapshots(input: number[], t: SnapshotMessages): Snapshot[] {
   const numbers = [...input];
   const total = numbers.length;
   const snapshots: Snapshot[] = [];
@@ -100,8 +98,8 @@ function buildSnapshots(input: number[]): Snapshot[] {
     answer: null,
     phase: "start",
     stage: "organize",
-    title: "Start by organizing the array",
-    subtitle: "Each positive number has a home index: number - 1.",
+    title: t.startTitle,
+    subtitle: t.startSubtitle,
   });
 
   for (let index = 0; index < total; index++) {
@@ -122,8 +120,8 @@ function buildSnapshots(input: number[]): Snapshot[] {
         answer: null,
         phase: "look",
         stage: "organize",
-        title: `Look at ${value}`,
-        subtitle: "Can it go to its home index?",
+        title: format(t.lookTitle, { value }),
+        subtitle: t.lookSubtitle,
       });
 
       const isOutOfRange = value <= 0 || value > total;
@@ -141,8 +139,8 @@ function buildSnapshots(input: number[]): Snapshot[] {
           answer: null,
           phase: "ignore",
           stage: "organize",
-          title: `Skip ${value}`,
-          subtitle: `Only numbers from 1 to ${total} matter.`,
+          title: format(t.skipTitle, { value }),
+          subtitle: format(t.skipSubtitle, { total }),
         });
 
         keepLooking = false;
@@ -165,8 +163,8 @@ function buildSnapshots(input: number[]): Snapshot[] {
         answer: null,
         phase: "home",
         stage: "organize",
-        title: `${value} belongs at index ${homeIndex}`,
-        subtitle: "If that position has another value, we swap.",
+        title: format(t.homeTitle, { value, homeIndex }),
+        subtitle: t.homeSubtitle,
       });
 
       const alreadyHome = index === homeIndex;
@@ -184,8 +182,8 @@ function buildSnapshots(input: number[]): Snapshot[] {
           answer: null,
           phase: "home",
           stage: "organize",
-          title: `${value} is already home`,
-          subtitle: "Move forward.",
+          title: format(t.alreadyHomeTitle, { value }),
+          subtitle: t.alreadyHomeSubtitle,
         });
 
         keepLooking = false;
@@ -208,8 +206,8 @@ function buildSnapshots(input: number[]): Snapshot[] {
           answer: null,
           phase: "duplicate",
           stage: "organize",
-          title: `${value} is duplicated`,
-          subtitle: "Its home already has the same value.",
+          title: format(t.duplicateTitle, { value }),
+          subtitle: t.duplicateSubtitle,
         });
 
         keepLooking = false;
@@ -229,8 +227,8 @@ function buildSnapshots(input: number[]): Snapshot[] {
         answer: null,
         phase: "swap",
         stage: "organize",
-        title: `Swap into index ${homeIndex}`,
-        subtitle: `${value} moves to its home. Then we re-check this index.`,
+        title: format(t.swapTitle, { homeIndex }),
+        subtitle: format(t.swapSubtitle, { value }),
       });
 
       numbers[index] = valueAtHome;
@@ -254,11 +252,11 @@ function buildSnapshots(input: number[]): Snapshot[] {
       answer: null,
       phase: "scan",
       stage: "review",
-      title: `Review index ${index}`,
+      title: format(t.reviewTitle, { index }),
       subtitle:
         actual === expected
-          ? `Expected ${expected}. Found ${actual}. Keep going.`
-          : `Expected ${expected}. Found ${actual}. This is the gap.`,
+          ? format(t.reviewSubtitleKeep, { expected, actual })
+          : format(t.reviewSubtitleGap, { expected, actual }),
     });
 
     if (actual !== expected) {
@@ -274,8 +272,8 @@ function buildSnapshots(input: number[]): Snapshot[] {
         answer: expected,
         phase: "found",
         stage: "review",
-        title: `${expected} is missing`,
-        subtitle: "The first wrong home gives the answer.",
+        title: format(t.foundTitle, { expected }),
+        subtitle: t.foundSubtitle,
       });
 
       return snapshots;
@@ -291,8 +289,8 @@ function buildSnapshots(input: number[]): Snapshot[] {
     answer: total + 1,
     phase: "done",
     stage: "review",
-    title: `${total + 1} is missing`,
-    subtitle: `All homes from 1 to ${total} are filled.`,
+    title: format(t.doneTitle, { value: total + 1 }),
+    subtitle: format(t.doneSubtitle, { total }),
   });
 
   return snapshots;
@@ -436,12 +434,18 @@ function ArrayPanel({
   onChangeNumber,
   onChangeArray,
   onReset,
+  panel,
+  stages,
+  phases,
 }: {
   snapshot: Snapshot;
   numbers: number[];
   onChangeNumber: (index: number, value: number) => void;
   onChangeArray: (numbers: number[]) => void;
   onReset: () => void;
+  panel: SmpMessages["panel"];
+  stages: SmpMessages["stages"];
+  phases: SmpMessages["phases"];
 }) {
   const stageClass = getStageClass(snapshot.stage);
   const stagePillClass = getStagePillClass(snapshot.stage);
@@ -479,11 +483,11 @@ function ArrayPanel({
           <span
             className={`rounded-md border px-2 py-1 text-[11px] font-semibold uppercase tracking-wider ${stagePillClass}`}
           >
-            {STAGE_LABEL[snapshot.stage]}
+            {stages[snapshot.stage]}
           </span>
 
           <span className="rounded-md border border-white/10 bg-slate-950/40 px-2 py-1 font-mono text-[10px] text-slate-300">
-            {PHASE_LABEL[snapshot.phase]}
+            {phases[snapshot.phase]}
           </span>
         </div>
 
@@ -492,7 +496,7 @@ function ArrayPanel({
             onClick={() => setLength(numbers.length - 1)}
             disabled={numbers.length <= MIN_LENGTH}
             className={button}
-            aria-label="Decrease length"
+            aria-label={panel.decreaseLength}
           >
             <Minus className="h-3.5 w-3.5" />
           </button>
@@ -505,7 +509,7 @@ function ArrayPanel({
             onClick={() => setLength(numbers.length + 1)}
             disabled={numbers.length >= MAX_LENGTH}
             className={button}
-            aria-label="Increase length"
+            aria-label={panel.increaseLength}
           >
             <Plus className="h-3.5 w-3.5" />
           </button>
@@ -515,12 +519,12 @@ function ArrayPanel({
             className={button}
           >
             <Shuffle className="h-3.5 w-3.5" />
-            Random
+            {panel.random}
           </button>
 
           <button onClick={onReset} className={button}>
             <RotateCcw className="h-3.5 w-3.5" />
-            Reset
+            {panel.reset}
           </button>
         </div>
       </div>
@@ -548,25 +552,27 @@ function MainRule({
   value,
   homeIndex,
   total,
+  t,
 }: {
   value: number | null;
   homeIndex: number | null;
   total: number;
+  t: SmpMessages["rule"];
 }) {
   const isPlaceable = value !== null && value >= 1 && value <= total;
 
   return (
     <div className="rounded-2xl border border-white/10 bg-slate-950/40 p-4">
       <div className="mb-2 text-[11px] font-semibold uppercase tracking-wider text-slate-400">
-        Rule
+        {t.label}
       </div>
 
       <div className="rounded-xl border border-white/10 bg-slate-900/70 p-4 font-mono text-sm text-slate-100">
-        home index = number - 1
+        {t.formula}
       </div>
 
       <div className="mt-3 min-h-8 font-mono text-xs text-slate-400">
-        {value === null && "No number selected."}
+        {value === null && t.noNumber}
 
         {value !== null && isPlaceable && (
           <div className="flex flex-wrap items-center gap-2">
@@ -579,20 +585,24 @@ function MainRule({
         )}
 
         {value !== null && !isPlaceable && (
-          <span>
-            {value} has no home. Valid range is 1..{total}.
-          </span>
+          <span>{format(t.noHome, { value, total })}</span>
         )}
       </div>
     </div>
   );
 }
 
-function HomesView({ total }: { total: number }) {
+function HomesView({
+  total,
+  t,
+}: {
+  total: number;
+  t: SmpMessages["homes"];
+}) {
   return (
     <div className="rounded-2xl border border-white/10 bg-slate-950/40 p-4">
       <div className="mb-3 text-[11px] font-semibold uppercase tracking-wider text-slate-400">
-        Expected homes
+        {t.label}
       </div>
 
       <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
@@ -604,8 +614,12 @@ function HomesView({ total }: { total: number }) {
               key={index}
               className="rounded-lg border border-white/10 bg-slate-900/70 px-3 py-2 font-mono text-xs"
             >
-              <div className="text-slate-500">index {index}</div>
-              <div className="text-slate-100">number {number}</div>
+              <div className="text-slate-500">
+                {format(t.indexLabel, { index })}
+              </div>
+              <div className="text-slate-100">
+                {format(t.numberLabel, { number })}
+              </div>
             </div>
           );
         })}
@@ -614,27 +628,33 @@ function HomesView({ total }: { total: number }) {
   );
 }
 
-function StatusCard({ snapshot }: { snapshot: Snapshot }) {
+function StatusCard({
+  snapshot,
+  t,
+}: {
+  snapshot: Snapshot;
+  t: SmpMessages["status"];
+}) {
   return (
     <div className="rounded-2xl border border-white/10 bg-slate-950/40 p-4">
       <div className="mb-2 flex flex-wrap items-center gap-2 text-[11px] font-semibold uppercase tracking-wider text-slate-400">
-        <span>Step</span>
+        <span>{t.label}</span>
 
         {snapshot.index !== null && (
           <span className="rounded-md border border-white/10 bg-slate-900/60 px-1.5 py-0.5 font-mono text-[10px] text-slate-300">
-            index {snapshot.index}
+            {format(t.indexLabel, { index: snapshot.index })}
           </span>
         )}
 
         {snapshot.value !== null && (
           <span className="rounded-md border border-white/10 bg-slate-900/60 px-1.5 py-0.5 font-mono text-[10px] text-slate-300">
-            value {snapshot.value}
+            {format(t.valueLabel, { value: snapshot.value })}
           </span>
         )}
 
         {snapshot.homeIndex !== null && (
           <span className="rounded-md border border-white/10 bg-slate-900/60 px-1.5 py-0.5 font-mono text-[10px] text-slate-300">
-            home {snapshot.homeIndex}
+            {format(t.homeLabel, { homeIndex: snapshot.homeIndex })}
           </span>
         )}
       </div>
@@ -658,6 +678,7 @@ function Controls({
   onNext,
   step,
   total,
+  t,
 }: {
   isPlaying: boolean;
   onPlayToggle: () => void;
@@ -666,13 +687,14 @@ function Controls({
   onNext: () => void;
   step: number;
   total: number;
+  t: SmpMessages["controls"];
 }) {
   const button =
     "rounded-lg border border-white/10 bg-white/5 p-1.5 text-slate-200 transition hover:bg-white/10 disabled:opacity-40";
 
   return (
     <div className="flex flex-wrap items-center gap-1.5 rounded-xl border border-white/10 bg-slate-900/70 p-1.5 backdrop-blur-md">
-      <button onClick={onReset} className={button} aria-label="Reset">
+      <button onClick={onReset} className={button} aria-label={t.reset}>
         <RotateCcw className="h-3.5 w-3.5" />
       </button>
 
@@ -680,7 +702,7 @@ function Controls({
         onClick={onPrev}
         disabled={step === 0}
         className={button}
-        aria-label="Previous"
+        aria-label={t.previous}
       >
         <SkipBack className="h-3.5 w-3.5" />
       </button>
@@ -688,7 +710,7 @@ function Controls({
       <button
         onClick={onPlayToggle}
         className="rounded-lg border border-cyan-400/30 bg-cyan-400/15 p-1.5 text-cyan-100 transition hover:bg-cyan-400/25"
-        aria-label={isPlaying ? "Pause" : "Play"}
+        aria-label={isPlaying ? t.pause : t.play}
       >
         {isPlaying ? (
           <Pause className="h-3.5 w-3.5" />
@@ -701,7 +723,7 @@ function Controls({
         onClick={onNext}
         disabled={step >= total - 1}
         className={button}
-        aria-label="Next"
+        aria-label={t.next}
       >
         <SkipForward className="h-3.5 w-3.5" />
       </button>
@@ -713,14 +735,14 @@ function Controls({
   );
 }
 
-function Legend() {
-  const items = [
-    ["current", "border-cyan-300/60 bg-cyan-400/15 text-cyan-50"],
-    ["home", "border-fuchsia-300/60 bg-fuchsia-400/15 text-fuchsia-50"],
-    ["swap", "border-amber-300/60 bg-amber-400/15 text-amber-50"],
-    ["correct", "border-emerald-300/60 bg-emerald-400/15 text-emerald-50"],
-    ["skip", "border-slate-500/50 bg-slate-800/70 text-slate-300"],
-    ["missing", "border-red-300/60 bg-red-400/15 text-red-50"],
+function Legend({ t }: { t: SmpMessages["legend"] }) {
+  const items: [string, string][] = [
+    [t.current, "border-cyan-300/60 bg-cyan-400/15 text-cyan-50"],
+    [t.home, "border-fuchsia-300/60 bg-fuchsia-400/15 text-fuchsia-50"],
+    [t.swap, "border-amber-300/60 bg-amber-400/15 text-amber-50"],
+    [t.correct, "border-emerald-300/60 bg-emerald-400/15 text-emerald-50"],
+    [t.skip, "border-slate-500/50 bg-slate-800/70 text-slate-300"],
+    [t.missing, "border-red-300/60 bg-red-400/15 text-red-50"],
   ];
 
   return (
@@ -737,25 +759,31 @@ function Legend() {
   );
 }
 
-function AnswerView({ answer }: { answer: number | null }) {
+function AnswerView({
+  answer,
+  t,
+}: {
+  answer: number | null;
+  t: SmpMessages["answer"];
+}) {
   return (
     <div className="flex items-center gap-2 font-mono text-[11px] text-slate-400">
       <CheckCircle2 className="h-3.5 w-3.5 text-cyan-300" />
       <span>
-        answer:{" "}
+        {t.label}{" "}
         <span className="text-cyan-300">
-          {answer === null ? "not yet" : answer}
+          {answer === null ? t.notYet : answer}
         </span>
       </span>
     </div>
   );
 }
 
-function CodeView() {
+function CodeView({ label }: { label: string }) {
   return (
     <div className="rounded-2xl border border-white/10 bg-slate-950/50 p-4">
       <div className="mb-2 text-[11px] font-semibold uppercase tracking-wider text-cyan-300">
-        Code
+        {label}
       </div>
 
       <pre className="overflow-x-auto rounded-xl border border-white/10 bg-slate-950 p-4 text-xs leading-relaxed text-slate-300">
@@ -803,13 +831,19 @@ function CodeView() {
 }
 
 export default function SmallestMissingPositive() {
+  const { messages } = useI18n();
+  const t = messages.smallestMissingPositive;
+
   const defaultNumbers = [3, 4, -1, 1];
 
   const [numbers, setNumbers] = useState<number[]>(defaultNumbers);
   const [step, setStep] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
 
-  const snapshots = useMemo(() => buildSnapshots(numbers), [numbers]);
+  const snapshots = useMemo(
+    () => buildSnapshots(numbers, t.snapshots),
+    [numbers, t.snapshots],
+  );
   const numbersKey = numbers.join("|");
   const current = snapshots[step] ?? snapshots[0];
 
@@ -856,12 +890,11 @@ export default function SmallestMissingPositive() {
       <div className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 sm:py-12">
         <header className="mb-6 sm:mb-8">
           <h1 className="text-2xl font-semibold tracking-tight text-slate-50 sm:text-3xl">
-            Smallest Missing Positive
+            {t.header.title}
           </h1>
 
           <p className="mt-1 max-w-3xl text-sm leading-relaxed text-slate-400">
-            First organize the array. Then review the expected positions to find
-            the first missing positive number.
+            {t.header.description}
           </p>
         </header>
 
@@ -869,11 +902,11 @@ export default function SmallestMissingPositive() {
           <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
             <div className="min-w-0">
               <h2 className="text-lg font-semibold text-slate-50 sm:text-xl">
-                Visual run
+                {t.section.title}
               </h2>
 
               <p className="text-xs leading-relaxed text-slate-400 sm:text-sm">
-                Edit the array directly, then step through the two main phases.
+                {t.section.description}
               </p>
             </div>
 
@@ -896,6 +929,7 @@ export default function SmallestMissingPositive() {
               }}
               step={step}
               total={snapshots.length}
+              t={t.controls}
             />
           </div>
 
@@ -905,28 +939,32 @@ export default function SmallestMissingPositive() {
             onChangeNumber={changeNumber}
             onChangeArray={changeArray}
             onReset={resetToDefault}
+            panel={t.panel}
+            stages={t.stages}
+            phases={t.phases}
           />
 
-          <StatusCard snapshot={current} />
+          <StatusCard snapshot={current} t={t.status} />
 
           <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
             <MainRule
               value={current.value}
               homeIndex={current.homeIndex}
               total={current.numbers.length}
+              t={t.rule}
             />
 
-            <HomesView total={current.numbers.length} />
+            <HomesView total={current.numbers.length} t={t.homes} />
           </div>
 
           <div className="flex flex-wrap items-center justify-between gap-3">
-            <Legend />
-            <AnswerView answer={current.answer} />
+            <Legend t={t.legend} />
+            <AnswerView answer={current.answer} t={t.answer} />
           </div>
         </div>
 
         <div className="mt-5">
-          <CodeView />
+          <CodeView label={t.code.label} />
         </div>
       </div>
     </div>

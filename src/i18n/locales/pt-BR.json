@@ -299,6 +299,238 @@
       }
     ]
   },
+  "leetcode": {
+    "header": {
+      "eyebrow": "Laboratório LeetCode",
+      "title": "Algoritmos e estruturas de dados.",
+      "description": "Uma coleção crescente de aulas interativas que transformam problemas de algoritmos e estruturas de dados em algo que você consegue ver acontecer, passo a passo, com controles e narração clara."
+    },
+    "lessonsSection": {
+      "eyebrow": "Aulas",
+      "title": "Escolha uma e brinque com ela",
+      "description": "Cada aula roda a mesma entrada pelo algoritmo e permite avançar, voltar ou simplesmente dar play. Ajuste a entrada e veja o comportamento mudar.",
+      "stats": "{live} ativas · {planned} planejadas"
+    },
+    "openLesson": "Abrir aula",
+    "planned": "planejada",
+    "lessons": [
+      {
+        "title": "Número de Províncias",
+        "blurb": "DFS iterativo sobre uma matriz de adjacência. Veja a pilha encher, o conjunto de visitados crescer e as províncias acenderem uma a uma.",
+        "topics": ["grafos", "DFS", "componentes conexos"]
+      },
+      {
+        "title": "Menor Positivo Ausente",
+        "blurb": "Duas soluções para o mesmo problema: a busca óbvia em Set vs. o truque de marcação de sinal in-place que atinge O(1) de espaço extra.",
+        "topics": ["arrays", "complexidade de espaço", "truques in-place"]
+      },
+      {
+        "title": "Ordenação lado a lado",
+        "blurb": "Bubble sort e insertion sort animados sobre o mesmo array, passo a passo. Veja onde cada um desperdiça trabalho e onde cada um brilha.",
+        "topics": ["arrays", "ordenação O(n²)", "invariantes"]
+      },
+      {
+        "title": "Dois Ponteiros",
+        "blurb": "Cursores que se encontram no meio, deslizam juntos ou se perseguem. A forma por trás de uma quantidade surpreendente de problemas \"difíceis\".",
+        "topics": ["arrays", "strings", "janela deslizante"]
+      },
+      {
+        "title": "Recursão e a pilha de chamadas",
+        "blurb": "Uma pilha de chamadas visual para que a recursão pare de parecer mágica. Veja frames empilharem, retornarem e desempilharem em tempo real.",
+        "topics": ["recursão", "pilha", "travessia de árvore"]
+      },
+      {
+        "title": "Hash maps do zero",
+        "blurb": "Buckets, funções hash e colisões visualizados. Por que \"O(1) em média\" está fazendo bastante trabalho pesado.",
+        "topics": ["hashing", "colisões", "fator de carga"]
+      }
+    ],
+    "callout": {
+      "before": "Tem um tópico que você queria que alguém tivesse visualizado quando você estava aprendendo? ",
+      "link": "Me conte sobre ele",
+      "after": " — sugestões moldam o que vem a seguir."
+    }
+  },
+  "provinces": {
+    "header": {
+      "title": "Número de Províncias — DFS Iterativo com Pilha",
+      "description": "Cada cidade é um nó, cada 1 na matriz é uma estrada. Conte quantos grupos isolados de cidades existem — esses grupos são as províncias."
+    },
+    "editor": {
+      "cities": "Cidades",
+      "decrease": "Diminuir",
+      "increase": "Aumentar",
+      "ariaCities": "Número de cidades",
+      "random": "Aleatório",
+      "isolatedPairs": "Pares isolados",
+      "allConnected": "Todas conectadas",
+      "noneConnected": "Nenhuma conectada",
+      "instruction": "Clique nas células para alternar estradas (a matriz é simétrica)"
+    },
+    "controls": {
+      "reset": "Resetar",
+      "previous": "Anterior",
+      "next": "Próximo",
+      "play": "Play",
+      "pause": "Pausar"
+    },
+    "algorithm": {
+      "title": "Como o algoritmo funciona",
+      "description": "O loop externo procura uma nova cidade. A pilha explora tudo conectado a ela. Quando esvazia, uma província é fechada."
+    },
+    "labels": {
+      "cityMap": "Mapa de cidades",
+      "matrix": "Matriz isConnected",
+      "stackTop": "Pilha (topo →)",
+      "stackSize": "tamanho {n}",
+      "stackEmpty": "vazia",
+      "visited": "visited[]",
+      "whatsHappening": "O que está acontecendo"
+    },
+    "phases": {
+      "init": "Início",
+      "outer": "for (i)",
+      "pop": "stack.pop()",
+      "scan": "varrer linha",
+      "doneProvince": "província fechada",
+      "done": "concluído"
+    },
+    "legend": {
+      "currentCity": "cidade atual",
+      "onStack": "na pilha",
+      "checkingNeighbor": "verificando vizinho",
+      "notVisited": "não visitada",
+      "visitedCells": "visitada (cor = província)"
+    },
+    "stats": {
+      "provinces": "províncias:",
+      "visited": "visitadas:"
+    },
+    "phaseCards": {
+      "phase1Title": "Fase 1 — varredura externa",
+      "phase1Description": "O for (i) itera sobre cada cidade procurando uma que ainda não foi visitada. Se já estiver marcada, pule — ela pertence a uma província já contada. Caso contrário, é uma nova província: incrementa o contador e começa a explorar.",
+      "phase2Title": "Fase 2 — explorar com a pilha",
+      "phase2Description": "Empilha a cidade inicial. Enquanto a pilha não estiver vazia, desempilha o topo, marca como visitada e olha sua linha na matriz. Cada 1 encontrado é uma estrada — se o vizinho ainda não foi visitado, empilha. A pilha funciona como um caderno de \"visitar depois\".",
+      "phase3Title": "Fase 3 — fechar e voltar",
+      "phase3Description": "Quando a pilha esvazia, todo nó no componente conexo da cidade inicial está marcado. Voltamos ao loop externo, que pula todas as cidades já visitadas até encontrar a próxima ilha. No final, o contador provinces guarda a resposta."
+    },
+    "snapshots": {
+      "initNote": "Início — nenhuma cidade visitada.",
+      "initExplanation": "Temos um mapa de cidades e uma matriz que diz quem tem estrada direta para quem. O objetivo é contar quantos grupos isolados (províncias) existem.",
+      "outerSkipNote": "Cidade {i} já visitada — pular.",
+      "outerSkipExplanation": "O loop externo chega na cidade {i}, mas ela já foi alcançada por uma busca anterior, então pertence a uma província já contada.",
+      "newProvinceNote": "Nova província #{p}! Começando em {i}.",
+      "newProvinceExplanation": "A cidade {i} ainda não foi visitada — encontramos um novo grupo. Empilhamos {i} para começar a explorar tudo conectado a ela.",
+      "popVisitedNote": "Desempilhou {city} — já visitada, pular.",
+      "popVisitedExplanation": "{city} foi empilhada por mais de um vizinho. Quando saiu da pilha, já tinha sido processada, então pulamos.",
+      "visitNote": "Visitar cidade {city}.",
+      "visitExplanation": "Desempilhou {city} do topo da pilha. Marca como visitada e adiciona à província #{p}. Agora olhamos a linha {city} da matriz para encontrar vizinhos diretos.",
+      "checkNote": "Checa matrix[{city}][{j}] = {value}.",
+      "edgeVisitedExplanation": "Existe uma estrada {city}↔{j}, mas {j} já foi visitada — não empilha de novo.",
+      "edgeNewExplanation": "Existe uma estrada {city}↔{j} e {j} ainda não foi visitada — empilha {j} para visitar depois.",
+      "noEdgeExplanation": "Não há estrada direta entre {city} e {j} — continuar.",
+      "pushNote": "Empilha {j}.",
+      "pushExplanation": "{j} vai para o topo da pilha. Vamos visitá-la quando voltarmos para o while.",
+      "doneProvinceNote": "Província #{p} fechada: {members}.",
+      "doneProvinceExplanation": "A pilha está vazia — toda cidade alcançável a partir de {i} foi marcada. Voltamos ao loop externo para encontrar a próxima cidade não visitada.",
+      "doneNoteSingular": "Concluído — {p} província.",
+      "doneNotePlural": "Concluído — {p} províncias.",
+      "doneExplanation": "O loop externo terminou. Cada componente conexo foi descoberto exatamente uma vez, então a resposta é {p}."
+    }
+  },
+  "smallestMissingPositive": {
+    "header": {
+      "title": "Menor Positivo Ausente",
+      "description": "Primeiro organize o array. Depois revise as posições esperadas para encontrar o primeiro número positivo ausente."
+    },
+    "section": {
+      "title": "Execução visual",
+      "description": "Edite o array diretamente, depois avance pelas duas fases principais."
+    },
+    "controls": {
+      "reset": "Resetar",
+      "previous": "Anterior",
+      "next": "Próximo",
+      "play": "Play",
+      "pause": "Pausar"
+    },
+    "panel": {
+      "decreaseLength": "Diminuir tamanho",
+      "increaseLength": "Aumentar tamanho",
+      "random": "Aleatório",
+      "reset": "Resetar"
+    },
+    "stages": {
+      "organize": "Organizar array",
+      "review": "Revisar posições"
+    },
+    "phases": {
+      "start": "Início",
+      "look": "Olhar",
+      "ignore": "Pular",
+      "home": "Casa",
+      "duplicate": "Duplicado",
+      "swap": "Troca",
+      "scan": "Revisão",
+      "found": "Encontrado",
+      "done": "Concluído"
+    },
+    "rule": {
+      "label": "Regra",
+      "formula": "índice da casa = número - 1",
+      "noNumber": "Nenhum número selecionado.",
+      "noHome": "{value} não tem casa. Faixa válida é 1..{total}."
+    },
+    "homes": {
+      "label": "Casas esperadas",
+      "indexLabel": "índice {index}",
+      "numberLabel": "número {number}"
+    },
+    "status": {
+      "label": "Passo",
+      "indexLabel": "índice {index}",
+      "valueLabel": "valor {value}",
+      "homeLabel": "casa {homeIndex}"
+    },
+    "legend": {
+      "current": "atual",
+      "home": "casa",
+      "swap": "troca",
+      "correct": "correto",
+      "skip": "pular",
+      "missing": "ausente"
+    },
+    "answer": {
+      "label": "resposta:",
+      "notYet": "ainda não"
+    },
+    "code": {
+      "label": "Código"
+    },
+    "snapshots": {
+      "startTitle": "Comece organizando o array",
+      "startSubtitle": "Cada número positivo tem uma casa: número - 1.",
+      "lookTitle": "Olhar para {value}",
+      "lookSubtitle": "Pode ir para o índice da sua casa?",
+      "skipTitle": "Pular {value}",
+      "skipSubtitle": "Só importam números de 1 a {total}.",
+      "homeTitle": "{value} pertence ao índice {homeIndex}",
+      "homeSubtitle": "Se essa posição tem outro valor, trocamos.",
+      "alreadyHomeTitle": "{value} já está em casa",
+      "alreadyHomeSubtitle": "Seguir em frente.",
+      "duplicateTitle": "{value} está duplicado",
+      "duplicateSubtitle": "A casa dele já tem o mesmo valor.",
+      "swapTitle": "Trocar para o índice {homeIndex}",
+      "swapSubtitle": "{value} vai para a sua casa. Depois revisamos esse índice.",
+      "reviewTitle": "Revisar índice {index}",
+      "reviewSubtitleKeep": "Esperado {expected}. Encontrado {actual}. Continuar.",
+      "reviewSubtitleGap": "Esperado {expected}. Encontrado {actual}. Esta é a lacuna.",
+      "foundTitle": "{expected} está ausente",
+      "foundSubtitle": "A primeira casa errada dá a resposta.",
+      "doneTitle": "{value} está ausente",
+      "doneSubtitle": "Todas as casas de 1 a {total} estão preenchidas."
+    }
+  },
   "footer": {
     "madeWith": "Feito com",
     "location": "no Brasil",

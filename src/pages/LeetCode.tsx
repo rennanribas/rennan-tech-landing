@@ -10,76 +10,42 @@ import {
   Sparkles,
   type LucideIcon,
 } from "lucide-react";
+import { useI18n } from "@/i18n";
 
 type Status = "live" | "planned";
 
-interface Lesson {
+interface LessonMeta {
   to: string;
-  title: string;
-  blurb: string;
-  topics: string[];
   icon: LucideIcon;
   status: Status;
 }
 
-const lessons: Lesson[] = [
-  {
-    to: "/leetcode/provinces",
-    title: "Number of Provinces",
-    blurb:
-      "Iterative DFS over an adjacency matrix. Watch the stack fill, the visited set grow, and provinces light up one by one.",
-    topics: ["graphs", "DFS", "connected components"],
-    icon: Network,
-    status: "live",
-  },
-  {
-    to: "/leetcode/smallest-missing-positive",
-    title: "Smallest Missing Positive",
-    blurb:
-      "Two solutions for the same problem: the obvious Set lookup vs. the in-place sign-marking trick that hits O(1) extra space.",
-    topics: ["arrays", "space complexity", "in-place tricks"],
-    icon: Hash,
-    status: "live",
-  },
-  {
-    to: "#",
-    title: "Sorting side-by-side",
-    blurb:
-      "Bubble sort and insertion sort animated on the same array, step by step. See where each one wastes work and where each one shines.",
-    topics: ["arrays", "O(n²) sorting", "invariants"],
-    icon: ArrowUpDown,
-    status: "planned",
-  },
-  {
-    to: "#",
-    title: "Two Pointers",
-    blurb:
-      'Moving cursors that meet in the middle, slide together, or chase each other. The shape behind a surprising number of "hard" problems.',
-    topics: ["arrays", "strings", "sliding window"],
-    icon: Compass,
-    status: "planned",
-  },
-  {
-    to: "#",
-    title: "Recursion & the call stack",
-    blurb:
-      "A visual call stack so the recursion stops feeling like magic. See frames push, return, and unwind in real time.",
-    topics: ["recursion", "stack", "tree traversal"],
-    icon: Sparkles,
-    status: "planned",
-  },
-  {
-    to: "#",
-    title: "Hash maps from scratch",
-    blurb:
-      'Buckets, hash functions, and collisions visualised. Why "average O(1)" is doing some heavy lifting.',
-    topics: ["hashing", "collisions", "load factor"],
-    icon: Lightbulb,
-    status: "planned",
-  },
+const lessonMeta: LessonMeta[] = [
+  { to: "/leetcode/provinces", icon: Network, status: "live" },
+  { to: "/leetcode/smallest-missing-positive", icon: Hash, status: "live" },
+  { to: "#", icon: ArrowUpDown, status: "planned" },
+  { to: "#", icon: Compass, status: "planned" },
+  { to: "#", icon: Sparkles, status: "planned" },
+  { to: "#", icon: Lightbulb, status: "planned" },
 ];
 
-function LessonCard({ lesson, index }: { lesson: Lesson; index: number }) {
+interface Lesson extends LessonMeta {
+  title: string;
+  blurb: string;
+  topics: string[];
+}
+
+function LessonCard({
+  lesson,
+  index,
+  openLabel,
+  plannedLabel,
+}: {
+  lesson: Lesson;
+  index: number;
+  openLabel: string;
+  plannedLabel: string;
+}) {
   const { icon: Icon, status } = lesson;
   const isLive = status === "live";
 
@@ -108,7 +74,7 @@ function LessonCard({ lesson, index }: { lesson: Lesson; index: number }) {
         {!isLive && (
           <span className="inline-flex items-center gap-1 rounded-full border border-border/60 bg-muted/40 px-2.5 py-1 text-[11px] font-medium uppercase tracking-wider text-foreground/60">
             <Construction className="h-3 w-3" />
-            planned
+            {plannedLabel}
           </span>
         )}
       </div>
@@ -146,7 +112,7 @@ function LessonCard({ lesson, index }: { lesson: Lesson; index: number }) {
 
       {isLive && (
         <div className="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-primary">
-          Open lesson
+          {openLabel}
           <span
             aria-hidden="true"
             className="transition-transform duration-200 group-hover:translate-x-0.5"
@@ -168,7 +134,21 @@ function LessonCard({ lesson, index }: { lesson: Lesson; index: number }) {
 }
 
 export default function LeetCode() {
+  const { messages } = useI18n();
+  const t = messages.leetcode;
+
+  const lessons: Lesson[] = lessonMeta.map((meta, i) => ({
+    ...meta,
+    title: t.lessons[i].title,
+    blurb: t.lessons[i].blurb,
+    topics: t.lessons[i].topics,
+  }));
+
   const live = lessons.filter((l) => l.status === "live").length;
+  const planned = lessons.length - live;
+  const stats = t.lessonsSection.stats
+    .replace("{live}", String(live))
+    .replace("{planned}", String(planned));
 
   return (
     <motion.div
@@ -180,15 +160,13 @@ export default function LeetCode() {
         <div className="absolute inset-x-0 top-12 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent -z-10" />
 
         <p className="text-sm font-semibold uppercase tracking-[0.3em] text-primary/70 mb-4">
-          LeetCode lab
+          {t.header.eyebrow}
         </p>
         <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-foreground mb-4 tracking-tight">
-          Algorithms and data structures.
+          {t.header.title}
         </h1>
         <p className="text-lg sm:text-xl text-foreground/80 max-w-3xl mx-auto leading-relaxed">
-          A growing collection of interactive lessons that turn algorithm and
-          data-structure problems into something you can actually watch happen,
-          one step at a time, with controls and clear narration.
+          {t.header.description}
         </p>
       </section>
 
@@ -196,25 +174,27 @@ export default function LeetCode() {
         <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
           <div className="max-w-2xl">
             <p className="text-sm font-semibold uppercase tracking-[0.24em] text-primary/70 mb-3">
-              Lessons
+              {t.lessonsSection.eyebrow}
             </p>
             <h2 className="text-3xl font-bold text-foreground tracking-tight">
-              Pick one and play with it
+              {t.lessonsSection.title}
             </h2>
             <p className="mt-3 text-foreground/75 leading-relaxed">
-              Every lesson runs the same input through the algorithm and lets
-              you step forward, step back, or just hit play. Tweak the input and
-              watch the behaviour change.
+              {t.lessonsSection.description}
             </p>
           </div>
-          <span className="text-sm font-mono text-foreground/55">
-            {live} live · {lessons.length - live} planned
-          </span>
+          <span className="text-sm font-mono text-foreground/55">{stats}</span>
         </div>
 
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {lessons.map((lesson, index) => (
-            <LessonCard key={lesson.title} lesson={lesson} index={index} />
+            <LessonCard
+              key={lesson.title}
+              lesson={lesson}
+              index={index}
+              openLabel={t.openLesson}
+              plannedLabel={t.planned}
+            />
           ))}
         </div>
       </section>
@@ -222,15 +202,14 @@ export default function LeetCode() {
       <section className="py-12">
         <div className="rounded-2xl border border-border/70 bg-muted/40 p-6 sm:p-8">
           <p className="text-foreground/75 leading-relaxed">
-            Have a topic you wish someone had visualised when you were learning
-            it?{" "}
+            {t.callout.before}
             <Link
               to="/contact"
               className="font-semibold text-primary hover:underline"
             >
-              Tell me about it
-            </Link>{" "}
-            — suggestions shape what gets built next.
+              {t.callout.link}
+            </Link>
+            {t.callout.after}
           </p>
         </div>
       </section>

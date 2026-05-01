@@ -11,6 +11,7 @@ import {
   Plus,
   Network,
 } from "lucide-react";
+import { useI18n, type Messages } from "@/i18n";
 
 const MIN_N = 2;
 const MAX_N = 8;
@@ -40,6 +41,20 @@ type Snapshot = {
   note: string;
   explanation: string;
 };
+
+type ProvincesMessages = Messages["provinces"];
+type SnapshotMessages = ProvincesMessages["snapshots"];
+
+function format(
+  template: string,
+  vars: Record<string, string | number>,
+): string {
+  return template.replace(/\{(\w+)\}/g, (match, key) =>
+    Object.prototype.hasOwnProperty.call(vars, key)
+      ? String(vars[key])
+      : match,
+  );
+}
 
 const PROVINCE_PALETTE = [
   {
@@ -84,7 +99,10 @@ function edgeKey(a: number, b: number) {
   return a < b ? `${a}-${b}` : `${b}-${a}`;
 }
 
-function buildSnapshots(matrix: number[][]): Snapshot[] {
+function buildSnapshots(
+  matrix: number[][],
+  t: SnapshotMessages,
+): Snapshot[] {
   const n = matrix.length;
   const snapshots: Snapshot[] = [];
   const visited = new Array<boolean>(n).fill(false);
@@ -116,9 +134,8 @@ function buildSnapshots(matrix: number[][]): Snapshot[] {
     scanningJ: null,
     provincesCount: 0,
     phase: "init",
-    note: "Start — no city visited.",
-    explanation:
-      "We have a map of cities and a matrix that says who has a direct road to whom. The goal is to count how many isolated groups (provinces) there are.",
+    note: t.initNote,
+    explanation: t.initExplanation,
   });
 
   for (let i = 0; i < n; i++) {
@@ -137,8 +154,8 @@ function buildSnapshots(matrix: number[][]): Snapshot[] {
         scanningJ: null,
         provincesCount: provinces,
         phase: "outer",
-        note: `City ${i} already visited — skip.`,
-        explanation: `The outer loop reaches city ${i}, but it was already reached by a previous search, so it belongs to an already-counted province.`,
+        note: format(t.outerSkipNote, { i }),
+        explanation: format(t.outerSkipExplanation, { i }),
       });
       continue;
     }
@@ -158,8 +175,8 @@ function buildSnapshots(matrix: number[][]): Snapshot[] {
       scanningJ: null,
       provincesCount: provinces,
       phase: "outer",
-      note: `New province #${provinces}! Starting at ${i}.`,
-      explanation: `City ${i} has not been visited yet — we found a new group. We push ${i} to start exploring everything connected to it.`,
+      note: format(t.newProvinceNote, { p: provinces, i }),
+      explanation: format(t.newProvinceExplanation, { i }),
     });
 
     const stack = [i];
@@ -186,8 +203,8 @@ function buildSnapshots(matrix: number[][]): Snapshot[] {
           scanningJ: null,
           provincesCount: provinces,
           phase: "pop",
-          note: `Popped ${city} from stack — already visited, skip.`,
-          explanation: `${city} was pushed by more than one neighbor. When it came off the stack, it had already been processed, so we skip.`,
+          note: format(t.popVisitedNote, { city }),
+          explanation: format(t.popVisitedExplanation, { city }),
         });
         continue;
       }
@@ -213,8 +230,8 @@ function buildSnapshots(matrix: number[][]): Snapshot[] {
         scanningJ: null,
         provincesCount: provinces,
         phase: "pop",
-        note: `Visit city ${city}.`,
-        explanation: `Popped ${city} from the stack top. Mark as visited and add to province #${provinces}. Now we look at row ${city} of the matrix to find direct neighbors.`,
+        note: format(t.visitNote, { city }),
+        explanation: format(t.visitExplanation, { city, p: provinces }),
       });
 
       const row = matrix[city]!;
@@ -246,12 +263,12 @@ function buildSnapshots(matrix: number[][]): Snapshot[] {
           scanningJ: j,
           provincesCount: provinces,
           phase: "scan",
-          note: `Check matrix[${city}][${j}] = ${row[j]}.`,
+          note: format(t.checkNote, { city, j, value: row[j] }),
           explanation: hasEdge
             ? visited[j]
-              ? `There is a road ${city}↔${j}, but ${j} was already visited — don't push again.`
-              : `There is a road ${city}↔${j} and ${j} has not been visited yet — push ${j} to visit later.`
-            : `No direct road between ${city} and ${j} — continue.`,
+              ? format(t.edgeVisitedExplanation, { city, j })
+              : format(t.edgeNewExplanation, { city, j })
+            : format(t.noEdgeExplanation, { city, j }),
         });
 
         if (hasEdge && !visited[j]) {
@@ -276,8 +293,8 @@ function buildSnapshots(matrix: number[][]): Snapshot[] {
             scanningJ: j,
             provincesCount: provinces,
             phase: "scan",
-            note: `Push ${j}.`,
-            explanation: `${j} goes to the top of the stack. We will visit it when we return to the while loop.`,
+            note: format(t.pushNote, { j }),
+            explanation: format(t.pushExplanation, { j }),
           });
         }
       }
@@ -292,6 +309,7 @@ function buildSnapshots(matrix: number[][]): Snapshot[] {
       }
     }
 
+    const sortedMembers = `{${[...provinceMembers].sort((a, b) => a - b).join(", ")}}`;
     snapshots.push({
       visited: [...visited],
       stack: [],
@@ -304,8 +322,8 @@ function buildSnapshots(matrix: number[][]): Snapshot[] {
       scanningJ: null,
       provincesCount: provinces,
       phase: "done-province",
-      note: `Province #${provinces} closed: {${provinceMembers.sort((a, b) => a - b).join(", ")}}.`,
-      explanation: `The stack is empty — every city reachable from ${i} has been marked. We return to the outer loop to find the next unvisited city.`,
+      note: format(t.doneProvinceNote, { p: provinces, members: sortedMembers }),
+      explanation: format(t.doneProvinceExplanation, { i }),
     });
   }
 
@@ -315,6 +333,9 @@ function buildSnapshots(matrix: number[][]): Snapshot[] {
       if (matrix[a][b] === 1) allEdges[edgeKey(a, b)] = "in-province";
     }
   }
+
+  const doneTemplate =
+    provinces === 1 ? t.doneNoteSingular : t.doneNotePlural;
 
   snapshots.push({
     visited: [...visited],
@@ -328,8 +349,8 @@ function buildSnapshots(matrix: number[][]): Snapshot[] {
     scanningJ: null,
     provincesCount: provinces,
     phase: "done",
-    note: `Done — ${provinces} province${provinces === 1 ? "" : "s"}.`,
-    explanation: `The outer loop is done. Each connected component was discovered exactly once, so the answer is ${provinces}.`,
+    note: format(doneTemplate, { p: provinces }),
+    explanation: format(t.doneExplanation, { p: provinces }),
   });
 
   return snapshots;
@@ -598,15 +619,21 @@ function MatrixView({
   );
 }
 
-function StackView({ stack }: { stack: number[] }) {
+function StackView({
+  stack,
+  t,
+}: {
+  stack: number[];
+  t: ProvincesMessages["labels"];
+}) {
   return (
     <div className="rounded-xl border border-white/10 bg-slate-950/40 p-3">
       <div className="mb-2 flex items-center justify-between">
         <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-400">
-          Stack (top →)
+          {t.stackTop}
         </span>
         <span className="font-mono text-[10px] text-slate-500">
-          size {stack.length}
+          {format(t.stackSize, { n: stack.length })}
         </span>
       </div>
       <div className="flex min-h-[40px] flex-wrap items-center gap-1.5">
@@ -619,7 +646,7 @@ function StackView({ stack }: { stack: number[] }) {
               exit={{ opacity: 0 }}
               className="font-mono text-xs text-slate-500"
             >
-              empty
+              {t.stackEmpty}
             </motion.span>
           ) : (
             stack.map((city, idx) => (
@@ -653,14 +680,16 @@ function StackView({ stack }: { stack: number[] }) {
 function VisitedView({
   visited,
   provinceColors,
+  label,
 }: {
   visited: boolean[];
   provinceColors: number[];
+  label: string;
 }) {
   return (
     <div className="rounded-xl border border-white/10 bg-slate-950/40 p-3">
       <div className="mb-2 text-[11px] font-semibold uppercase tracking-wider text-slate-400">
-        visited[]
+        {label}
       </div>
       <div className="flex flex-wrap gap-1.5">
         {visited.map((v, i) => {
@@ -695,6 +724,7 @@ function Controls({
   onNext,
   step,
   total,
+  t,
 }: {
   isPlaying: boolean;
   onPlayToggle: () => void;
@@ -703,26 +733,27 @@ function Controls({
   onNext: () => void;
   step: number;
   total: number;
+  t: ProvincesMessages["controls"];
 }) {
   const btn =
     "rounded-lg border border-white/10 bg-white/5 p-1.5 text-slate-200 transition hover:bg-white/10 disabled:opacity-40";
   return (
     <div className="flex flex-wrap items-center gap-1.5 rounded-xl border border-white/10 bg-slate-900/70 p-1.5 backdrop-blur-md">
-      <button onClick={onReset} className={btn} aria-label="Reset">
+      <button onClick={onReset} className={btn} aria-label={t.reset}>
         <RotateCcw className="h-3.5 w-3.5" />
       </button>
       <button
         onClick={onPrev}
         disabled={step === 0}
         className={btn}
-        aria-label="Previous"
+        aria-label={t.previous}
       >
         <SkipBack className="h-3.5 w-3.5" />
       </button>
       <button
         onClick={onPlayToggle}
         className="rounded-lg border border-cyan-400/30 bg-cyan-400/15 p-1.5 text-cyan-100 transition hover:bg-cyan-400/25"
-        aria-label={isPlaying ? "Pause" : "Play"}
+        aria-label={isPlaying ? t.pause : t.play}
       >
         {isPlaying ? (
           <Pause className="h-3.5 w-3.5" />
@@ -734,7 +765,7 @@ function Controls({
         onClick={onNext}
         disabled={step >= total - 1}
         className={btn}
-        aria-label="Next"
+        aria-label={t.next}
       >
         <SkipForward className="h-3.5 w-3.5" />
       </button>
@@ -748,9 +779,11 @@ function Controls({
 function MatrixEditor({
   matrix,
   onChange,
+  t,
 }: {
   matrix: number[][];
   onChange: (m: number[][]) => void;
+  t: ProvincesMessages["editor"];
 }) {
   const n = matrix.length;
   const setSize = (next: number) => {
@@ -783,13 +816,13 @@ function MatrixEditor({
       <div className="flex flex-wrap items-center gap-3">
         <div className="flex items-center gap-2">
           <span className="text-xs font-semibold uppercase tracking-wider text-slate-400">
-            Cities
+            {t.cities}
           </span>
           <button
             onClick={() => setSize(n - 1)}
             disabled={n <= MIN_N}
             className={`${btn} disabled:opacity-40`}
-            aria-label="Decrease"
+            aria-label={t.decrease}
           >
             <Minus className="h-3.5 w-3.5" />
           </button>
@@ -800,7 +833,7 @@ function MatrixEditor({
             onClick={() => setSize(n + 1)}
             disabled={n >= MAX_N}
             className={`${btn} disabled:opacity-40`}
-            aria-label="Increase"
+            aria-label={t.increase}
           >
             <Plus className="h-3.5 w-3.5" />
           </button>
@@ -811,21 +844,21 @@ function MatrixEditor({
             value={n}
             onChange={(e) => setSize(Number(e.target.value))}
             className="ml-1 w-24 accent-cyan-400 sm:w-32"
-            aria-label="Number of cities"
+            aria-label={t.ariaCities}
           />
         </div>
 
         <div className="flex flex-wrap items-center gap-2 sm:ml-auto">
           <button onClick={() => onChange(randomMatrix(n))} className={btn}>
             <Shuffle className="h-3.5 w-3.5" />
-            Random
+            {t.random}
           </button>
           <button
             onClick={() => onChange(presetThreeProvinces(n))}
             className={btn}
           >
             <Network className="h-3.5 w-3.5" />
-            Isolated pairs
+            {t.isolatedPairs}
           </button>
           <button
             onClick={() =>
@@ -837,7 +870,7 @@ function MatrixEditor({
             }
             className={btn}
           >
-            All connected
+            {t.allConnected}
           </button>
           <button
             onClick={() =>
@@ -849,14 +882,14 @@ function MatrixEditor({
             }
             className={btn}
           >
-            None connected
+            {t.noneConnected}
           </button>
         </div>
       </div>
 
       <div>
         <div className="mb-2 text-[11px] font-semibold uppercase tracking-wider text-slate-400">
-          Click cells to toggle roads (the matrix is symmetric)
+          {t.instruction}
         </div>
         <div className="overflow-x-auto">
           <table className="border-separate border-spacing-1">
@@ -915,20 +948,26 @@ function MatrixEditor({
   );
 }
 
-const PHASE_LABEL: Record<Snapshot["phase"], string> = {
-  init: "Start",
-  outer: "for (i)",
-  pop: "stack.pop()",
-  scan: "scan row",
-  "done-province": "province closed",
-  done: "done",
-};
-
 export default function Provinces() {
+  const { messages } = useI18n();
+  const t = messages.provinces;
+
+  const phaseLabel: Record<Snapshot["phase"], string> = {
+    init: t.phases.init,
+    outer: t.phases.outer,
+    pop: t.phases.pop,
+    scan: t.phases.scan,
+    "done-province": t.phases.doneProvince,
+    done: t.phases.done,
+  };
+
   const [matrix, setMatrix] = useState<number[][]>(() =>
     presetThreeProvinces(6),
   );
-  const snapshots = useMemo(() => buildSnapshots(matrix), [matrix]);
+  const snapshots = useMemo(
+    () => buildSnapshots(matrix, t.snapshots),
+    [matrix, t.snapshots],
+  );
   const matrixKey = matrix.map((r) => r.join("")).join("|");
 
   const [step, setStep] = useState(0);
@@ -957,29 +996,23 @@ export default function Provinces() {
       <div className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 sm:py-12">
         <header className="mb-6 sm:mb-8">
           <h1 className="text-2xl font-semibold tracking-tight text-slate-50 sm:text-3xl">
-            Number of Provinces — Iterative DFS with Stack
+            {t.header.title}
           </h1>
-          <p className="mt-1 text-sm text-slate-400">
-            Each city is a node, each 1 in the matrix is a road. Count how many
-            isolated groups of cities there are — those groups are the
-            provinces.
-          </p>
+          <p className="mt-1 text-sm text-slate-400">{t.header.description}</p>
         </header>
 
         <div className="mb-5">
-          <MatrixEditor matrix={matrix} onChange={setMatrix} />
+          <MatrixEditor matrix={matrix} onChange={setMatrix} t={t.editor} />
         </div>
 
         <div className="flex flex-col gap-4 rounded-2xl border border-white/10 bg-slate-900/40 p-4 backdrop-blur-md sm:p-5">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
             <div className="min-w-0">
               <h2 className="text-lg font-semibold text-slate-50 sm:text-xl">
-                How the algorithm works
+                {t.algorithm.title}
               </h2>
               <p className="text-xs text-slate-400 sm:text-sm">
-                The outer loop looks for a new city. The stack explores
-                everything connected to it. When it empties, a province is
-                closed.
+                {t.algorithm.description}
               </p>
             </div>
             <Controls
@@ -999,6 +1032,7 @@ export default function Provinces() {
               }}
               step={step}
               total={snapshots.length}
+              t={t.controls}
             />
           </div>
 
@@ -1006,10 +1040,10 @@ export default function Provinces() {
             <div className="flex flex-col gap-3 rounded-xl border border-white/10 bg-slate-950/30 p-3">
               <div className="flex items-center justify-between">
                 <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-400">
-                  City map
+                  {t.labels.cityMap}
                 </span>
                 <span className="rounded-md border border-cyan-400/30 bg-cyan-400/10 px-2 py-0.5 font-mono text-[10px] text-cyan-200">
-                  {PHASE_LABEL[current.phase]}
+                  {phaseLabel[current.phase]}
                 </span>
               </div>
               <GraphView snapshot={current} n={matrix.length} />
@@ -1017,20 +1051,21 @@ export default function Provinces() {
 
             <div className="flex flex-col gap-3 rounded-xl border border-white/10 bg-slate-950/30 p-3">
               <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-400">
-                Matriz isConnected
+                {t.labels.matrix}
               </span>
               <MatrixView matrix={matrix} snapshot={current} />
-              <StackView stack={current.stack} />
+              <StackView stack={current.stack} t={t.labels} />
               <VisitedView
                 visited={current.visited}
                 provinceColors={current.provinceColors}
+                label={t.labels.visited}
               />
             </div>
           </div>
 
           <div className="rounded-xl border border-cyan-400/20 bg-cyan-400/5 p-3">
             <div className="mb-1 flex items-center gap-2 text-[11px] font-semibold uppercase tracking-wider text-cyan-300">
-              <span>What's happening</span>
+              <span>{t.labels.whatsHappening}</span>
               {current.outerI !== null && (
                 <span className="rounded-md border border-white/10 bg-slate-900/60 px-1.5 py-0.5 font-mono text-[10px] text-slate-300">
                   i = {current.outerI}
@@ -1058,28 +1093,28 @@ export default function Provinces() {
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div className="flex flex-wrap gap-2 text-[11px]">
               <span className="inline-flex items-center gap-1.5 rounded-md border border-cyan-300/60 bg-cyan-400/15 px-2 py-0.5 text-cyan-50">
-                <span className="font-mono">current city</span>
+                <span className="font-mono">{t.legend.currentCity}</span>
               </span>
               <span className="inline-flex items-center gap-1.5 rounded-md border border-amber-300/60 bg-amber-400/15 px-2 py-0.5 text-amber-50">
-                <span className="font-mono">on stack</span>
+                <span className="font-mono">{t.legend.onStack}</span>
               </span>
               <span className="inline-flex items-center gap-1.5 rounded-md border border-fuchsia-300/60 bg-fuchsia-400/15 px-2 py-0.5 text-fuchsia-50">
-                <span className="font-mono">checking neighbor</span>
+                <span className="font-mono">{t.legend.checkingNeighbor}</span>
               </span>
               <span className="inline-flex items-center gap-1.5 rounded-md border border-white/10 bg-slate-800/70 px-2 py-0.5 text-slate-300">
-                <span className="font-mono">not visited</span>
+                <span className="font-mono">{t.legend.notVisited}</span>
               </span>
               <span className="inline-flex items-center gap-1.5 rounded-md border border-emerald-400/60 bg-emerald-400/15 px-2 py-0.5 text-emerald-50">
-                <span className="font-mono">visited (color = province)</span>
+                <span className="font-mono">{t.legend.visitedCells}</span>
               </span>
             </div>
             <div className="flex gap-3 font-mono text-[11px] text-slate-400">
               <span>
-                provinces:{" "}
+                {t.stats.provinces}{" "}
                 <span className="text-cyan-300">{current.provincesCount}</span>
               </span>
               <span>
-                visited:{" "}
+                {t.stats.visited}{" "}
                 <span className="text-emerald-300">
                   {current.visited.filter(Boolean).length}/{matrix.length}
                 </span>
@@ -1091,39 +1126,26 @@ export default function Provinces() {
         <div className="mt-5 grid grid-cols-1 gap-4 lg:grid-cols-3">
           <div className="rounded-2xl border border-white/10 bg-slate-900/40 p-4">
             <div className="mb-1 text-[11px] font-semibold uppercase tracking-wider text-cyan-300">
-              Phase 1 — outer scan
+              {t.phaseCards.phase1Title}
             </div>
             <p className="text-xs leading-relaxed text-slate-300 sm:text-sm">
-              The <span className="font-mono text-cyan-200">for (i)</span>{" "}
-              iterates over each city looking for one that hasn't been visited
-              yet. If already marked, skip — it belongs to a province already
-              counted. Otherwise, it's a <strong>new</strong> province:
-              increment the counter and start exploring.
+              {t.phaseCards.phase1Description}
             </p>
           </div>
           <div className="rounded-2xl border border-white/10 bg-slate-900/40 p-4">
             <div className="mb-1 text-[11px] font-semibold uppercase tracking-wider text-amber-300">
-              Phase 2 — explore with the stack
+              {t.phaseCards.phase2Title}
             </div>
             <p className="text-xs leading-relaxed text-slate-300 sm:text-sm">
-              Push the starting city. While the stack is not empty, pop the top,
-              mark as visited and look at its row in the matrix. Each{" "}
-              <span className="font-mono text-fuchsia-200">1</span> found is a
-              road — if the neighbor hasn't been visited yet, push it. The stack
-              acts as a "visit later" notebook.
+              {t.phaseCards.phase2Description}
             </p>
           </div>
           <div className="rounded-2xl border border-white/10 bg-slate-900/40 p-4">
             <div className="mb-1 text-[11px] font-semibold uppercase tracking-wider text-emerald-300">
-              Phase 3 — close and return
+              {t.phaseCards.phase3Title}
             </div>
             <p className="text-xs leading-relaxed text-slate-300 sm:text-sm">
-              When the stack empties, every node in the connected component of
-              the starting city is marked. We return to the outer loop, which
-              skips all already-visited cities until it finds the next island.
-              In the end, the counter{" "}
-              <span className="font-mono text-cyan-200">provinces</span> holds
-              the answer.
+              {t.phaseCards.phase3Description}
             </p>
           </div>
         </div>

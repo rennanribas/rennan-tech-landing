@@ -299,6 +299,238 @@
       }
     ]
   },
+  "leetcode": {
+    "header": {
+      "eyebrow": "LeetCode lab",
+      "title": "Algorithms and data structures.",
+      "description": "A growing collection of interactive lessons that turn algorithm and data-structure problems into something you can actually watch happen, one step at a time, with controls and clear narration."
+    },
+    "lessonsSection": {
+      "eyebrow": "Lessons",
+      "title": "Pick one and play with it",
+      "description": "Every lesson runs the same input through the algorithm and lets you step forward, step back, or just hit play. Tweak the input and watch the behaviour change.",
+      "stats": "{live} live · {planned} planned"
+    },
+    "openLesson": "Open lesson",
+    "planned": "planned",
+    "lessons": [
+      {
+        "title": "Number of Provinces",
+        "blurb": "Iterative DFS over an adjacency matrix. Watch the stack fill, the visited set grow, and provinces light up one by one.",
+        "topics": ["graphs", "DFS", "connected components"]
+      },
+      {
+        "title": "Smallest Missing Positive",
+        "blurb": "Two solutions for the same problem: the obvious Set lookup vs. the in-place sign-marking trick that hits O(1) extra space.",
+        "topics": ["arrays", "space complexity", "in-place tricks"]
+      },
+      {
+        "title": "Sorting side-by-side",
+        "blurb": "Bubble sort and insertion sort animated on the same array, step by step. See where each one wastes work and where each one shines.",
+        "topics": ["arrays", "O(n²) sorting", "invariants"]
+      },
+      {
+        "title": "Two Pointers",
+        "blurb": "Moving cursors that meet in the middle, slide together, or chase each other. The shape behind a surprising number of \"hard\" problems.",
+        "topics": ["arrays", "strings", "sliding window"]
+      },
+      {
+        "title": "Recursion & the call stack",
+        "blurb": "A visual call stack so the recursion stops feeling like magic. See frames push, return, and unwind in real time.",
+        "topics": ["recursion", "stack", "tree traversal"]
+      },
+      {
+        "title": "Hash maps from scratch",
+        "blurb": "Buckets, hash functions, and collisions visualised. Why \"average O(1)\" is doing some heavy lifting.",
+        "topics": ["hashing", "collisions", "load factor"]
+      }
+    ],
+    "callout": {
+      "before": "Have a topic you wish someone had visualised when you were learning it? ",
+      "link": "Tell me about it",
+      "after": " — suggestions shape what gets built next."
+    }
+  },
+  "provinces": {
+    "header": {
+      "title": "Number of Provinces — Iterative DFS with Stack",
+      "description": "Each city is a node, each 1 in the matrix is a road. Count how many isolated groups of cities there are — those groups are the provinces."
+    },
+    "editor": {
+      "cities": "Cities",
+      "decrease": "Decrease",
+      "increase": "Increase",
+      "ariaCities": "Number of cities",
+      "random": "Random",
+      "isolatedPairs": "Isolated pairs",
+      "allConnected": "All connected",
+      "noneConnected": "None connected",
+      "instruction": "Click cells to toggle roads (the matrix is symmetric)"
+    },
+    "controls": {
+      "reset": "Reset",
+      "previous": "Previous",
+      "next": "Next",
+      "play": "Play",
+      "pause": "Pause"
+    },
+    "algorithm": {
+      "title": "How the algorithm works",
+      "description": "The outer loop looks for a new city. The stack explores everything connected to it. When it empties, a province is closed."
+    },
+    "labels": {
+      "cityMap": "City map",
+      "matrix": "isConnected matrix",
+      "stackTop": "Stack (top →)",
+      "stackSize": "size {n}",
+      "stackEmpty": "empty",
+      "visited": "visited[]",
+      "whatsHappening": "What's happening"
+    },
+    "phases": {
+      "init": "Start",
+      "outer": "for (i)",
+      "pop": "stack.pop()",
+      "scan": "scan row",
+      "doneProvince": "province closed",
+      "done": "done"
+    },
+    "legend": {
+      "currentCity": "current city",
+      "onStack": "on stack",
+      "checkingNeighbor": "checking neighbor",
+      "notVisited": "not visited",
+      "visitedCells": "visited (color = province)"
+    },
+    "stats": {
+      "provinces": "provinces:",
+      "visited": "visited:"
+    },
+    "phaseCards": {
+      "phase1Title": "Phase 1 — outer scan",
+      "phase1Description": "The for (i) iterates over each city looking for one that hasn't been visited yet. If already marked, skip — it belongs to a province already counted. Otherwise, it's a new province: increment the counter and start exploring.",
+      "phase2Title": "Phase 2 — explore with the stack",
+      "phase2Description": "Push the starting city. While the stack is not empty, pop the top, mark as visited and look at its row in the matrix. Each 1 found is a road — if the neighbor hasn't been visited yet, push it. The stack acts as a \"visit later\" notebook.",
+      "phase3Title": "Phase 3 — close and return",
+      "phase3Description": "When the stack empties, every node in the connected component of the starting city is marked. We return to the outer loop, which skips all already-visited cities until it finds the next island. In the end, the counter provinces holds the answer."
+    },
+    "snapshots": {
+      "initNote": "Start — no city visited.",
+      "initExplanation": "We have a map of cities and a matrix that says who has a direct road to whom. The goal is to count how many isolated groups (provinces) there are.",
+      "outerSkipNote": "City {i} already visited — skip.",
+      "outerSkipExplanation": "The outer loop reaches city {i}, but it was already reached by a previous search, so it belongs to an already-counted province.",
+      "newProvinceNote": "New province #{p}! Starting at {i}.",
+      "newProvinceExplanation": "City {i} has not been visited yet — we found a new group. We push {i} to start exploring everything connected to it.",
+      "popVisitedNote": "Popped {city} from stack — already visited, skip.",
+      "popVisitedExplanation": "{city} was pushed by more than one neighbor. When it came off the stack, it had already been processed, so we skip.",
+      "visitNote": "Visit city {city}.",
+      "visitExplanation": "Popped {city} from the stack top. Mark as visited and add to province #{p}. Now we look at row {city} of the matrix to find direct neighbors.",
+      "checkNote": "Check matrix[{city}][{j}] = {value}.",
+      "edgeVisitedExplanation": "There is a road {city}↔{j}, but {j} was already visited — don't push again.",
+      "edgeNewExplanation": "There is a road {city}↔{j} and {j} has not been visited yet — push {j} to visit later.",
+      "noEdgeExplanation": "No direct road between {city} and {j} — continue.",
+      "pushNote": "Push {j}.",
+      "pushExplanation": "{j} goes to the top of the stack. We will visit it when we return to the while loop.",
+      "doneProvinceNote": "Province #{p} closed: {members}.",
+      "doneProvinceExplanation": "The stack is empty — every city reachable from {i} has been marked. We return to the outer loop to find the next unvisited city.",
+      "doneNoteSingular": "Done — {p} province.",
+      "doneNotePlural": "Done — {p} provinces.",
+      "doneExplanation": "The outer loop is done. Each connected component was discovered exactly once, so the answer is {p}."
+    }
+  },
+  "smallestMissingPositive": {
+    "header": {
+      "title": "Smallest Missing Positive",
+      "description": "First organize the array. Then review the expected positions to find the first missing positive number."
+    },
+    "section": {
+      "title": "Visual run",
+      "description": "Edit the array directly, then step through the two main phases."
+    },
+    "controls": {
+      "reset": "Reset",
+      "previous": "Previous",
+      "next": "Next",
+      "play": "Play",
+      "pause": "Pause"
+    },
+    "panel": {
+      "decreaseLength": "Decrease length",
+      "increaseLength": "Increase length",
+      "random": "Random",
+      "reset": "Reset"
+    },
+    "stages": {
+      "organize": "Organize array",
+      "review": "Review homes"
+    },
+    "phases": {
+      "start": "Start",
+      "look": "Look",
+      "ignore": "Skip",
+      "home": "Home",
+      "duplicate": "Duplicate",
+      "swap": "Swap",
+      "scan": "Scan",
+      "found": "Found",
+      "done": "Done"
+    },
+    "rule": {
+      "label": "Rule",
+      "formula": "home index = number - 1",
+      "noNumber": "No number selected.",
+      "noHome": "{value} has no home. Valid range is 1..{total}."
+    },
+    "homes": {
+      "label": "Expected homes",
+      "indexLabel": "index {index}",
+      "numberLabel": "number {number}"
+    },
+    "status": {
+      "label": "Step",
+      "indexLabel": "index {index}",
+      "valueLabel": "value {value}",
+      "homeLabel": "home {homeIndex}"
+    },
+    "legend": {
+      "current": "current",
+      "home": "home",
+      "swap": "swap",
+      "correct": "correct",
+      "skip": "skip",
+      "missing": "missing"
+    },
+    "answer": {
+      "label": "answer:",
+      "notYet": "not yet"
+    },
+    "code": {
+      "label": "Code"
+    },
+    "snapshots": {
+      "startTitle": "Start by organizing the array",
+      "startSubtitle": "Each positive number has a home index: number - 1.",
+      "lookTitle": "Look at {value}",
+      "lookSubtitle": "Can it go to its home index?",
+      "skipTitle": "Skip {value}",
+      "skipSubtitle": "Only numbers from 1 to {total} matter.",
+      "homeTitle": "{value} belongs at index {homeIndex}",
+      "homeSubtitle": "If that position has another value, we swap.",
+      "alreadyHomeTitle": "{value} is already home",
+      "alreadyHomeSubtitle": "Move forward.",
+      "duplicateTitle": "{value} is duplicated",
+      "duplicateSubtitle": "Its home already has the same value.",
+      "swapTitle": "Swap into index {homeIndex}",
+      "swapSubtitle": "{value} moves to its home. Then we re-check this index.",
+      "reviewTitle": "Review index {index}",
+      "reviewSubtitleKeep": "Expected {expected}. Found {actual}. Keep going.",
+      "reviewSubtitleGap": "Expected {expected}. Found {actual}. This is the gap.",
+      "foundTitle": "{expected} is missing",
+      "foundSubtitle": "The first wrong home gives the answer.",
+      "doneTitle": "{value} is missing",
+      "doneSubtitle": "All homes from 1 to {total} are filled."
+    }
+  },
   "footer": {
     "madeWith": "Made with",
     "location": "in Brazil",

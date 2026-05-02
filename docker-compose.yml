@@ -1,4 +1,4 @@
-name: rennan-site
+version: "3.3"
 
 services:
   rennan-site:
@@ -12,5 +12,4 @@ services:
 
 networks:
   lightsail-public:
-    name: lightsail-public
     external: true

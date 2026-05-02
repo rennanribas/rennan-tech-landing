@@ -1,5 +1,5 @@
 {
-  "name": "rennan-me",
+  "name": "rennan-site",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -8,8 +8,12 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "deploy:pull": "docker compose pull landing",
-    "deploy:up": "docker compose up -d --force-recreate landing"
+    "docker:build": "set -a; [ ! -f .env ] || . ./.env; set +a; docker build --platform=linux/amd64 -t ${ECR_REPOSITORY_URI:-rennan-site}:latest .",
+    "docker:save": "set -a; [ ! -f .env ] || . ./.env; set +a; docker save ${ECR_REPOSITORY_URI:-rennan-site}:latest | gzip > /tmp/rennan-site.tar.gz",
+    "docker:up": "docker network inspect lightsail-public >/dev/null 2>&1 || docker network create lightsail-public && docker compose up -d --force-recreate rennan-site",
+    "dockeer:up": "pnpm run docker:up",
+    "deploy:pull": "docker compose pull rennan-site",
+    "deploy:up": "docker compose up -d --force-recreate rennan-site"
   },
   "dependencies": {
     "lucide-react": "^0.522.0",

@@ -11,7 +11,7 @@ RUN pnpm run build
 FROM caddy:2.10.2-alpine AS runtime
 WORKDIR /srv
 
-COPY Caddyfile.landing /etc/caddy/Caddyfile
+COPY Caddyfile.rennan-site /etc/caddy/Caddyfile
 COPY --from=builder /app/dist /srv
 
 EXPOSE 80

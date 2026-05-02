@@ -1,67 +1,16 @@
+name: rennan-site
+
 services:
-  caddy:
-    image: caddy:alpine
-    container_name: caddy
+  rennan-site:
+    image: ${ECR_REPOSITORY_URI:-rennan-site}:latest
+    container_name: rennan-site
     restart: unless-stopped
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - ./Caddyfile:/etc/caddy/Caddyfile:ro
-      - caddy_data:/data
-      - caddy_config:/config
-    depends_on:
-      - landing
-      - nestjs
-      - paroquia-jacarei
+    expose:
+      - "80"
     networks:
-      - app-network
-
-  landing:
-    image: ${ECR_REPOSITORY_URI}
-    container_name: rennan-tech-landing
-    restart: unless-stopped
-    pull_policy: always
-    networks:
-      - app-network
-
-  postgres:
-    image: postgres:17
-    container_name: track-set-postgres
-    restart: unless-stopped
-    environment:
-      POSTGRES_USER: ${POSTGRES_USER:-trackset}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-trackset}
-      POSTGRES_DB: ${POSTGRES_DB:-trackset}
-    volumes:
-      - postgres_data:/var/lib/postgresql
-    networks:
-      - app-network
-
-  nestjs:
-    image: track-set-nestjs:local
-    container_name: track-set-nestjs
-    environment:
-      NODE_ENV: production
-      PORT: 3000
-      DATABASE_URL: ${DATABASE_URL:-postgresql://trackset:trackset@postgres:5432/trackset?schema=public}
-    depends_on:
-      - postgres
-    networks:
-      - app-network
-
-  paroquia-jacarei:
-    image: paroquia-jacarei:local
-    container_name: paroquia-jacarei
-    restart: unless-stopped
-    networks:
-      - app-network
-
-volumes:
-  postgres_data:
-  caddy_data:
-  caddy_config:
+      - lightsail-public
 
 networks:
-  app-network:
-    driver: bridge
+  lightsail-public:
+    name: lightsail-public
+    external: true
